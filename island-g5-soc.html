@@ -140,7 +140,7 @@ body.soc .pin .dot::after{transform:rotate(45deg)}
 (function(){
 var KEY='island-g5-soc-v1';
 var L=[
-{id:'a1',u:23,t:0,name:'地理位置',unit:'單元一・臺灣我的家',x:600,y:110,intro:'臺灣在哪裡？四周有哪些國家和海洋？為什麼這個位置很重要？',
+{id:'a1',u:23,t:0,name:'地理位置',unit:'單元一・臺灣我的家',x:585,y:150,intro:'臺灣在哪裡？四周有哪些國家和海洋？為什麼這個位置很重要？',
  cards:[
   {h:'從世界地圖找臺灣',li:['世界陸地分成<b>五大洲</b>：亞洲、歐洲、非洲、美洲、大洋洲；海洋有<b>三大洋</b>：太平洋、大西洋、印度洋。','臺灣位在<b>亞洲東部</b>和<b>太平洋</b>的交界。','也可以說：臺灣在亞洲的東部、在太平洋的西側、在菲律賓的北邊、在中國的東南邊（用四方位或八方位表示）。']},
   {h:'臺灣的鄰國和鄰海',table:{h:['方位','周邊海洋','鄰近國家'],r:[['東','太平洋','—'],['西','臺灣海峽','中國'],['南','巴士海峽','菲律賓'],['東北','東海','日本、南韓（韓國）']]}},
@@ -206,32 +206,42 @@ function tx(x,y,t,o){o=o||{};return '<text x="'+x+'" y="'+y+'"'+(o.a?' text-anch
 function rc(x,y,w,h,f,r){return '<rect class="s" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+(r==null?8:r)+'" fill="'+f+'"/>'}
 function ln(x1,y1,x2,y2,o){o=o||{};return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+(o.s||'var(--ink)')+'" stroke-width="'+(o.w||2)+'"'+(o.d?' stroke-dasharray="'+o.d+'"':'')+(o.m?' marker-end="url(#ar)"':'')+' stroke-linecap="round"/>'}
 function ci(x,y,r,f){return '<circle class="s" cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+f+'"/>'}
+var GEO=(function(){
+  var K=360/7,L0=117.5,T0=26.7;
+  function P(lo,la){return [Math.round((lo-L0)*K*10)/10,Math.round((T0-la)*K*10)/10]}
+  function poly(pts,f){return '<path class="s" d="M'+pts.map(function(q){return P(q[0],q[1]).join(' ')}).join('L')+'Z" fill="'+f+'"/>'}
+  var tw=[[121.55,25.30],[122.0,25.0],[121.9,24.7],[121.85,24.45],[121.6,23.9],[121.5,23.4],[121.3,23.0],[121.0,22.5],[120.85,21.9],[120.7,22.1],[120.6,22.4],[120.3,22.6],[120.1,23.0],[120.1,23.5],[120.4,24.1],[120.6,24.5],[120.9,24.85],[121.2,25.1]];
+  var cn=[[117.5,26.8],[120.2,26.8],[119.6,26.1],[119.3,25.5],[118.7,24.9],[118.1,24.4],[117.5,23.9]];
+  var ph=[[120.3,20.95],[122.6,20.95],[122.6,20.0],[120.3,20.0]];
+  return {p:{mazu:P(119.95,26.15),kinmen:P(118.4,24.45),penghu:P(119.55,23.55),diaoyu:P(123.5,25.75),guishan:P(121.95,24.85),green:P(121.5,22.65),orchid:P(121.55,22.05),xiao:P(120.37,22.34),tw:P(121.0,23.6)},
+    tw:poly(tw,'var(--sunc)'),cn:poly(cn,'var(--land-b)'),ph:poly(ph,'var(--land-b)')};
+})();
 var TWP='M30 2C36 4 40 8 41 14C44 26 44 40 42 52C40 66 36 78 31 90C29 95 27 99 25 98C22 92 20 86 16 78C10 66 6 52 7 40C8 28 14 16 22 7C25 4 27 2 30 2Z';
 function tw(x,y,s,f){return '<path class="s" transform="translate('+x+' '+y+') scale('+s+')" vector-effect="non-scaling-stroke" d="'+TWP+'" fill="'+(f||'var(--sunc)')+'"/>'}
 function arw(x1,y1,x2,y2,c,w){var a=Math.atan2(y2-y1,x2-x1),L=w*2.2,hx=x2-Math.cos(a)*L,hy=y2-Math.sin(a)*L,px=Math.sin(a)*w*1.4,py=-Math.cos(a)*w*1.4;return '<line x1="'+x1+'" y1="'+y1+'" x2="'+hx+'" y2="'+hy+'" stroke="'+c+'" stroke-width="'+w+'" stroke-linecap="round"/><path d="M'+x2+' '+y2+'L'+(hx+px)+' '+(hy+py)+'L'+(hx-px)+' '+(hy-py)+'Z" fill="'+c+'"/>'}
 function box(x,y,w,h,f,lines,o){o=o||{};var s=rc(x,y,w,h,f,8);lines.forEach(function(t,i){s+=tx(x+w/2,y+18+i*17,t,{a:'middle',c:i===0?'h':(o.m?'m':'')})});return s}
 var FIG={
 locate:function(){
-  return SV(250,'臺灣的鄰國和鄰海位置圖',
-   '<rect x="0" y="0" width="360" height="250" fill="var(--water)"/>'+
-   '<path class="s" d="M0 20L60 30L88 70L80 120L62 160L40 200L0 210Z" fill="var(--land-b)"/>'+
-   '<path class="s" d="M270 0L360 0L360 40L330 38L300 30L280 18Z" fill="var(--land-b)"/>'+
-   '<path class="s" d="M150 212L178 206L196 218L205 250L150 250Z" fill="var(--land-b)"/>'+
-   tw(150,72,1)+
-   tx(30,110,'中國',{a:'middle',c:'h'})+tx(322,24,'日本、南韓',{a:'middle',c:'h'})+tx(178,238,'菲律賓',{a:'middle',c:'h'})+
-   tx(118,128,'臺灣海峽',{a:'middle'})+tx(110,144,'（西）',{a:'middle',c:'m'})+
-   tx(270,128,'太平洋',{a:'middle',c:'h'})+tx(270,144,'（東）',{a:'middle',c:'m'})+
-   tx(178,192,'巴士海峽（南）',{a:'middle'})+
-   tx(240,62,'東海（東北）',{a:'middle'})+tx(176,130,'臺灣',{a:'middle',c:'h'}));
+  return SV(338,'臺灣的鄰國和鄰海位置圖',
+   '<rect x="0" y="0" width="360" height="338" fill="var(--water)"/>'+
+   GEO.cn+GEO.ph+GEO.tw+
+   tx(54,150,'中國',{a:'middle',c:'h'})+
+   tx(104,232,'臺灣海峽（西）',{a:'middle'})+
+   tx(290,175,'太平洋（東）',{a:'middle',c:'h'})+
+   tx(190,290,'巴士海峽（南）',{a:'middle'})+
+   tx(268,72,'東海（東北）',{a:'middle'})+
+   tx(352,24,'↗ 日本、南韓（東北）',{a:'end',c:'h'})+
+   tx(236,326,'菲律賓（南）',{a:'middle',c:'h'})+
+   tx(176,160,'臺灣',{a:'middle',c:'h'}).replace('<text','<text stroke="var(--paper)" stroke-width="3" paint-order="stroke"'));
 },
 islands:function(){
-  function isl(x,y,r,t,dx,dy,a){return ci(x,y,r,'var(--sunc)')+tx(x+(dx||0),y+(dy||0),t,{a:a||'start'})}
-  return SV(272,'臺灣的範圍：臺灣島和周邊島嶼',
-   '<rect x="0" y="0" width="360" height="272" fill="var(--water)"/>'+tw(140,40,1.6)+
-   tx(180,140,'臺灣島',{a:'middle',c:'h'})+
-   isl(112,150,7,'澎湖群島',-12,4,'end')+isl(40,110,5,'金門',0,-10,'middle')+isl(58,40,5,'馬祖',0,-10,'middle')+
-   isl(268,30,5,'釣魚臺列嶼',0,-10,'middle')+isl(222,74,5,'龜山島',10,5)+isl(218,186,5,'綠島',10,5)+isl(226,212,5,'蘭嶼',10,5)+isl(162,212,4,'琉球嶼（小琉球）',-10,4,'end')+
-   tx(10,246,'↙ 南海諸島（東沙、西沙、中沙、南沙群島）',{c:'m'})+tx(350,266,'總面積約 3.6 萬平方公里',{a:'end',c:'h'}));
+  function isl(k,t,dx,dy,a){var p=GEO.p[k];return ci(p[0],p[1],5,'var(--sunc)')+tx(p[0]+dx,p[1]+dy,t,{a:a||'start'})}
+  return SV(338,'臺灣的範圍：臺灣島和周邊島嶼',
+   '<rect x="0" y="0" width="360" height="338" fill="var(--water)"/>'+GEO.cn+GEO.tw+
+   isl('mazu','馬祖',10,4)+isl('kinmen','金門',10,16)+isl('penghu','澎湖群島',-10,4,'end')+isl('diaoyu','釣魚臺列嶼',-10,16,'end')+
+   isl('guishan','龜山島',10,4)+isl('green','綠島',12,4)+isl('orchid','蘭嶼',12,4)+isl('xiao','琉球嶼（小琉球）',-10,4,'end')+
+   tx(176,150,'臺灣島',{a:'middle',c:'h'})+
+   tx(8,322,'↙ 南海諸島（東沙、西沙、中沙、南沙群島）在更南方',{c:'m'})+tx(352,20,'總面積約 3.6 萬平方公里',{a:'end',c:'h'}));
 },
 qiangu:function(){
   var ppl='';for(var i=0;i<7;i++){var x=60+i*36;ppl+=ci(x,150,7,'var(--warm)')+ln(x,157,x,176,{w:3})}
@@ -361,10 +371,10 @@ function INS(k,marker,anim){var b=FIGBASE[k];return function(){return b().replac
 function ATR(vals,dur,kt){return '<animateTransform attributeName="transform" type="translate" values="'+vals+'"'+(kt?' keyTimes="'+kt+'"':'')+' dur="'+dur+'s" repeatCount="indefinite"/>'}
 function OP(vals,dur,kt){return '<animate attributeName="opacity" values="'+vals+'"'+(kt?' keyTimes="'+kt+'"':'')+' dur="'+dur+'s" repeatCount="indefinite"/>'}
 FIG.locate=AN(FIGBASE.locate,function(){
-  return mdot('M322 26Q240 100 178 228',4,'#fff',0,6)+mdot('M30 60Q160 100 340 150',5,'var(--warm)',1,5)+pulse(175,122,10,30,2.4,'var(--warm)');
+  var c=GEO.p.tw;return mdot('M330 40Q270 120 '+(c[0]+30)+' '+(c[1]-40),4,'#fff',0,6)+mdot('M26 150Q100 170 '+(c[0]-20)+' '+c[1],5,'var(--warm)',1,5)+pulse(c[0],c[1],10,30,2.4,'var(--warm)');
 });
 FIG.islands=AN(FIGBASE.islands,function(){
-  return [[112,150],[40,110],[58,40],[268,30],[222,74],[218,186],[226,212],[162,212]].map(function(p,i){return pulse(p[0],p[1],5,14,2.4,'var(--warm)',i*.3)}).join('');
+  return Object.keys(GEO.p).filter(function(k){return k!=='tw'}).map(function(k,i){return pulse(GEO.p[k][0],GEO.p[k][1],5,14,2.4,'var(--warm)',i*.3)}).join('');
 });
 FIG.qiangu=INS('qiangu','<g class="qnet">',ATR('0 -40;0 0;0 0','4','0;.8;1'));
 FIG.norms=AN(FIGBASE.norms,function(){return '<rect x="271" y="64" width="84" height="62" rx="8" fill="none" stroke="var(--bad)" stroke-width="3">'+OP('1;.1;1','1.6')+'</rect>'});
@@ -436,12 +446,12 @@ function bg(){
   s+='<g stroke="var(--edge)" stroke-width="2.5" stroke-linejoin="round" fill="var(--land-a)">';
   [[404,300],[392,380],[400,460],[388,540],[396,620],[384,700],[392,780],[380,860]].forEach(function(p){s+='<path d="M'+(p[0]-16)+' '+(p[1]+12)+'L'+p[0]+' '+(p[1]-14)+'L'+(p[0]+16)+' '+(p[1]+12)+'Z"/>'});
   s+='</g>';
-  var isl=[[100,690,'澎湖'],[44,500,'金門'],[72,250,'馬祖'],[690,230,'釣魚臺'],[572,340,'龜山島'],[598,860,'綠島'],[650,965,'蘭嶼'],[330,1005,'小琉球']];
+  var isl=[[130,614,'澎湖'],[44,394,'金門'],[90,70,'馬祖'],[655,70,'釣魚臺'],[548,300,'龜山島'],[598,810,'綠島'],[652,958,'蘭嶼'],[300,885,'小琉球']];
   isl.forEach(function(p){s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="9" fill="var(--land-b)" stroke="var(--edge)" stroke-width="2.5"/><text x="'+p[0]+'" y="'+(p[1]-15)+'" text-anchor="middle" style="font:700 13px var(--f-body);fill:var(--ink)">'+p[2]+'</text>'});
   [['東海',480,62],['太平洋',620,500],['臺灣海峽',112,410],['巴士海峽',190,1090]].forEach(function(t){s+='<text x="'+t[1]+'" y="'+t[2]+'" text-anchor="middle" style="font:italic 700 17px var(--f-display);fill:var(--muted);letter-spacing:4px">'+t[0]+'</text>'});
   s+='<g transform="translate(628 1080)" stroke="var(--edge)" stroke-width="2.5" stroke-linejoin="round"><circle r="40" fill="var(--paper)"/><path d="M0 -38L8 -8L38 0L8 8L0 38L-8 8L-38 0L-8 -8Z" fill="var(--sun)"/><path d="M0 -38L8 -8L-8 -8Z" fill="var(--bad)"/><text y="-46" text-anchor="middle" style="font:700 14px var(--f-display);fill:var(--ink);stroke:none">北</text></g>';
   s+='<g transform="translate(40 1120)"><line x1="0" y1="0" x2="120" y2="0" stroke="var(--ink)" stroke-width="3"/><line x1="0" y1="-6" x2="0" y2="6" stroke="var(--ink)" stroke-width="3"/><line x1="120" y1="-6" x2="120" y2="6" stroke="var(--ink)" stroke-width="3"/><text x="60" y="-10" text-anchor="middle" style="font:500 12px var(--f-body);fill:var(--muted)">約 100 公里</text></g>';
-  var P=[[600,110],[620,720],[470,290],[280,440],[450,570],[330,730],[110,560],[170,880],[430,1060]];
+  var P=[[585,150],[620,720],[470,290],[280,440],[450,570],[330,730],[110,560],[170,880],[430,1060]];
   s+='<polyline points="'+P.map(function(p){return p.join(',')}).join(' ')+'" fill="none" stroke="var(--bad)" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" opacity=".75"/>';
   s+='</svg>';
   return s;
