@@ -278,14 +278,20 @@ punish:function(){
    tx(180,30,'法律的真正功能：保障每個人的權利',{a:'middle'}));
 },
 plates:function(){
-  return SV(206,'臺灣島受到板塊推擠示意圖',
-   '<rect x="0" y="0" width="360" height="120" fill="var(--sky)"/>'+
-   '<rect class="s" x="6" y="120" width="170" height="60" fill="#C7B299"/><rect class="s" x="184" y="120" width="170" height="60" fill="#A9C7D9"/>'+
-   tx(90,156,'歐亞板塊',{a:'middle',c:'h'})+tx(270,156,'菲律賓海板塊',{a:'middle',c:'h'})+
-   '<g class="rise"><path class="s" d="M130 120L160 70L180 40L200 72L230 120Z" fill="var(--leafc)"/></g>'+
-   tx(180,30,'臺灣島',{a:'middle',c:'h'})+
-   arw(14,196,64,196,'var(--warm)',5)+arw(346,196,296,196,'var(--warm)',5)+
-   tx(180,200,'互相推擠 → 臺灣隆起、常地震',{a:'middle'}));
+  var D='3s';
+  function mv(dx){return '<animateTransform attributeName="transform" type="translate" values="0 0;'+dx+' 0;0 0" keyTimes="0;.5;1" dur="'+D+'" repeatCount="indefinite"/>'}
+  var strata=function(x0,x1,col){var s='';for(var i=0;i<3;i++)s+='<line x1="'+x0+'" y1="'+(166+i*15)+'" x2="'+x1+'" y2="'+(166+i*15)+'" stroke="'+col+'" stroke-width="1.5" stroke-dasharray="6 5" opacity=".6"/>';return s};
+  var low='M120 150L150 112L180 100L210 112L240 150Z',high='M110 150L145 86L180 54L215 86L250 150Z';
+  return SV(250,'歐亞板塊和菲律賓海板塊互相推擠，臺灣島隆起',
+   '<rect x="0" y="0" width="360" height="150" fill="var(--sky)"/>'+
+   '<rect x="206" y="128" width="154" height="22" fill="var(--water)"/>'+
+   '<g>'+mv(14)+'<rect class="s" x="0" y="150" width="182" height="66" fill="#C7B299"/>'+strata(8,176,'#8C7A62')+arw(20,183,70,183,'var(--warm)',6)+tx(92,206,'歐亞板塊',{a:'middle',c:'h'}).replace('y="206"','y="170"')+'</g>'+
+   '<g>'+mv(-14)+'<rect class="s" x="178" y="150" width="182" height="66" fill="#A9C7D9"/>'+strata(184,352,'#5E8199')+arw(340,183,290,183,'var(--warm)',6)+tx(268,170,'菲律賓海板塊',{a:'middle',c:'h'})+'</g>'+
+   '<path class="s" d="'+low+'" fill="var(--leafc)"><animate attributeName="d" values="'+low+';'+high+';'+low+'" keyTimes="0;.5;1" dur="'+D+'" repeatCount="indefinite"/></path>'+
+   '<g><path d="M170 150L176 168L170 186M190 150L184 168L190 186" fill="none" stroke="#5B4A36" stroke-width="2.5"><animate attributeName="opacity" values="1;.4;1" dur="'+D+'" repeatCount="indefinite"/></path></g>'+
+   '<circle cx="180" cy="176" r="8" fill="none" stroke="var(--bad)" stroke-width="3"><animate attributeName="r" values="8;40" dur="1.5s" repeatCount="indefinite"/><animate attributeName="opacity" values=".9;0" dur="1.5s" repeatCount="indefinite"/></circle>'+
+   tx(180,30,'臺灣島（慢慢隆起）',{a:'middle',c:'h'})+tx(300,100,'太平洋',{a:'middle',c:'m'})+tx(60,100,'中國大陸',{a:'middle',c:'m'})+
+   tx(180,238,'兩個板塊互相推擠 → 臺灣隆起、常地震',{a:'middle'}));
 },
 landforms:function(){
   return SV(186,'臺灣各種地形的剖面示意',
@@ -379,7 +385,6 @@ FIG.islands=AN(FIGBASE.islands,function(){
 FIG.qiangu=INS('qiangu','<g class="qnet">',ATR('0 -40;0 0;0 0','4','0;.8;1'));
 FIG.norms=AN(FIGBASE.norms,function(){return '<rect x="271" y="64" width="84" height="62" rx="8" fill="none" stroke="var(--bad)" stroke-width="3">'+OP('1;.1;1','1.6')+'</rect>'});
 FIG.ages=AN(FIGBASE.ages,function(){return mdot('M20 90L340 90',8,'var(--warm)',0,7,{vis:'1;1;1;1',kt:'0;.1;.9;1'})});
-FIG.plates=INS('plates','<g class="rise">',ATR('0 50;0 0;0 0','4','0;.7;1'));
 FIG.river=AN(FIGBASE.river,function(){return [0,.7,1.4].map(function(b){return mdot('M30 34L75 40L120 82L180 126L250 152L320 168',2.1,'#fff',b,4.5)}).join('')});
 FIG.monsoon=function(){return FIGBASE.monsoon().replace('<g class="mw">','<g class="mw">'+OP('1;1;.12;.12;1','8','0;.45;.5;.95;1')).replace('<g class="ms">','<g class="ms">'+OP('.12;.12;1;1;.12','8','0;.45;.5;.95;1'))};
 FIG.calendar=INS('calendar','<g class="mp">',ATR('0 0;312 0','12'));
