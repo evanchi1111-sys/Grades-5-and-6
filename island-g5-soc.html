@@ -113,7 +113,17 @@ h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.3;text-wrap:balance
 .credit{font-size:13px;color:var(--muted);margin:0 0 12px}
 @media (max-width:520px){.pin .dot{width:38px;height:38px;font-size:17px}.pin .lbl{font-size:12px;padding:0 5px}.tag{font-size:12px;padding:0 6px}}
 @media (prefers-reduced-motion:no-preference){.pin .dot{transition:transform .12s}}
-</style></head><body>
+body.soc{--bg:#EFE2C2;--paper:#FBF3DC;--sea:#BCD8DA;--line:#C8B98E;--land-b:#CFE0A5;--land-a:#E7C98A;--pick:#F4DFA8;--blue:#B25A24;--sun:#F2B33D;--muted:#6A5A3C}
+body.soc .map{border:4px double var(--edge);background:var(--sea);box-shadow:0 5px 0 var(--edge),inset 0 0 0 6px var(--paper)}
+body.soc .pin .dot{background:var(--bad);color:#fff;border-radius:50% 50% 50% 8px;transform:rotate(-45deg);font-size:0}
+body.soc .pin .dot::before{content:attr(data-n);transform:rotate(45deg);font:700 20px/1 var(--f-display);display:block}
+body.soc .pin .lbl{border-style:dashed;background:var(--paper)}
+body.soc .pin.done .dot{background:var(--good)}
+body.soc .pin.boss .dot{background:var(--blue)}
+body.soc .pin .dot::after{transform:rotate(45deg)}
+@media (max-width:520px){body.soc .pin .dot::before{font-size:17px}}
+@media (prefers-color-scheme: dark){body.soc{--bg:#2A2314;--paper:#3A311C;--sea:#17323A;--line:#4C4326;--land-b:#4C5E34;--land-a:#7A6330;--pick:#5A4A22;--blue:#E39A5F;--muted:#C9B88C}}
+</style></head><body class="soc">
 <div class="shell">
   <div class="top">
     <div><h1>五年級社會學習島</h1><p>先看教學，再去刷題｜內容依評量整理</p></div>
@@ -130,7 +140,7 @@ h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.3;text-wrap:balance
 (function(){
 var KEY='island-g5-soc-v1';
 var L=[
-{id:'a1',u:23,t:0,name:'地理位置',unit:'單元一・臺灣我的家',x:145,y:205,intro:'臺灣在哪裡？四周有哪些國家和海洋？為什麼這個位置很重要？',
+{id:'a1',u:23,t:0,name:'地理位置',unit:'單元一・臺灣我的家',x:600,y:110,intro:'臺灣在哪裡？四周有哪些國家和海洋？為什麼這個位置很重要？',
  cards:[
   {h:'從世界地圖找臺灣',li:['世界陸地分成<b>五大洲</b>：亞洲、歐洲、非洲、美洲、大洋洲；海洋有<b>三大洋</b>：太平洋、大西洋、印度洋。','臺灣位在<b>亞洲東部</b>和<b>太平洋</b>的交界。','也可以說：臺灣在亞洲的東部、在太平洋的西側、在菲律賓的北邊、在中國的東南邊（用四方位或八方位表示）。']},
   {h:'臺灣的鄰國和鄰海',table:{h:['方位','周邊海洋','鄰近國家'],r:[['東','太平洋','—'],['西','臺灣海峽','中國'],['南','巴士海峽','菲律賓'],['東北','東海','日本、南韓（韓國）']]}},
@@ -138,20 +148,20 @@ var L=[
   {h:'眾多島嶼組成的臺灣',li:['範圍包括：臺灣島、澎湖群島、金門列嶼、馬祖列嶼、釣魚臺列嶼、龜山島、綠島、蘭嶼、琉球嶼（小琉球）及南海諸島（東沙、西沙、中沙、南沙群島）。','總面積約 <b>三萬六千平方公里</b>。'],
    table:{h:['島嶼','位置','特色'],r:[['龜山島','臺灣東邊的太平洋上','外形像烏龜；可搭船登島觀光'],['琉球嶼','臺灣島西南邊的臺灣海峽上','又稱小琉球；可玩水、浮潛看海洋生物']]}}],
  trap:'<b>易錯：</b>臺灣和菲律賓之間是「巴士海峽」，不是臺灣海峽；臺灣海峽在臺灣和中國之間。'},
-{id:'a2',u:23,t:1,name:'海洋文化',unit:'單元一・臺灣我的家',x:320,y:262,intro:'四面環海的臺灣，發展出許多和海洋有關的生活方式和信仰。',
+{id:'a2',u:23,t:1,name:'海洋文化',unit:'單元一・臺灣我的家',x:620,y:720,intro:'四面環海的臺灣，發展出許多和海洋有關的生活方式和信仰。',
  cards:[
   {h:'海女文化',li:['早期海邊漁村的婦女，除了家務和整理漁獲，有些會當「<b>海女</b>」：在海岸撿蛤蜊、採海菜，或潛入海中採海膽、海參，販售來<b>貼補家用</b>。','現在海女愈來愈少；有些團體辦導覽、探索潮間帶活動，讓更多人認識海洋文化。']},
   {h:'牽罟文化',li:['早期沿海居民的近海捕魚方式：<b>集合眾人</b>，合力用漁網圍住魚群，再把網拉上岸。','<b>有參與的人都可以共享漁獲</b>，展現互助合作、共享成果的精神。','現在已被現代捕魚方式取代，轉型為<b>文化體驗、觀光休閒</b>活動。']},
   {h:'和海洋有關的信仰',table:{h:['族群','信仰與節慶'],r:[['漢人','信奉<b>媽祖</b>，祈求漁民出海捕魚平安（例如南方澳的南天宮）；也拜土地公，興建廟宇祭拜神明'],['原住民族','蘭嶼的<b>雅美族（達悟族）</b>造好新的<b>拼板舟</b>，下水前要舉行祭典，祈求航行平安、漁獲豐盛；信仰祖靈和自然界的神靈']]}},
   {h:'多元的文化風貌',li:['海洋不是阻隔，反而讓人們<b>與世界交流</b>。','在臺灣生活的族群：原住民族、早期移居的漢人，近年還有來自世界各國的<b>新住民</b>。','政府訂每年 <b>12 月 18 日</b>為「<b>移民節</b>」，提醒大家重視新住民，尊重多元文化。']}],
  trap:'<b>易錯：</b>牽罟是「所有參與的人」共享漁獲，不是只有提供漁網或出力最大的人。'},
-{id:'a3',u:23,t:2,name:'社會規範',unit:'單元一・臺灣我的家',x:160,y:375,intro:'大家能和平相處，靠的是共同認可的行為準則——社會規範。',
+{id:'a3',u:23,t:2,name:'社會規範',unit:'單元一・臺灣我的家',x:470,y:290,intro:'大家能和平相處，靠的是共同認可的行為準則——社會規範。',
  cards:[
   {h:'什麼是社會規範',li:['不同性別、族群、宗教的人，因生活背景和經驗不同，形成不同的<b>群體</b>。','<b>社會規範</b>：群體的人共同認可或接受的行為準則，可以約束、引導行為，減少衝突，<b>維持社會秩序</b>。','四種類型：<b>風俗習慣、宗教信仰、倫理道德、法律</b>。']},
   {h:'四種社會規範',table:{h:['類型','內容和例子','功能'],r:[['風俗習慣','生命禮俗（出生、成年、結婚）、歲時節慶（中秋節團圓、阿美族每年 7～9 月豐年祭）','和諧互動、增進歸屬感，穩定社會'],['宗教信仰','民間信仰「舉頭三尺有神明」；基督教「愛人如己」','規範信徒、勸人為善，社會更安定祥和'],['倫理道德','孝敬父母、友愛同學；大眾運輸設<b>優先席</b>','人際相處更和諧'],['法律','行人走行人穿越道、汽車不違規停車','<b>唯一有強制力</b>，違反會受懲罰與制裁']]}},
   {h:'社會規範會改變',table:{h:['狀況','早期','現在'],r:[['結婚','大多避開農曆七月（鬼月）','有些人比較不忌諱'],['滿月','只有男孩滿月會吃油飯慶祝','男孩、女孩滿月都會慶祝']]},li:['不符合現代價值觀的規範，可以適度<b>調整</b>。','追求自己的便利時，也要為他人著想，共同遵守社會規範。']}],
  trap:'<b>易錯：</b>四種規範中，只有「法律」有強制力；風俗、宗教、道德是靠大家認同，不會被處罰。'},
-{id:'a4',u:23,t:3,name:'法律與生活',unit:'單元一・臺灣我的家',x:340,y:440,intro:'法律看起來限制我們，其實是在保護每個人的權利。',
+{id:'a4',u:23,t:3,name:'法律與生活',unit:'單元一・臺灣我的家',x:280,y:440,intro:'法律看起來限制我們，其實是在保護每個人的權利。',
  cards:[
   {h:'法律保障與限制',li:['法律由<b>政府制定</b>，人民和政府都必須遵守；目的是保障人民權益、維護社會秩序。','不遵守會受處罰，依行為輕重不同：<b>罰款</b>（製造噪音、騎機車未戴安全帽）；<b>判刑坐牢</b>（竊盜、吸毒、縱火）。','法律一般適用於<b>所有人</b>；保障不足時，政府會為特定群體訂專屬法律，例如<b>國家語言發展法</b>（推動閩南語、客語、原住民族語、臺灣手語）。']},
   {h:'保障兒童和少年',li:['<b>兒童及少年福利與權益保障法</b>：未滿 12 歲是<b>兒童</b>，12 歲以上未滿 18 歲是<b>少年</b>。','提供福利：生活扶助、醫療補助、課後照顧班。','用禁止來保護：禁止吸菸、飲酒、看暴力影片；商店不能賣酒給未滿 18 歲的人；電影電視分級。']},
@@ -159,32 +169,32 @@ var L=[
    table:{h:['網路詐騙','相關法律','保護自己'],r:[['網路購物：假商店騙錢','中華民國刑法','別被不合理的便宜價格迷惑'],['網路交友：騙取照片、威脅','兒童及少年性剝削防制條例','有人一直要照片或個資就要警覺'],['暑假打工：無經驗可、收入會賽','勞動基準法：不得僱用未滿 15 歲','注意求職詐騙']]}},
   {h:'政府也要守法',li:['政府必須<b>依法行政</b>。','政府有疏失（例如公園器材沒維護好害人受傷），人民可以要求<b>國家賠償</b>。','政府和人民共同守法，才能建立<b>法治社會</b>。']}],
  trap:'<b>易錯：</b>兒童是「未滿 12 歲」，少年是「12 歲以上未滿 18 歲」；勞基法是「未滿 15 歲」不得僱用。'},
-{id:'b1',u:24,t:0,name:'板塊與地形',unit:'單元二・臺灣的自然環境',x:445,y:622,intro:'臺灣島是怎麼來的？為什麼常地震？地形又怎麼影響生活？',
+{id:'b1',u:24,t:0,name:'板塊與地形',unit:'單元二・臺灣的自然環境',x:450,y:570,intro:'臺灣島是怎麼來的？為什麼常地震？地形又怎麼影響生活？',
  cards:[
   {h:'板塊推擠形成臺灣',li:['地球表面有許多巨大的<b>板塊</b>。臺灣島位在<b>歐亞板塊</b>和<b>菲律賓海板塊</b>的交界處，兩個板塊推擠使臺灣島隆起，所以<b>常發生地震</b>。','西元 1999 年 9 月 21 日的<b>九二一大地震</b>，造成光復國中（臺中市霧峰區）跑道明顯隆起；後來改建為九二一地震教育園區。']},
   {h:'臺灣的地形',li:['長期推擠的結果：島的形狀<b>南北長、東西窄</b>；山脈大多<b>南北走向</b>；河川大多從中央山地往<b>東、西分流</b>。'],table:{h:['地形','特色'],r:[['平原','平坦廣闊'],['盆地','四周高、中間平坦'],['台地','地勢稍高、頂部平坦'],['丘陵','地勢起伏不平'],['山地','地勢高聳'],['海岸','四周海岸各有特色']]}},
   {h:'地形和土地利用',table:{h:['地方','早期','現在'],r:[['臺北盆地','農業活動','交通建設、政策推展，成為高樓林立、工商繁榮的都市'],['桃園台地','挖埤塘儲雨水灌溉','有些填平（擴建機場），有些變成生態公園'],['竹東丘陵','種茶、採茶、製茶','大學和新竹科學園區設立，用途多元'],['雪山山脈八仙山','伐木、木材產地','轉型為森林遊樂區，發展生態旅遊']]},li:['早期山地過度伐木，影響環境生態；現在多朝<b>保護自然生態</b>發展。']}],
  trap:'<b>易錯：</b>台地是「頂部平坦」的高地，盆地是「四周高、中間平」，不要搞混。'},
-{id:'b2',u:24,t:1,name:'河川與海岸',unit:'單元二・臺灣的自然環境',x:595,y:610,intro:'臺灣的河川又短又急，四周海岸各有不同的樣子。',
+{id:'b2',u:24,t:1,name:'河川與海岸',unit:'單元二・臺灣的自然環境',x:330,y:730,intro:'臺灣的河川又短又急，四周海岸各有不同的樣子。',
  cards:[
   {h:'臺灣河川的特性',li:['河川大多發源於山地，因為島<b>東西窄</b>，所以河川<b>長度短、坡度陡、水流急</b>。','雖然雨量豐沛，但雨水很快流進海裡、<b>難以留住</b>，雨少的季節容易缺水。']},
   {h:'河川的上游和下游',table:{h:['位置','人們的利用'],r:[['上游、中游','興建<b>水庫</b>：儲水、灌溉、發電（例如淡水河上游的翡翠水庫）；但可能破壞原本的生態'],['下游','河道寬廣、地勢平坦，人口聚集；有農田、魚塭、工廠、公共設施，要兼顧環境保育']]}},
   {h:'四周的海岸',table:{h:['海岸','地形特色','土地利用'],r:[['西部','沙灘、沙洲多','早期漁業、曬鹽；近年養殖漁業、觀光'],['北部','曲折，多岬角與海灣','建港口，發展漁業、貿易'],['東部','陡峭，多斷崖峭壁','早期對外交通不便；交通建設後往來增加'],['南部','珊瑚礁','早期當建材（恆春古城）；現在潛水、觀光']]}}],
  trap:'<b>易錯：</b>「雨量豐沛」不代表不缺水——河川短又急，雨水很快流入海洋。'},
-{id:'b3',u:24,t:2,name:'氣候與季風',unit:'單元二・臺灣的自然環境',x:390,y:745,intro:'颱風和季風，決定了臺灣各地的天氣、建築和產業。',
+{id:'b3',u:24,t:2,name:'氣候與季風',unit:'單元二・臺灣的自然環境',x:110,y:560,intro:'颱風和季風，決定了臺灣各地的天氣、建築和產業。',
  cards:[
   {h:'颱風',li:['臺灣在歐亞大陸和太平洋的交界，又在颱風移動路徑上，每年<b>夏、秋</b>常有颱風。','強風豪雨可能損壞農作物，但也為水庫帶來豐沛水量（例如 2024 年凱米颱風）。']},
   {h:'季風',table:{h:['季節','季風','影響'],r:[['冬季','<b>東北季風</b>','北部溼冷多雨；南部因山地阻擋，較乾燥少雨'],['夏季','<b>西南季風</b>','中南部溼熱多雨']]},li:['西部海岸有許多風力發電機，會跟著風向轉向，對著迎風面發電。']},
   {h:'多雨的生活',li:['臺灣一年降雨量約 <b>2500 毫米</b>，比全球平均（900 多毫米）多很多。','因應多雨的建築：<b>斜屋頂</b>（傳統瓦片屋頂排水）、<b>騎樓</b>和<b>遮雨棚</b>、學校的<b>風雨球場</b>；現代還有防水塗料和<b>綠屋頂</b>。']},
   {h:'氣候和產業',table:{h:['地方','地勢與氣候','產業'],r:[['臺南沿海','冬季乾燥少雨、日照充足、風力強','日曬鹽田；現在轉型休閒觀光'],['南投埔里鎮','盆地、地勢低、氣候溫暖','百香果產量全國之冠'],['南投仁愛鄉','山地、地勢高、氣候寒冷','蘋果、水梨等溫帶水果；冬季降雪吸引遊客']]}}],
  trap:'<b>易錯：</b>冬季東北季風讓「北部」多雨、南部乾燥；夏季西南季風讓「中南部」多雨。'},
-{id:'b4',u:24,t:3,name:'災害與智慧',unit:'單元二・臺灣的自然環境',x:580,y:762,intro:'了解氣候帶來的災害，也學學先民的生活智慧。',
+{id:'b4',u:24,t:3,name:'災害與智慧',unit:'單元二・臺灣的自然環境',x:170,y:880,intro:'了解氣候帶來的災害，也學學先民的生活智慧。',
  cards:[
   {h:'和氣候有關的災害',table:{h:['災害','時間','原因和影響'],r:[['水災、土石流','5～9 月','梅雨、西南季風、颱風帶來豪雨：低窪處淹水、山區土石流（2009 年莫拉克颱風）'],['旱災','11 月～隔年 4 月','太久沒下雨：影響民生用水，農田休耕或轉作'],['寒害','12 月～隔年 2 月','氣溫降到 10°C 以下：農作物凍死、魚類凍死']]},li:['面對災害：從經驗了解災害特性、省思土地使用、發展合適的生活方式減少損失。']},
   {h:'澎湖的菜宅',li:['澎湖地勢平緩、缺少山地阻擋，<b>東北季風</b>強，農作物不易生長。','先民就地取材，用<b>珊瑚礁石</b>堆砌矮牆圍住菜園，叫「<b>菜宅</b>」（宅內），保護高麗菜、甘藷等。','現在改用網室防風、防病蟲害。']},
   {h:'會走路的竹篙厝',li:['臺南的曾文溪早期常改道，被叫做「青盲蛇（瞎眼的蛇）」，造成淹水。','先民用竹子和茅草搭成重量輕的「<b>竹篙厝</b>」，溪水溢出時，大家一起<b>扛起房子</b>避難。','現在有「扛厝走溪流」活動，體驗先民的生活智慧。']}],
  trap:'<b>易錯：</b>菜宅是防「東北季風」的強風，不是防颱風淹水；竹篙厝才是因應水災。'},
-{id:'boss',u:31,t:-1,boss:1,name:'期中燈塔',unit:'期中複習・單元一～二',x:600,y:125,intro:'兩個單元都走過了嗎？到燈塔做期中總複習，題目混合兩個單元。',
+{id:'boss',u:31,t:-1,boss:1,name:'期中燈塔',unit:'期中複習・單元一～二',x:430,y:1060,intro:'兩個單元都走過了嗎？到燈塔做期中總複習，題目混合兩個單元。',
  cards:[
   {h:'出發前快速檢查',li:['想一想：臺灣東、西、南、東北各是什麼海？只有哪一種社會規範有強制力？','想一想：冬季和夏季各吹什麼季風？哪裡會多雨？','不確定的話，點下面的地標重看教學。']}],
  jumps:['a1','a2','a3','a4','b1','b2','b3','b4']}
@@ -414,32 +424,33 @@ var done={};try{done=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}}
 
 function bg(){
-  var KY=1.35,s='<svg viewBox="0 0 720 '+Math.round(860*KY)+'" aria-hidden="true">';
-  s+='<g fill="none" stroke="var(--line)" stroke-width="2" opacity=".8"><circle cx="720" cy="0" r="120"/><circle cx="720" cy="0" r="170"/><circle cx="720" cy="0" r="220"/><circle cx="0" cy="1161" r="120"/><circle cx="0" cy="1161" r="170"/></g>';
-  function T(cy,g){return '<g transform="translate(0,'+(cy*(KY-1))+')">'+g+'</g>'}
-  s+='<g transform="scale(1 '+KY+')" stroke="var(--edge)" stroke-width="4">';
-  s+='<path vector-effect="non-scaling-stroke" d="M60 200C50 130 140 100 230 110C330 105 420 150 425 240C432 330 400 420 330 470C250 510 140 500 90 430C45 370 70 280 60 200Z" fill="var(--land-a)"/>';
-  s+='<path vector-effect="non-scaling-stroke" d="M300 640C290 570 380 540 470 548C570 540 670 580 680 670C690 760 640 815 540 822C440 830 330 810 305 740C295 705 303 670 300 640Z" fill="var(--land-b)"/>';
-  s+='<path vector-effect="non-scaling-stroke" d="M520 110C520 70 590 50 640 62C690 75 700 130 670 170C640 205 560 200 530 165C512 145 518 128 520 110Z" fill="var(--land-c)"/>';
-  s+='<path vector-effect="non-scaling-stroke" d="M350 470C370 510 380 530 395 552" fill="none" stroke-width="16" stroke-linecap="round"/><path vector-effect="non-scaling-stroke" d="M350 470C370 510 380 530 395 552" fill="none" stroke="var(--land-a)" stroke-width="9" stroke-linecap="round" stroke-dasharray="3 12"/>';
-  s+='<path vector-effect="non-scaling-stroke" d="M145 205L320 262L160 375L340 440L445 622L595 610L390 745L580 762" fill="none" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" opacity=".55"/>';
+  var s='<svg viewBox="0 0 720 1161" aria-hidden="true">';
+  s+='<g stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 6" opacity=".9">';
+  for(var i=1;i<6;i++)s+='<line x1="'+(i*120)+'" y1="0" x2="'+(i*120)+'" y2="1161"/>';
+  for(var j=1;j<10;j++)s+='<line x1="0" y1="'+(j*116)+'" x2="720" y2="'+(j*116)+'"/>';
   s+='</g>';
-  s+=T(150,'<g stroke="var(--edge)" stroke-width="3"><circle cx="90" cy="150" r="22" fill="var(--sun)"/></g><g stroke="var(--edge)" stroke-width="3" stroke-linecap="round"><path d="M90 112v-10M90 188v10M52 150h-10M128 150h10M63 123l-7-7M117 177l7 7M63 177l-7 7M117 123l7-7"/></g>');
-  s+=T(330,'<g stroke="var(--edge)" stroke-width="3" stroke-linejoin="round"><circle cx="260" cy="330" r="12" fill="var(--paper)"/><path d="M272 330l30 14-4 6z" fill="var(--pick)"/></g>');
-  s+=T(420,'<g stroke="var(--edge)" stroke-width="3" stroke-linejoin="round"><path d="M110 440l20-34 20 34z" fill="var(--land-b)"/></g>');
-  [[340,690],[515,700],[640,700],[430,790],[520,790]].forEach(function(p){s+=T(p[1],'<g stroke="var(--edge)" stroke-width="3" stroke-linejoin="round"><rect x="'+(p[0]-4)+'" y="'+p[1]+'" width="8" height="18" fill="var(--trunk)"/><circle cx="'+p[0]+'" cy="'+(p[1]-6)+'" r="16" fill="var(--grass)"/></g>')});
-  s+=T(160,'<g stroke="var(--edge)" stroke-width="3" stroke-linejoin="round"><path d="M545 185l8-50h20l8 50z" fill="var(--paper)"/><path d="M549 155h28M547 170h32" fill="none"/><path d="M553 135l10-14 10 14z" fill="var(--bad)"/></g>');
-  [[470,300],[100,640],[200,740],[640,330]].forEach(function(p){s+=T(p[1],'<path d="M'+p[0]+' '+p[1]+'q12 -10 24 0t24 0" fill="none" stroke="var(--blue)" stroke-width="3" stroke-linecap="round" opacity=".7"/>')});
+  s+='<g fill="none" stroke="var(--blue)" stroke-width="3" stroke-linecap="round" opacity=".55">';
+  [[40,160],[560,420],[110,880],[610,610],[60,1050],[520,980],[640,330]].forEach(function(p){s+='<path d="M'+p[0]+' '+p[1]+'q12 -10 24 0t24 0t24 0"/>'});
+  s+='</g>';
+  s+='<g transform="translate(200 160) scale(8.5)"><path vector-effect="non-scaling-stroke" d="'+TWP+'" fill="var(--land-b)" stroke="var(--edge)" stroke-width="4"/></g>';
+  s+='<g stroke="var(--edge)" stroke-width="2.5" stroke-linejoin="round" fill="var(--land-a)">';
+  [[404,300],[392,380],[400,460],[388,540],[396,620],[384,700],[392,780],[380,860]].forEach(function(p){s+='<path d="M'+(p[0]-16)+' '+(p[1]+12)+'L'+p[0]+' '+(p[1]-14)+'L'+(p[0]+16)+' '+(p[1]+12)+'Z"/>'});
+  s+='</g>';
+  var isl=[[100,690,'澎湖'],[44,500,'金門'],[72,250,'馬祖'],[690,230,'釣魚臺'],[572,340,'龜山島'],[598,860,'綠島'],[650,965,'蘭嶼'],[330,1005,'小琉球']];
+  isl.forEach(function(p){s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="9" fill="var(--land-b)" stroke="var(--edge)" stroke-width="2.5"/><text x="'+p[0]+'" y="'+(p[1]-15)+'" text-anchor="middle" style="font:700 13px var(--f-body);fill:var(--ink)">'+p[2]+'</text>'});
+  [['東海',480,62],['太平洋',620,500],['臺灣海峽',112,410],['巴士海峽',190,1090]].forEach(function(t){s+='<text x="'+t[1]+'" y="'+t[2]+'" text-anchor="middle" style="font:italic 700 17px var(--f-display);fill:var(--muted);letter-spacing:4px">'+t[0]+'</text>'});
+  s+='<g transform="translate(628 1080)" stroke="var(--edge)" stroke-width="2.5" stroke-linejoin="round"><circle r="40" fill="var(--paper)"/><path d="M0 -38L8 -8L38 0L8 8L0 38L-8 8L-38 0L-8 -8Z" fill="var(--sun)"/><path d="M0 -38L8 -8L-8 -8Z" fill="var(--bad)"/><text y="-46" text-anchor="middle" style="font:700 14px var(--f-display);fill:var(--ink);stroke:none">北</text></g>';
+  s+='<g transform="translate(40 1120)"><line x1="0" y1="0" x2="120" y2="0" stroke="var(--ink)" stroke-width="3"/><line x1="0" y1="-6" x2="0" y2="6" stroke="var(--ink)" stroke-width="3"/><line x1="120" y1="-6" x2="120" y2="6" stroke="var(--ink)" stroke-width="3"/><text x="60" y="-10" text-anchor="middle" style="font:500 12px var(--f-body);fill:var(--muted)">約 100 公里</text></g>';
+  var P=[[600,110],[620,720],[470,290],[280,440],[450,570],[330,730],[110,560],[170,880],[430,1060]];
+  s+='<polyline points="'+P.map(function(p){return p.join(',')}).join(' ')+'" fill="none" stroke="var(--bad)" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" opacity=".75"/>';
   s+='</svg>';
   return s;
 }
 function pinHtml(p){
   var i=L.indexOf(p),n=p.boss?'★':(i+1);
-  return '<button class="pin'+(p.boss?' boss':'')+(done[p.id]?' done':'')+'" data-id="'+p.id+'" style="left:'+(p.x/7.2)+'%;top:'+(p.y/8.6)+'%" aria-label="'+p.name+(done[p.id]?'（已學）':'')+'"><span class="dot">'+n+'</span><span class="lbl">'+p.name+'</span></button>';
+  return '<button class="pin'+(p.boss?' boss':'')+(done[p.id]?' done':'')+'" data-id="'+p.id+'" style="left:'+(p.x/7.2)+'%;top:'+(p.y/11.61)+'%" aria-label="'+p.name+(done[p.id]?'（已學）':'')+'"><span class="dot" data-n="'+n+'"></span><span class="lbl">'+p.name+'</span></button>';
 }
-function tags(){
-  return '<span class="tag" style="left:23%;top:12%">單元一　臺灣我的家</span><span class="tag" style="left:60%;top:92%">單元二　臺灣的自然環境與生活</span>';
-}
+function tags(){return ''}
 function updateProg(){
   var T=L.filter(function(p){return !p.boss}),n=T.filter(function(p){return done[p.id]}).length;
   document.getElementById('pt').textContent='已學 '+n+' / '+T.length;
