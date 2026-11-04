@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>五年級社會學習島</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#E4F0EA; --paper:#FBFEFC; --ink:#0A2B3D; --muted:#4D6A78; --line:#BFD6CD; --edge:#0A2B3D;
+  --sea:#CFE8F0; --land-a:#F6E7A8; --land-b:#BFE3A6; --land-c:#F2C9B8; --grass:#6FB36B; --trunk:#9B6B43;
+  --blue:#0E8F8F; --sun:#FFC83D; --sun-ink:#2B1F00; --good:#17835A; --bad:#C23B38; --bad-bg:#FBE0DD; --pick:#CDEFE8;
+  --sunc:#FFC83D; --sky:#CFE9F7; --night:#1D3B5A; --water:#8CCBEA; --leafc:#6FB36B; --leafd:#3E8A50; --soil:#B98A5E; --warm:#E8643A; --cool:#2F7FD8; --warmbg:#FBD9C9; --shade:rgba(10,43,61,.55);
+  --f-display:'LXGW WenKai TC','PingFang TC','Microsoft JhengHei',serif;
+  --f-body:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#071C29; --paper:#0F2D40; --ink:#E6F3EE; --muted:#9BB6BF; --line:#24495C; --edge:#02121B;
+    --sea:#0B2A3B; --land-a:#6B5B26; --land-b:#2F5B3A; --land-c:#6E4636; --grass:#3E8A50; --trunk:#B58559;
+    --blue:#35C4C0; --pick:#17485A; --bad:#FF8A82; --bad-bg:#46201F; --good:#4FD39A;
+    --sky:#173B52; --water:#1F5C7A; --warmbg:#5A3326; --shade:rgba(0,0,0,.6); --soil:#7B5636; --leafd:#4FB06A; --cool:#58B4F5; --warm:#FF7A55; --land-b:#2F5B3A;
+    color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.7 var(--f-body);
+  padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
+button,a{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px;box-shadow:0 0 0 5px var(--ink)}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.3;text-wrap:balance}
+.shell{max-width:720px;margin:0 auto;padding:14px 0 40px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.top h1{font-size:26px}
+.top p{margin:0;color:var(--muted);font-size:15px}
+.btn{border:2px solid var(--edge);background:var(--paper);border-radius:12px;box-shadow:0 4px 0 var(--edge);padding:8px 16px;min-height:46px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none}
+.btn:active{transform:translateY(4px);box-shadow:0 0 0 var(--edge)}
+.btn-primary{background:var(--blue);color:#fff}
+@media (prefers-color-scheme: dark){.btn-primary{color:#032123}}
+.btn-sun{background:var(--sun);color:var(--sun-ink)}
+.prog{display:flex;align-items:center;gap:10px;margin:6px 0 12px;font-size:15px;color:var(--muted)}
+.bar{flex:1;height:12px;border:2px solid var(--edge);border-radius:8px;background:var(--paper);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--blue);width:0}
+.how{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;padding:0;list-style:none;font-size:15px}
+.how li{background:var(--paper);border:2px solid var(--line);border-radius:10px;padding:4px 10px}
+.how b{color:var(--blue)}
+.map{position:relative;border:3px solid var(--edge);border-radius:16px;overflow:hidden;background:var(--sea);aspect-ratio:720/1161;box-shadow:0 5px 0 var(--edge)}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;padding:0;min-width:48px}
+.pin .dot{width:44px;height:44px;border-radius:50%;border:3px solid var(--edge);background:var(--sun);color:var(--sun-ink);font:700 20px/1 var(--f-display);display:grid;place-items:center;box-shadow:0 3px 0 var(--edge);position:relative}
+.pin:hover .dot{transform:translateY(-2px)}
+.pin .lbl{background:var(--paper);border:2px solid var(--edge);border-radius:8px;padding:0 8px;font-size:13px;font-weight:700;line-height:1.6;white-space:nowrap}
+.pin.done .dot{background:var(--good);color:#fff}
+.pin.done .dot::after{content:"✓";position:absolute;right:-8px;top:-8px;width:20px;height:20px;border-radius:50%;background:var(--paper);color:var(--good);border:2px solid var(--edge);font:700 13px/16px var(--f-body);text-align:center}
+.pin.boss .dot{background:var(--bad);color:#fff}
+.tag{position:absolute;background:var(--paper);border:2px solid var(--edge);border-radius:8px;padding:1px 10px;font:700 14px/1.6 var(--f-display);transform:translate(-50%,-50%);pointer-events:none}
+.legend{margin:12px 0 0;font-size:14px;color:var(--muted)}
+
+#ov{position:fixed;inset:0;background:rgba(5,20,30,.55);display:none;align-items:flex-end;justify-content:center;z-index:10}
+#ov.on{display:flex}
+.sheet{background:var(--paper);width:100%;max-width:720px;max-height:92vh;overflow:auto;border:3px solid var(--edge);border-bottom:0;border-radius:20px 20px 0 0;padding:16px 16px 28px}
+.sh-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.sh-top .u{font-size:14px;color:var(--muted)}
+.sh-top h2{font-size:24px}
+.x{width:44px;height:44px;border:2px solid var(--edge);border-radius:12px;background:var(--paper);font-size:22px;line-height:1;flex:none}
+.intro{margin:6px 0 12px}
+.card{border:2px solid var(--edge);border-radius:14px;padding:10px 14px;margin:0 0 12px;background:var(--paper)}
+.card h3{font-size:18px;margin:0 0 4px}
+.card ul{margin:0;padding-left:1.2em}
+.card li{margin:2px 0}
+.card b{color:var(--blue)}
+.card table{border-collapse:collapse;width:100%;font-size:15px;margin:6px 0}
+.card th,.card td{border:1.5px solid var(--line);padding:3px 6px;text-align:center}
+.card th{background:var(--pick)}
+.trap{border:2px solid var(--bad);background:var(--bad-bg);border-radius:14px;padding:10px 14px;margin:0 0 14px}
+.trap b{color:var(--bad)}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.cta .btn{flex:1 1 180px}
+.mini{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 0}
+.mini button{border:2px solid var(--edge);background:var(--pick);border-radius:10px;padding:2px 10px;font-weight:700;min-height:40px}
+.figw{margin:4px 0 8px;background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:6px}
+.fig{display:block;width:100%;height:auto}
+.fig text{font:500 13px var(--f-body);fill:var(--ink)}
+.fig text.h{font-weight:700;font-size:14px}
+.fig text.m{font-size:12px;fill:var(--muted)}
+.fig text.w{fill:#fff}
+.fig .s{stroke:var(--edge);stroke-width:2;stroke-linejoin:round}
+.tip{border:2px dashed var(--edge);background:color-mix(in srgb,var(--sun) 28%,var(--paper));border-radius:14px;padding:8px 14px;margin:0 0 12px;font-weight:700}
+.qa{border:2px solid var(--edge);border-radius:14px;padding:8px 14px;margin:0 0 12px}
+.qa h3{font-size:18px;margin:0 0 4px}
+.qa details{margin:4px 0}
+.qa summary{cursor:pointer;font-weight:700;min-height:36px;display:flex;align-items:center}
+.qa details p{margin:2px 0 6px;color:var(--good);font-weight:700}
+.btn-sm{min-height:38px;padding:4px 12px;font-size:15px;border-radius:10px;box-shadow:0 3px 0 var(--edge)}
+.animbar{margin:0 0 10px}
+.sdctl{display:flex;align-items:center;gap:10px;padding:2px 6px}
+.sdctl input[type=range]{flex:1;min-width:0;accent-color:var(--blue)}
+.sdctl output{font-weight:700;min-width:3.2em;text-align:right}
+.sd-note{margin:2px 6px 4px;font-size:15px;font-weight:700;color:var(--blue)}
+.ph{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:6px 0 8px}
+.ph figure{margin:0;border:2px solid var(--line);border-radius:10px;overflow:hidden;background:var(--paper)}
+.ph figure.full{grid-column:1/-1}
+.ph img{display:block;width:100%;height:auto;cursor:zoom-in}
+.ph figcaption{font-size:13px;line-height:1.5;padding:3px 8px 5px;color:var(--muted)}
+#lb{position:fixed;inset:0;background:rgba(5,20,30,.92);z-index:30;display:none;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;cursor:zoom-out}
+#lb.on{display:flex}
+#lb img{max-width:100%;max-height:88vh;object-fit:contain;border-radius:8px;background:#fff}
+#lb span{color:#fff;font-size:14px}
+.imgerr{padding:10px;font-size:13px;color:var(--bad);background:var(--bad-bg)}
+.ph .cr{display:block;font-size:11.5px;opacity:.85;margin-top:2px}
+.ph .cr a{color:var(--blue)}
+.fig .bar{animation:grow 1.4s ease-out both}
+@keyframes grow{from{transform:scaleY(0)}}
+@media (prefers-reduced-motion:reduce){.fig .bar{animation:none}}
+.credit{font-size:13px;color:var(--muted);margin:0 0 12px}
+@media (max-width:520px){.pin .dot{width:38px;height:38px;font-size:17px}.pin .lbl{font-size:12px;padding:0 5px}.tag{font-size:12px;padding:0 6px}}
+@media (prefers-reduced-motion:no-preference){.pin .dot{transition:transform .12s}}
+</style></head><body>
+<div class="shell">
+  <div class="top">
+    <div><h1>五年級社會學習島</h1><p>先看教學，再去刷題｜內容依評量整理</p></div>
+    <a class="btn" href="index.html">刷題小勇者</a>
+  </div>
+  <ol class="how"><li><b>1</b> 點地標看教學</li><li><b>2</b> 讀完按「開始刷題」</li><li><b>3</b> 回島上點亮下一站</li></ol>
+  <div class="prog"><span id="pt">已學 0 / 8</span><div class="bar"><i id="pb"></i></div></div>
+  <div class="map" id="map"></div>
+  <p class="legend">綠色打勾＝已經看過教學。進度只存在這台裝置的瀏覽器。</p>
+</div>
+<div id="lb" role="dialog" aria-label="放大圖片"></div>
+<div id="ov" role="dialog" aria-modal="true" aria-labelledby="st"><div class="sheet" id="sheet"></div></div>
+<script>
+(function(){
+var KEY='island-g5-soc-v1';
+var L=[
+{id:'a1',u:23,t:0,name:'地理位置',unit:'單元一・臺灣我的家',x:145,y:205,intro:'臺灣在哪裡？四周有哪些國家和海洋？為什麼這個位置很重要？',
+ cards:[
+  {h:'從世界地圖找臺灣',li:['世界陸地分成<b>五大洲</b>：亞洲、歐洲、非洲、美洲、大洋洲；海洋有<b>三大洋</b>：太平洋、大西洋、印度洋。','臺灣位在<b>亞洲東部</b>和<b>太平洋</b>的交界。','也可以說：臺灣在亞洲的東部、在太平洋的西側、在菲律賓的北邊、在中國的東南邊（用四方位或八方位表示）。']},
+  {h:'臺灣的鄰國和鄰海',table:{h:['方位','周邊海洋','鄰近國家'],r:[['東','太平洋','—'],['西','臺灣海峽','中國'],['南','巴士海峽','菲律賓'],['東北','東海','日本、南韓（韓國）']]}},
+  {h:'交通位置很重要',li:['臺灣是亞洲東部進出太平洋的<b>重要門戶</b>之一。','臺灣在東北亞（日本、南韓）和東南亞（菲律賓、新加坡）往來的<b>中點</b>，空運、海運都會經過。','<b>過境航路服務費</b>：飛機飛過別國上空，就算沒有降落，航空公司也要付費。西元 2023 年有將近 <b>19 萬架次</b>飛機通過臺灣上空並付費。']},
+  {h:'眾多島嶼組成的臺灣',li:['範圍包括：臺灣島、澎湖群島、金門列嶼、馬祖列嶼、釣魚臺列嶼、龜山島、綠島、蘭嶼、琉球嶼（小琉球）及南海諸島（東沙、西沙、中沙、南沙群島）。','總面積約 <b>三萬六千平方公里</b>。'],
+   table:{h:['島嶼','位置','特色'],r:[['龜山島','臺灣東邊的太平洋上','外形像烏龜；可搭船登島觀光'],['琉球嶼','臺灣島西南邊的臺灣海峽上','又稱小琉球；可玩水、浮潛看海洋生物']]}}],
+ trap:'<b>易錯：</b>臺灣和菲律賓之間是「巴士海峽」，不是臺灣海峽；臺灣海峽在臺灣和中國之間。'},
+{id:'a2',u:23,t:1,name:'海洋文化',unit:'單元一・臺灣我的家',x:320,y:262,intro:'四面環海的臺灣，發展出許多和海洋有關的生活方式和信仰。',
+ cards:[
+  {h:'海女文化',li:['早期海邊漁村的婦女，除了家務和整理漁獲，有些會當「<b>海女</b>」：在海岸撿蛤蜊、採海菜，或潛入海中採海膽、海參，販售來<b>貼補家用</b>。','現在海女愈來愈少；有些團體辦導覽、探索潮間帶活動，讓更多人認識海洋文化。']},
+  {h:'牽罟文化',li:['早期沿海居民的近海捕魚方式：<b>集合眾人</b>，合力用漁網圍住魚群，再把網拉上岸。','<b>有參與的人都可以共享漁獲</b>，展現互助合作、共享成果的精神。','現在已被現代捕魚方式取代，轉型為<b>文化體驗、觀光休閒</b>活動。']},
+  {h:'和海洋有關的信仰',table:{h:['族群','信仰與節慶'],r:[['漢人','信奉<b>媽祖</b>，祈求漁民出海捕魚平安（例如南方澳的南天宮）；也拜土地公，興建廟宇祭拜神明'],['原住民族','蘭嶼的<b>雅美族（達悟族）</b>造好新的<b>拼板舟</b>，下水前要舉行祭典，祈求航行平安、漁獲豐盛；信仰祖靈和自然界的神靈']]}},
+  {h:'多元的文化風貌',li:['海洋不是阻隔，反而讓人們<b>與世界交流</b>。','在臺灣生活的族群：原住民族、早期移居的漢人，近年還有來自世界各國的<b>新住民</b>。','政府訂每年 <b>12 月 18 日</b>為「<b>移民節</b>」，提醒大家重視新住民，尊重多元文化。']}],
+ trap:'<b>易錯：</b>牽罟是「所有參與的人」共享漁獲，不是只有提供漁網或出力最大的人。'},
+{id:'a3',u:23,t:2,name:'社會規範',unit:'單元一・臺灣我的家',x:160,y:375,intro:'大家能和平相處，靠的是共同認可的行為準則——社會規範。',
+ cards:[
+  {h:'什麼是社會規範',li:['不同性別、族群、宗教的人，因生活背景和經驗不同，形成不同的<b>群體</b>。','<b>社會規範</b>：群體的人共同認可或接受的行為準則，可以約束、引導行為，減少衝突，<b>維持社會秩序</b>。','四種類型：<b>風俗習慣、宗教信仰、倫理道德、法律</b>。']},
+  {h:'四種社會規範',table:{h:['類型','內容和例子','功能'],r:[['風俗習慣','生命禮俗（出生、成年、結婚）、歲時節慶（中秋節團圓、阿美族每年 7～9 月豐年祭）','和諧互動、增進歸屬感，穩定社會'],['宗教信仰','民間信仰「舉頭三尺有神明」；基督教「愛人如己」','規範信徒、勸人為善，社會更安定祥和'],['倫理道德','孝敬父母、友愛同學；大眾運輸設<b>優先席</b>','人際相處更和諧'],['法律','行人走行人穿越道、汽車不違規停車','<b>唯一有強制力</b>，違反會受懲罰與制裁']]}},
+  {h:'社會規範會改變',table:{h:['狀況','早期','現在'],r:[['結婚','大多避開農曆七月（鬼月）','有些人比較不忌諱'],['滿月','只有男孩滿月會吃油飯慶祝','男孩、女孩滿月都會慶祝']]},li:['不符合現代價值觀的規範，可以適度<b>調整</b>。','追求自己的便利時，也要為他人著想，共同遵守社會規範。']}],
+ trap:'<b>易錯：</b>四種規範中，只有「法律」有強制力；風俗、宗教、道德是靠大家認同，不會被處罰。'},
+{id:'a4',u:23,t:3,name:'法律與生活',unit:'單元一・臺灣我的家',x:340,y:440,intro:'法律看起來限制我們，其實是在保護每個人的權利。',
+ cards:[
+  {h:'法律保障與限制',li:['法律由<b>政府制定</b>，人民和政府都必須遵守；目的是保障人民權益、維護社會秩序。','不遵守會受處罰，依行為輕重不同：<b>罰款</b>（製造噪音、騎機車未戴安全帽）；<b>判刑坐牢</b>（竊盜、吸毒、縱火）。','法律一般適用於<b>所有人</b>；保障不足時，政府會為特定群體訂專屬法律，例如<b>國家語言發展法</b>（推動閩南語、客語、原住民族語、臺灣手語）。']},
+  {h:'保障兒童和少年',li:['<b>兒童及少年福利與權益保障法</b>：未滿 12 歲是<b>兒童</b>，12 歲以上未滿 18 歲是<b>少年</b>。','提供福利：生活扶助、醫療補助、課後照顧班。','用禁止來保護：禁止吸菸、飲酒、看暴力影片；商店不能賣酒給未滿 18 歲的人；電影電視分級。']},
+  {h:'網路世界也要守法',li:['使用網路上的文章、圖片、影音，要尊重<b>著作權</b>：註明出處、作者，標明來源。','散布不實言論、侮辱他人、侵犯隱私都是違法的。'],
+   table:{h:['網路詐騙','相關法律','保護自己'],r:[['網路購物：假商店騙錢','中華民國刑法','別被不合理的便宜價格迷惑'],['網路交友：騙取照片、威脅','兒童及少年性剝削防制條例','有人一直要照片或個資就要警覺'],['暑假打工：無經驗可、收入會賽','勞動基準法：不得僱用未滿 15 歲','注意求職詐騙']]}},
+  {h:'政府也要守法',li:['政府必須<b>依法行政</b>。','政府有疏失（例如公園器材沒維護好害人受傷），人民可以要求<b>國家賠償</b>。','政府和人民共同守法，才能建立<b>法治社會</b>。']}],
+ trap:'<b>易錯：</b>兒童是「未滿 12 歲」，少年是「12 歲以上未滿 18 歲」；勞基法是「未滿 15 歲」不得僱用。'},
+{id:'b1',u:24,t:0,name:'板塊與地形',unit:'單元二・臺灣的自然環境',x:445,y:622,intro:'臺灣島是怎麼來的？為什麼常地震？地形又怎麼影響生活？',
+ cards:[
+  {h:'板塊推擠形成臺灣',li:['地球表面有許多巨大的<b>板塊</b>。臺灣島位在<b>歐亞板塊</b>和<b>菲律賓海板塊</b>的交界處，兩個板塊推擠使臺灣島隆起，所以<b>常發生地震</b>。','西元 1999 年 9 月 21 日的<b>九二一大地震</b>，造成光復國中（臺中市霧峰區）跑道明顯隆起；後來改建為九二一地震教育園區。']},
+  {h:'臺灣的地形',li:['長期推擠的結果：島的形狀<b>南北長、東西窄</b>；山脈大多<b>南北走向</b>；河川大多從中央山地往<b>東、西分流</b>。'],table:{h:['地形','特色'],r:[['平原','平坦廣闊'],['盆地','四周高、中間平坦'],['台地','地勢稍高、頂部平坦'],['丘陵','地勢起伏不平'],['山地','地勢高聳'],['海岸','四周海岸各有特色']]}},
+  {h:'地形和土地利用',table:{h:['地方','早期','現在'],r:[['臺北盆地','農業活動','交通建設、政策推展，成為高樓林立、工商繁榮的都市'],['桃園台地','挖埤塘儲雨水灌溉','有些填平（擴建機場），有些變成生態公園'],['竹東丘陵','種茶、採茶、製茶','大學和新竹科學園區設立，用途多元'],['雪山山脈八仙山','伐木、木材產地','轉型為森林遊樂區，發展生態旅遊']]},li:['早期山地過度伐木，影響環境生態；現在多朝<b>保護自然生態</b>發展。']}],
+ trap:'<b>易錯：</b>台地是「頂部平坦」的高地，盆地是「四周高、中間平」，不要搞混。'},
+{id:'b2',u:24,t:1,name:'河川與海岸',unit:'單元二・臺灣的自然環境',x:595,y:610,intro:'臺灣的河川又短又急，四周海岸各有不同的樣子。',
+ cards:[
+  {h:'臺灣河川的特性',li:['河川大多發源於山地，因為島<b>東西窄</b>，所以河川<b>長度短、坡度陡、水流急</b>。','雖然雨量豐沛，但雨水很快流進海裡、<b>難以留住</b>，雨少的季節容易缺水。']},
+  {h:'河川的上游和下游',table:{h:['位置','人們的利用'],r:[['上游、中游','興建<b>水庫</b>：儲水、灌溉、發電（例如淡水河上游的翡翠水庫）；但可能破壞原本的生態'],['下游','河道寬廣、地勢平坦，人口聚集；有農田、魚塭、工廠、公共設施，要兼顧環境保育']]}},
+  {h:'四周的海岸',table:{h:['海岸','地形特色','土地利用'],r:[['西部','沙灘、沙洲多','早期漁業、曬鹽；近年養殖漁業、觀光'],['北部','曲折，多岬角與海灣','建港口，發展漁業、貿易'],['東部','陡峭，多斷崖峭壁','早期對外交通不便；交通建設後往來增加'],['南部','珊瑚礁','早期當建材（恆春古城）；現在潛水、觀光']]}}],
+ trap:'<b>易錯：</b>「雨量豐沛」不代表不缺水——河川短又急，雨水很快流入海洋。'},
+{id:'b3',u:24,t:2,name:'氣候與季風',unit:'單元二・臺灣的自然環境',x:390,y:745,intro:'颱風和季風，決定了臺灣各地的天氣、建築和產業。',
+ cards:[
+  {h:'颱風',li:['臺灣在歐亞大陸和太平洋的交界，又在颱風移動路徑上，每年<b>夏、秋</b>常有颱風。','強風豪雨可能損壞農作物，但也為水庫帶來豐沛水量（例如 2024 年凱米颱風）。']},
+  {h:'季風',table:{h:['季節','季風','影響'],r:[['冬季','<b>東北季風</b>','北部溼冷多雨；南部因山地阻擋，較乾燥少雨'],['夏季','<b>西南季風</b>','中南部溼熱多雨']]},li:['西部海岸有許多風力發電機，會跟著風向轉向，對著迎風面發電。']},
+  {h:'多雨的生活',li:['臺灣一年降雨量約 <b>2500 毫米</b>，比全球平均（900 多毫米）多很多。','因應多雨的建築：<b>斜屋頂</b>（傳統瓦片屋頂排水）、<b>騎樓</b>和<b>遮雨棚</b>、學校的<b>風雨球場</b>；現代還有防水塗料和<b>綠屋頂</b>。']},
+  {h:'氣候和產業',table:{h:['地方','地勢與氣候','產業'],r:[['臺南沿海','冬季乾燥少雨、日照充足、風力強','日曬鹽田；現在轉型休閒觀光'],['南投埔里鎮','盆地、地勢低、氣候溫暖','百香果產量全國之冠'],['南投仁愛鄉','山地、地勢高、氣候寒冷','蘋果、水梨等溫帶水果；冬季降雪吸引遊客']]}}],
+ trap:'<b>易錯：</b>冬季東北季風讓「北部」多雨、南部乾燥；夏季西南季風讓「中南部」多雨。'},
+{id:'b4',u:24,t:3,name:'災害與智慧',unit:'單元二・臺灣的自然環境',x:580,y:762,intro:'了解氣候帶來的災害，也學學先民的生活智慧。',
+ cards:[
+  {h:'和氣候有關的災害',table:{h:['災害','時間','原因和影響'],r:[['水災、土石流','5～9 月','梅雨、西南季風、颱風帶來豪雨：低窪處淹水、山區土石流（2009 年莫拉克颱風）'],['旱災','11 月～隔年 4 月','太久沒下雨：影響民生用水，農田休耕或轉作'],['寒害','12 月～隔年 2 月','氣溫降到 10°C 以下：農作物凍死、魚類凍死']]},li:['面對災害：從經驗了解災害特性、省思土地使用、發展合適的生活方式減少損失。']},
+  {h:'澎湖的菜宅',li:['澎湖地勢平緩、缺少山地阻擋，<b>東北季風</b>強，農作物不易生長。','先民就地取材，用<b>珊瑚礁石</b>堆砌矮牆圍住菜園，叫「<b>菜宅</b>」（宅內），保護高麗菜、甘藷等。','現在改用網室防風、防病蟲害。']},
+  {h:'會走路的竹篙厝',li:['臺南的曾文溪早期常改道，被叫做「青盲蛇（瞎眼的蛇）」，造成淹水。','先民用竹子和茅草搭成重量輕的「<b>竹篙厝</b>」，溪水溢出時，大家一起<b>扛起房子</b>避難。','現在有「扛厝走溪流」活動，體驗先民的生活智慧。']}],
+ trap:'<b>易錯：</b>菜宅是防「東北季風」的強風，不是防颱風淹水；竹篙厝才是因應水災。'},
+{id:'boss',u:31,t:-1,boss:1,name:'期中燈塔',unit:'期中複習・單元一～二',x:600,y:125,intro:'兩個單元都走過了嗎？到燈塔做期中總複習，題目混合兩個單元。',
+ cards:[
+  {h:'出發前快速檢查',li:['想一想：臺灣東、西、南、東北各是什麼海？只有哪一種社會規範有強制力？','想一想：冬季和夏季各吹什麼季風？哪裡會多雨？','不確定的話，點下面的地標重看教學。']}],
+ jumps:['a1','a2','a3','a4','b1','b2','b3','b4']}
+];
+
+/* ---- figures ---- */
+function SV(h,alt,inner){return '<svg class="fig" viewBox="0 0 360 '+h+'" role="img" aria-label="'+alt+'"><defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ink)"/></marker></defs>'+inner+'</svg>'}
+function tx(x,y,t,o){o=o||{};return '<text x="'+x+'" y="'+y+'"'+(o.a?' text-anchor="'+o.a+'"':'')+(o.c?' class="'+o.c+'"':'')+'>'+t+'</text>'}
+function rc(x,y,w,h,f,r){return '<rect class="s" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+(r==null?8:r)+'" fill="'+f+'"/>'}
+function ln(x1,y1,x2,y2,o){o=o||{};return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+(o.s||'var(--ink)')+'" stroke-width="'+(o.w||2)+'"'+(o.d?' stroke-dasharray="'+o.d+'"':'')+(o.m?' marker-end="url(#ar)"':'')+' stroke-linecap="round"/>'}
+function ci(x,y,r,f){return '<circle class="s" cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+f+'"/>'}
+var TWP='M30 2C36 4 40 8 41 14C44 26 44 40 42 52C40 66 36 78 31 90C29 95 27 99 25 98C22 92 20 86 16 78C10 66 6 52 7 40C8 28 14 16 22 7C25 4 27 2 30 2Z';
+function tw(x,y,s,f){return '<path class="s" transform="translate('+x+' '+y+') scale('+s+')" vector-effect="non-scaling-stroke" d="'+TWP+'" fill="'+(f||'var(--sunc)')+'"/>'}
+function arw(x1,y1,x2,y2,c,w){var a=Math.atan2(y2-y1,x2-x1),L=w*2.2,hx=x2-Math.cos(a)*L,hy=y2-Math.sin(a)*L,px=Math.sin(a)*w*1.4,py=-Math.cos(a)*w*1.4;return '<line x1="'+x1+'" y1="'+y1+'" x2="'+hx+'" y2="'+hy+'" stroke="'+c+'" stroke-width="'+w+'" stroke-linecap="round"/><path d="M'+x2+' '+y2+'L'+(hx+px)+' '+(hy+py)+'L'+(hx-px)+' '+(hy-py)+'Z" fill="'+c+'"/>'}
+function box(x,y,w,h,f,lines,o){o=o||{};var s=rc(x,y,w,h,f,8);lines.forEach(function(t,i){s+=tx(x+w/2,y+18+i*17,t,{a:'middle',c:i===0?'h':(o.m?'m':'')})});return s}
+var FIG={
+locate:function(){
+  return SV(250,'臺灣的鄰國和鄰海位置圖',
+   '<rect x="0" y="0" width="360" height="250" fill="var(--water)"/>'+
+   '<path class="s" d="M0 20L60 30L88 70L80 120L62 160L40 200L0 210Z" fill="var(--land-b)"/>'+
+   '<path class="s" d="M270 0L360 0L360 40L330 38L300 30L280 18Z" fill="var(--land-b)"/>'+
+   '<path class="s" d="M150 212L178 206L196 218L205 250L150 250Z" fill="var(--land-b)"/>'+
+   tw(150,72,1)+
+   tx(30,110,'中國',{a:'middle',c:'h'})+tx(322,24,'日本、南韓',{a:'middle',c:'h'})+tx(178,238,'菲律賓',{a:'middle',c:'h'})+
+   tx(118,128,'臺灣海峽',{a:'middle'})+tx(110,144,'（西）',{a:'middle',c:'m'})+
+   tx(270,128,'太平洋',{a:'middle',c:'h'})+tx(270,144,'（東）',{a:'middle',c:'m'})+
+   tx(178,192,'巴士海峽（南）',{a:'middle'})+
+   tx(240,62,'東海（東北）',{a:'middle'})+tx(176,130,'臺灣',{a:'middle',c:'h'}));
+},
+islands:function(){
+  function isl(x,y,r,t,dx,dy,a){return ci(x,y,r,'var(--sunc)')+tx(x+(dx||0),y+(dy||0),t,{a:a||'start'})}
+  return SV(272,'臺灣的範圍：臺灣島和周邊島嶼',
+   '<rect x="0" y="0" width="360" height="272" fill="var(--water)"/>'+tw(140,40,1.6)+
+   tx(180,140,'臺灣島',{a:'middle',c:'h'})+
+   isl(112,150,7,'澎湖群島',-12,4,'end')+isl(40,110,5,'金門',0,-10,'middle')+isl(58,40,5,'馬祖',0,-10,'middle')+
+   isl(268,30,5,'釣魚臺列嶼',0,-10,'middle')+isl(222,74,5,'龜山島',10,5)+isl(218,186,5,'綠島',10,5)+isl(226,212,5,'蘭嶼',10,5)+isl(162,212,4,'琉球嶼（小琉球）',-10,4,'end')+
+   tx(10,246,'↙ 南海諸島（東沙、西沙、中沙、南沙群島）',{c:'m'})+tx(350,266,'總面積約 3.6 萬平方公里',{a:'end',c:'h'}));
+},
+qiangu:function(){
+  var ppl='';for(var i=0;i<7;i++){var x=60+i*36;ppl+=ci(x,150,7,'var(--warm)')+ln(x,157,x,176,{w:3})}
+  return SV(206,'牽罟：眾人合力把漁網拉上岸',
+   '<rect x="0" y="0" width="360" height="120" fill="var(--water)"/><rect x="0" y="120" width="360" height="86" fill="var(--land-a)"/>'+
+   '<g class="qnet"><path d="M40 128Q180 10 320 128" fill="none" stroke="var(--edge)" stroke-width="3" stroke-dasharray="6 4"/>'+
+   [120,160,200,240].map(function(x,i){return '<ellipse cx="'+x+'" cy="'+(72+(i%2)*8)+'" rx="9" ry="4" fill="#9AA7AD" stroke="var(--edge)" stroke-width="1.5"/>'}).join('')+'</g>'+
+   ln(40,128,60,150,{w:2})+ln(320,128,276,150,{w:2})+ppl+
+   tx(180,198,'大家合力拉網上岸，參與的人共享漁獲',{a:'middle',c:'h'}));
+},
+norms:function(){
+  var c=[['風俗習慣','生命禮俗','節慶活動','var(--warmbg)'],['宗教信仰','規範信徒','勸人為善','var(--sky)'],['倫理道德','相處方式','判斷是非','var(--land-b)'],['法律','唯一有','強制力','var(--bad-bg)']];
+  var s=box(80,6,200,30,'var(--paper)',['社會規範']);
+  c.forEach(function(x,i){var bx=4+i*89;s+=ln(180,36,bx+42,62,{m:1,w:1.5})+box(bx,64,84,62,x[3],[x[0],x[1],x[2]],{m:1})});
+  s+=ln(180,132,180,154,{m:1,w:2})+box(70,156,220,30,'var(--paper)',['和諧相處、維持社會秩序']);
+  return SV(194,'四種社會規範',s);
+},
+ages:function(){
+  var X=function(a){return 20+a*16};
+  var s=ln(X(0),90,X(20),90,{w:3});
+  for(var a=0;a<=20;a+=2)s+=ln(X(a),84,X(a),96,{w:1.5})+tx(X(a),112,a,{a:'middle',c:'m'});
+  s+='<rect x="'+X(0)+'" y="62" width="'+(X(12)-X(0))+'" height="18" fill="var(--sky)" stroke="var(--edge)" stroke-width="1.5"/>'+tx((X(0)+X(12))/2,76,'兒童：未滿 12 歲',{a:'middle',c:'h'});
+  s+='<rect x="'+X(12)+'" y="62" width="'+(X(18)-X(12))+'" height="18" fill="var(--warmbg)" stroke="var(--edge)" stroke-width="1.5"/>'+tx((X(12)+X(18))/2,76,'少年',{a:'middle',c:'h'});
+  s+=ln(X(15),96,X(15),132,{w:1.5,d:'3 3'})+tx(X(15),146,'未滿 15 歲不得受僱',{a:'middle'})+tx(X(15),162,'（勞動基準法）',{a:'middle',c:'m'});
+  s+=ln(X(18),40,X(18),84,{w:1.5,d:'3 3'})+tx(X(18)-4,34,'未滿 18 歲不能買酒',{a:'end'});
+  s+=tx(8,20,'兒童及少年福利與權益保障法',{c:'h'})+tx(352,130,'（歲）',{a:'end',c:'m'});
+  return SV(172,'兒童、少年的年齡範圍',s);
+},
+punish:function(){
+  return SV(150,'不遵守法律的處罰依情節輕重不同',
+   '<defs><linearGradient id="pg" x1="0" x2="1"><stop offset="0" stop-color="var(--land-b)"/><stop offset="1" stop-color="var(--bad-bg)"/></linearGradient></defs>'+
+   '<path class="s" d="M10 60L320 60L320 50L350 72L320 94L320 84L10 84Z" fill="url(#pg)"/>'+tx(180,77,'情節輕 → 情節重',{a:'middle',c:'h'})+
+   box(10,102,160,44,'var(--paper)',['罰款','製造噪音、騎車未戴安全帽'],{m:1})+box(190,102,160,44,'var(--paper)',['判刑坐牢','竊盜、吸毒、縱火'],{m:1})+
+   tx(180,30,'法律的真正功能：保障每個人的權利',{a:'middle'}));
+},
+plates:function(){
+  return SV(206,'臺灣島受到板塊推擠示意圖',
+   '<rect x="0" y="0" width="360" height="120" fill="var(--sky)"/>'+
+   '<rect class="s" x="6" y="120" width="170" height="60" fill="#C7B299"/><rect class="s" x="184" y="120" width="170" height="60" fill="#A9C7D9"/>'+
+   tx(90,156,'歐亞板塊',{a:'middle',c:'h'})+tx(270,156,'菲律賓海板塊',{a:'middle',c:'h'})+
+   '<g class="rise"><path class="s" d="M130 120L160 70L180 40L200 72L230 120Z" fill="var(--leafc)"/></g>'+
+   tx(180,30,'臺灣島',{a:'middle',c:'h'})+
+   arw(14,196,64,196,'var(--warm)',5)+arw(346,196,296,196,'var(--warm)',5)+
+   tx(180,200,'互相推擠 → 臺灣隆起、常地震',{a:'middle'}));
+},
+landforms:function(){
+  return SV(186,'臺灣各種地形的剖面示意',
+   '<rect x="0" y="0" width="360" height="186" fill="var(--sky)"/><rect x="0" y="132" width="40" height="54" fill="var(--water)"/>'+
+   '<path class="s" d="M36 132L92 130L96 108L136 108L140 122Q150 102 160 122Q170 100 182 120L190 92L202 126L238 126L250 92L268 52L284 80L300 30L320 70L340 46L360 80L360 186L36 186Z" fill="var(--leafc)"/>'+
+   tx(18,124,'海岸',{a:'middle',c:'h'})+tx(64,122,'平原',{a:'middle',c:'h'})+tx(116,100,'台地',{a:'middle',c:'h'})+tx(160,96,'丘陵',{a:'middle',c:'h'})+tx(220,118,'盆地',{a:'middle',c:'h'})+tx(300,22,'山地',{a:'middle',c:'h'})+
+   tx(180,176,'西 ← 平坦的地形在西部，山地在中央 → 東',{a:'middle',c:'w'}));
+},
+river:function(){
+  return SV(200,'臺灣河川的上游、中游、下游',
+   '<rect x="0" y="0" width="360" height="200" fill="var(--sky)"/>'+
+   '<path class="s" d="M0 30L60 20L110 70L170 120L240 150L300 160L300 200L0 200Z" fill="var(--leafc)"/><rect x="300" y="160" width="60" height="40" fill="var(--water)"/>'+
+   '<path id="rv" d="M30 34L75 40L120 82L180 126L250 152L320 168" fill="none" stroke="var(--cool)" stroke-width="6" stroke-linecap="round"/>'+
+   rc(92,52,14,30,'var(--paper)',2)+tx(130,48,'水庫',{c:'h'})+tx(130,64,'儲水、灌溉、發電',{c:'m'})+
+   tx(40,16,'上游（山地）',{c:'h'})+tx(150,108,'中游',{c:'h'})+tx(214,182,'下游：農田、魚塭、工廠',{a:'middle',c:'w'})+tx(330,190,'海',{a:'middle',c:'h'})+
+   tx(240,40,'長度短、坡度陡、水流急',{a:'middle',c:'h'}));
+},
+coasts:function(){
+  return SV(276,'臺灣四周海岸的特色',
+   '<rect x="0" y="0" width="360" height="276" fill="var(--water)"/>'+tw(140,40,2)+
+   box(106,4,148,44,'var(--paper)',['北部：岬角、海灣多','→ 港口、漁業、貿易'],{m:1})+
+   box(4,100,128,60,'var(--paper)',['西部：沙灘、沙洲','漁業、曬鹽','→ 養殖、觀光'],{m:1})+
+   box(236,100,120,60,'var(--paper)',['東部：斷崖峭壁','早期交通不便','→ 交通建設'],{m:1})+
+   box(110,228,140,44,'var(--paper)',['南部：珊瑚礁','→ 潛水、觀光'],{m:1}));
+},
+monsoon:function(){
+  return SV(262,'冬季東北季風、夏季西南季風示意圖',
+   '<rect x="0" y="0" width="360" height="262" fill="var(--water)"/>'+tw(150,46,1.7)+
+   '<g class="mw">'+arw(330,70,236,120,'var(--cool)',8)+box(206,4,150,60,'var(--paper)',['冬季：東北季風','北部溼冷多雨','南部乾燥少雨'],{m:1})+'</g>'+
+   '<g class="ms">'+arw(40,252,138,196,'var(--warm)',8)+box(4,200,140,44,'var(--paper)',['夏季：西南季風','中南部溼熱多雨'],{m:1})+'</g>'+
+   tx(176,150,'臺灣',{a:'middle',c:'h'}));
+},
+rain:function(){
+  var d=[105,112,108,128,235,298,265,358,304,215,159,130],s='';
+  d.forEach(function(v,i){var h=v*0.32,x=34+i*27;
+    s+='<rect class="s" x="'+x+'" y="'+(170-h)+'" width="20" height="'+h+'" fill="var(--cool)"><animate attributeName="height" from="0" to="'+h+'" dur="1.2s" fill="freeze"/><animate attributeName="y" from="170" to="'+(170-h)+'" dur="1.2s" fill="freeze"/></rect>'+tx(x+10,166-h,v,{a:'middle',c:'m'})+tx(x+10,186,i+1,{a:'middle',c:'m'})});
+  return SV(206,'臺灣各月平均降雨量（毫米）',
+   tx(8,18,'臺灣各月平均降雨量（毫米，1991～2020 年）',{c:'h'})+ln(28,170,356,170,{w:2})+s+tx(352,202,'月',{a:'end',c:'m'})+
+   tx(352,40,'全年約 2417 毫米',{a:'end'}));
+},
+calendar:function(){
+  var X=function(m){return 40+(m-1)*26};
+  function band(m1,m2,y,f,t){var s='';var seg=m1<=m2?[[m1,m2]]:[[m1,12],[1,m2]];seg.forEach(function(g){s+='<rect class="s" x="'+X(g[0])+'" y="'+y+'" width="'+(X(g[1])+26-X(g[0]))+'" height="22" rx="6" fill="'+f+'"/>'});return s+tx(4,y+16,t,{c:'h'})}
+  var s='';for(var m=1;m<=12;m++)s+=tx(X(m)+13,22,m,{a:'middle',c:'m'});
+  s+=band(5,9,34,'var(--cool)','水災')+band(11,4,66,'var(--warm)','旱災')+band(12,2,98,'#9C7BD6','寒害');
+  s+='<g class="mp"><line x1="'+X(1)+'" y1="28" x2="'+X(1)+'" y2="126" stroke="var(--ink)" stroke-width="2.5" stroke-dasharray="4 3"/></g>';
+  return SV(150,'和氣候有關的災害常發生的月份',tx(196,8,'月份',{a:'middle',c:'m'}).replace('y="8"','y="10"')+s+
+   tx(180,146,'水災、土石流 5～9 月；旱災 11～隔年 4 月；寒害 12～隔年 2 月',{a:'middle',c:'m'}));
+},
+houses:function(){
+  var wall='<rect class="s" x="30" y="60" width="120" height="80" fill="none" stroke-width="7" stroke="#8C8C8C"/>';
+  var crop='';for(var i=0;i<4;i++)for(var j=0;j<2;j++)crop+=ci(55+i*24,85+j*28,8,'var(--leafc)');
+  var ppl='';for(var k=0;k<4;k++){var x=212+k*34;ppl+=ci(x,150,6,'var(--warm)')+ln(x,156,x,172,{w:3})}
+  return SV(196,'菜宅和竹篙厝',
+   tx(90,20,'澎湖菜宅',{a:'middle',c:'h'})+'<g class="wind">'+arw(4,34,26,54,'var(--cool)',4)+'</g>'+wall+crop+
+   tx(90,160,'珊瑚礁石矮牆擋東北季風',{a:'middle',c:'m'})+
+   tx(270,20,'竹篙厝',{a:'middle',c:'h'})+'<g class="carry"><path class="s" d="M200 110L270 70L340 110Z" fill="#D9B66A"/><rect class="s" x="210" y="110" width="120" height="30" fill="#C9A15B"/>'+ppl+'</g>'+
+   '<path d="M190 186q20 -10 40 0t40 0t40 0t40 0" fill="none" stroke="var(--cool)" stroke-width="4"/>'+
+   tx(270,182,'',{}));
+}
+};
+var FIGMAP={'臺灣的鄰國和鄰海':['locate'],'眾多島嶼組成的臺灣':['islands'],'牽罟文化':['qiangu'],'什麼是社會規範':['norms'],
+ '法律保障與限制':['punish'],'保障兒童和少年':['ages'],'板塊推擠形成臺灣':['plates'],'臺灣的地形':['landforms'],
+ '河川的上游和下游':['river'],'四周的海岸':['coasts'],'季風':['monsoon'],'多雨的生活':['rain'],'和氣候有關的災害':['calendar'],'澎湖的菜宅':['houses']};
+var TIPS={a1:'東太平洋、西臺灣海峽、南巴士海峽、東北東海',a2:'海女採海產、牽罟大家分、媽祖保平安、拼板舟下水要祭典',a3:'風俗、宗教、道德、法律，只有法律能處罰',a4:'未滿 12 兒童、未滿 18 少年、未滿 15 不能打工',
+ b1:'兩板塊推擠：南北長、東西窄、山脈南北走、河川東西流',b2:'河川短陡急；北港口、東斷崖、南珊瑚、西沙洲',b3:'冬東北（北部雨）、夏西南（中南部雨）',b4:'水災 5～9、旱災 11～4、寒害 12～2'};
+var QA={a1:[['臺灣和菲律賓之間隔著什麼海？','巴士海峽。'],['飛機飛過臺灣上空沒有降落，也要付的費用叫什麼？','過境航路服務費。']],
+ a2:[['牽罟捕到的魚，誰可以分到？','所有參與牽罟的人。'],['政府訂哪一天為移民節？','每年 12 月 18 日。']],
+ a3:[['哪一種社會規範有強制力？','法律。'],['大眾運輸工具設優先席，屬於哪一種規範？','倫理道德。']],
+ a4:[['兒童及少年福利與權益保障法裡，「少年」是幾歲？','12 歲以上、未滿 18 歲。'],['政府的公園器材沒維護好害人受傷，人民可以怎麼做？','依法請求國家賠償。']],
+ b1:[['臺灣島位在哪兩個板塊的交界？','歐亞板塊和菲律賓海板塊。'],['四周高、中間平坦的地形叫什麼？','盆地（例如臺北盆地）。']],
+ b2:[['臺灣河川有哪三個特性？','長度短、坡度陡、水流急。'],['哪一邊的海岸有珊瑚礁？','南部海岸。']],
+ b3:[['冬季吹什麼季風？哪裡比較多雨？','東北季風；北部溼冷多雨。'],['臺南沿海為什麼適合曬鹽？','冬季乾燥少雨、日照充足、風力強。']],
+ b4:[['臺灣旱災大多發生在什麼時候？','11 月到隔年 4 月。'],['澎湖的菜宅是用什麼材料堆成的？','珊瑚礁石。']]};
+
+/* ---- animation overlays ---- */
+function AN(base,extra){return function(){return base().replace(/<\/svg>$/,extra()+'</svg>')}}
+function mdot(path,dur,fill,begin,r,o){o=o||{};var vis=o.vis||'0;1;1;0',kt=o.kt||'0;.1;.85;1';
+  return '<circle r="'+(r||5)+'" fill="'+fill+'" stroke="var(--edge)" stroke-width="1.5"><animateMotion dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite" path="'+path+'"/><animate attributeName="opacity" values="'+vis+'" keyTimes="'+kt+'" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/></circle>'}
+function pulse(cx,cy,r1,r2,dur,stroke,begin){return '<circle cx="'+cx+'" cy="'+cy+'" r="'+r1+'" fill="none" stroke="'+stroke+'" stroke-width="3"><animate attributeName="r" values="'+r1+';'+r2+'" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;0" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/></circle>'}
+var FIGBASE={};Object.keys(FIG).forEach(function(k){FIGBASE[k]=FIG[k]});
+function INS(k,marker,anim){var b=FIGBASE[k];return function(){return b().replace(marker,marker+anim)}}
+function ATR(vals,dur,kt){return '<animateTransform attributeName="transform" type="translate" values="'+vals+'"'+(kt?' keyTimes="'+kt+'"':'')+' dur="'+dur+'s" repeatCount="indefinite"/>'}
+function OP(vals,dur,kt){return '<animate attributeName="opacity" values="'+vals+'"'+(kt?' keyTimes="'+kt+'"':'')+' dur="'+dur+'s" repeatCount="indefinite"/>'}
+FIG.locate=AN(FIGBASE.locate,function(){
+  return mdot('M322 26Q240 100 178 228',4,'#fff',0,6)+mdot('M30 60Q160 100 340 150',5,'var(--warm)',1,5)+pulse(175,122,10,30,2.4,'var(--warm)');
+});
+FIG.islands=AN(FIGBASE.islands,function(){
+  return [[112,150],[40,110],[58,40],[268,30],[222,74],[218,186],[226,212],[162,212]].map(function(p,i){return pulse(p[0],p[1],5,14,2.4,'var(--warm)',i*.3)}).join('');
+});
+FIG.qiangu=INS('qiangu','<g class="qnet">',ATR('0 -40;0 0;0 0','4','0;.8;1'));
+FIG.norms=AN(FIGBASE.norms,function(){return '<rect x="271" y="64" width="84" height="62" rx="8" fill="none" stroke="var(--bad)" stroke-width="3">'+OP('1;.1;1','1.6')+'</rect>'});
+FIG.ages=AN(FIGBASE.ages,function(){return mdot('M20 90L340 90',8,'var(--warm)',0,7,{vis:'1;1;1;1',kt:'0;.1;.9;1'})});
+FIG.plates=INS('plates','<g class="rise">',ATR('0 50;0 0;0 0','4','0;.7;1'));
+FIG.river=AN(FIGBASE.river,function(){return [0,.7,1.4].map(function(b){return mdot('M30 34L75 40L120 82L180 126L250 152L320 168',2.1,'#fff',b,4.5)}).join('')});
+FIG.monsoon=function(){return FIGBASE.monsoon().replace('<g class="mw">','<g class="mw">'+OP('1;1;.12;.12;1','8','0;.45;.5;.95;1')).replace('<g class="ms">','<g class="ms">'+OP('.12;.12;1;1;.12','8','0;.45;.5;.95;1'))};
+FIG.calendar=INS('calendar','<g class="mp">',ATR('0 0;312 0','12'));
+FIG.houses=function(){return FIGBASE.houses().replace('<g class="wind">','<g class="wind">'+OP('1;.2;1','1.4')).replace('<g class="carry">','<g class="carry">'+ATR('0 0;0 -6;0 0','1.6'))};
+
+var ANIM={on:true,raf:0};
+function initShadow(root){
+  var el=root.querySelector('.sdui');if(!el)return;
+  var sun=el.querySelector('.sd-sun'),ray=el.querySelector('.sd-ray'),sh=el.querySelector('.sd-shadow'),rg=el.querySelector('.sd-range'),tm=el.querySelector('.sd-time'),nt=el.querySelector('.sd-note'),pb=el.querySelector('.sd-play'),out=el.querySelector('.sd-out');
+  var t=9,last=0,R=105,h=40,G=165;
+  function bins(t){return t<8?['東方','西方']:t<11?['東偏南','西偏北']:t<13?['南方','北方']:t<16?['西偏南','東偏北']:['西方','東方']}
+  function draw(){
+    var f=Math.min(Math.max(Math.PI*(t-6)/12,.1),Math.PI-.1),c=Math.cos(f),s=Math.sin(f);
+    var tip=Math.min(Math.max(180+h*c/s,12),348),sx=180-R*c,sy=G-h-R*s;
+    sun.setAttribute('cx',sx);sun.setAttribute('cy',sy);
+    ray.setAttribute('x1',tip);ray.setAttribute('y1',G);ray.setAttribute('x2',sx);ray.setAttribute('y2',sy);
+    sh.setAttribute('x2',tip);
+    var L=Math.abs(tip-180),b=bins(t),hh=Math.floor(t),mm=Math.round((t-hh)*60);if(mm===60){hh++;mm=0}
+    var txt=hh+':'+(mm<10?'0':'')+mm;tm.textContent=txt;out.textContent=txt;
+    rg.value=t;
+    nt.textContent='太陽約在'+b[0]+'，影子在'+b[1]+'，影子'+(L<20?'最短':L<70?'較短':'較長')+'。'+(t>=11&&t<13?'（中午，太陽最高）':'');
+  }
+  function tick(ts){
+    if(!el.isConnected){ANIM.raf=0;return}
+    if(ANIM.on&&last){t+=(ts-last)/1000*1.4;if(t>18)t=6;draw()}
+    last=ts;ANIM.raf=requestAnimationFrame(tick);
+  }
+  rg.oninput=function(){t=+rg.value;draw();ANIM.on=false;pb.textContent='播放';syncAnim()};
+  pb.onclick=function(){ANIM.on=!ANIM.on;pb.textContent=ANIM.on?'暫停':'播放';syncAnim()};
+  draw();pb.textContent=ANIM.on?'暫停':'播放';
+  cancelAnimationFrame(ANIM.raf);ANIM.raf=requestAnimationFrame(tick);
+}
+function syncAnim(){
+  var sh=document.getElementById('sheet');if(!sh)return;
+  sh.querySelectorAll('svg.fig').forEach(function(sv){try{ANIM.on?sv.unpauseAnimations():sv.pauseAnimations()}catch(e){}});
+  var b=document.getElementById('animbtn');if(b)b.textContent=ANIM.on?'暫停動畫':'播放動畫';
+  var p=sh.querySelector('.sd-play');if(p)p.textContent=ANIM.on?'暫停':'播放';
+}
+
+ANIM.on=!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+var PHOTOS={"交通位置很重要": [["taoyuanairport", "桃園國際機場：國際航線往來"], ["kaohsiungport", "高雄港：海上運輸的貨櫃船"]], "眾多島嶼組成的臺灣": [["guishan", "龜山島：外形像烏龜"], ["xiaoliuqiu", "琉球嶼（小琉球）的花瓶岩"]], "牽罟文化": [["qiangu", "早期的牽罟：眾人合力把網拉上岸", 1]], "和海洋有關的信仰": [["mazu", "媽祖神像"], ["tatala", "雅美族（達悟族）的拼板舟"]], "四種社會規範": [["midautumn", "風俗習慣：中秋節吃月餅、團圓"], ["amisfestival", "風俗習慣：阿美族豐年祭"], ["templetaiwan", "宗教信仰：民間信仰到廟裡祭拜"], ["prioseat", "倫理道德：捷運上的優先席"], ["crosswalk", "法律：行人走行人穿越道"]], "板塊推擠形成臺灣": [["platebound", "臺灣附近的板塊交界（菲律賓海板塊）", 1], ["earthquakemuseum", "九二一地震教育園區：保留震倒的光復國中校舍", 1]], "臺灣的地形": [["taiwanmountains", "臺灣地勢圖：山脈在中央、南北走向"]], "地形和土地利用": [["taipeibasin", "臺北盆地：高樓林立的都市"], ["hsinchupark", "新竹科學園區"], ["baxianshan", "八仙山森林遊樂區"]], "河川的上游和下游": [["feitsui", "翡翠水庫：淡水河上游的水庫"], ["river", "寬廣的河床（濁水溪）"]], "四周的海岸": [["waisanding", "西部海岸：平緩的海岸和養殖"], ["yehliu", "北部海岸：野柳岬角"], ["qingshui", "東部海岸：清水斷崖"], ["kenting", "南部海岸：墾丁的珊瑚礁"], ["hengchun", "恆春古城"]], "季風": [["windturbine", "西部海岸的風力發電機", 1]], "多雨的生活": [["sanheyuan", "傳統瓦片斜屋頂"], ["greenroof", "綠屋頂：種植物吸收雨水、隔熱"]], "氣候和產業": [["saltfield", "臺南井仔腳瓦盤鹽田"], ["passionfruit", "百香果的藤架"], ["apple", "山區的蘋果園"]], "和氣候有關的災害": [["morakot", "莫拉克颱風豪雨沖毀的橋梁", 1]]};
+var CREDIT={"windturbine": ["Uming Photography", "CC BY-SA 2.0", "https://commons.wikimedia.org/wiki/File:View_from_Haowangjiao,_at_noon_on_12_August_2020.jpg"], "platebound": ["Tectonic_plates_boundaries_detailed-en.svg: Eric Gaba (Sting", "CC BY-SA 3.0", "https://commons.wikimedia.org/wiki/File:Philippine_Sea_Plate_br.JPG"], "hsinchupark": ["Milkmom0529", "CC BY-SA 3.0", "https://commons.wikimedia.org/wiki/File:Hsinchu_Science_Park,_30th_anniversary_and_ROC_100th_anniversary_decoration_20110223.jpg"], "kenting": ["WEI, WAN-CHEN（魏琬臻）", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Little_Bali_Island_Coral_Reef_Beach%EF%BC%88WEI,_WAN-CHEN%EF%BC%89%EF%BC%8D%E5%B0%8F%E5%B7%B4%E9%87%8C%E5%B3%B6%E7%8F%8A%E7%91%9A%E7%A4%81%E5%B2%A9%E7%81%98_2.jpg"], "greenroof": ["TonyTheTiger", "CC BY-SA 3.0", "https://commons.wikimedia.org/wiki/File:20080708_Chicago_City_Hall_Green_Roof.JPG"], "prioseat": ["Solomon203", "CC BY-SA 3.0", "https://commons.wikimedia.org/wiki/File:C321_2106_Priority_Seat_at_Houshanpi_Station_20120407.jpg"], "amisfestival": ["June Owen", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Ilisin%E5%82%B3%E7%B5%B1%E8%88%9E%E8%B9%88%EF%BC%88malikadaw%EF%BC%89.JPG"], "baxianshan": ["lienyuan lee", "CC BY 3.0", "https://commons.wikimedia.org/wiki/File:Eco_Pond_at_Baxianshan_%E5%85%AB%E4%BB%99%E5%B1%B1%E7%94%9F%E6%85%8B%E6%B1%A0_-_panoramio.jpg"], "earthquakemuseum": ["Alan Wilson from Peterborough, Cambs, UK", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:921_Earthquake_Museum_of_Taiwan_(55251499489).jpg"], "midautumn": ["Junelee", "CC BY-SA 1.0", "https://commons.wikimedia.org/wiki/File:Mooncake1.jpg"], "guishan": ["Neycnsa", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:%E9%BE%9C%E5%B1%B1%E6%88%B4%E5%B8%BD-%E6%94%9D%E5%BD%B1%E8%80%85%E5%90%B3%E8%A3%95%E9%9A%86.jpg"], "waisanding": ["Li Yong-Chi", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:%E5%A4%95%E9%99%BD%E4%B8%8B%E7%9A%84%E8%9A%B5%E6%A3%9A.jpg"], "hengchun": ["rheins", "CC BY 3.0", "https://commons.wikimedia.org/wiki/File:%E6%81%92%E6%98%A5%E5%8F%A4%E5%9F%8E%E5%8D%97%E9%97%A8_-_South_Gate_of_Old_Hengchun_Town_-_2012.02_-_panoramio.jpg"], "apple": ["lienyuan lee", "CC BY 3.0", "https://commons.wikimedia.org/wiki/File:%E7%A6%8F%E5%A3%BD%E5%B1%B1%E8%BE%B2%E5%A0%B4%E8%98%8B%E6%9E%9C%E5%9C%92_Apple_Orchard_in_Fushouthan_Farm_-_panoramio.jpg"], "templetaiwan": ["Wikimedia Commons", "CC BY-SA 3.0", "https://commons.wikimedia.org/wiki/File:Incense_Burning_in_Chinese_Temple.jpg"], "taoyuanairport": ["takuma mori", "CC BY 2.0", "https://commons.wikimedia.org/wiki/File:ANA_aircraft_and_EGAS_vehicles_at_Taiwan_Taoyuan_International_Airport_20091231.jpg"], "tatala": ["Cho Hsun Lu", "CC BY 3.0", "https://commons.wikimedia.org/wiki/File:The_Traditional_Boat_Of_Tao_People_(228631843).jpeg"], "crosswalk": ["玄史生", "CC0", "https://commons.wikimedia.org/wiki/File:ICCK_and_Jhongjheng_4th_Road_zebra_crossing_(47271298682).jpg"], "taipeibasin": ["台北人", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Taipei_Basin_20210905.jpg"], "qiangu": ["Unknown authorUnknown author", "Public domain", "https://commons.wikimedia.org/wiki/File:Catching_fish_with_nets_in_Boriyo,_Taiwan.jpg"], "kaohsiungport": ["tommy.lan from flickr", "CC BY-SA 2.0", "https://commons.wikimedia.org/wiki/File:Shipping-container_Kaohsiung_Harbour.jpg"], "sanheyuan": ["lienyuan lee", "CC BY 3.0", "https://commons.wikimedia.org/wiki/File:Zhiyu_Road_Traditional_House_%E8%8A%9D%E7%8E%89%E8%B7%AF%E5%82%B3%E7%B5%B1%E6%B0%91%E5%B1%85_-_panoramio.jpg"], "feitsui": ["Peellden", "CC BY 3.0", "https://commons.wikimedia.org/wiki/File:FeiCueiReservoir.jpg"], "mazu": ["Marcushsu", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Mazu_statue_at_Huiju_Temple,_Kunshan,_2021.jpg"], "yehliu": ["CEphoto, Uwe Aranas", "CC BY-SA 3.0", "https://commons.wikimedia.org/wiki/File:Yehliu_Taiwan_GeoPark-01.jpg"], "passionfruit": ["Vijayanrajapuram", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Passion_fruit_vine_panthal.jpg"], "river": ["chia ying Yang", "CC BY 2.0", "https://commons.wikimedia.org/wiki/File:View_along_the_Zhuoshui_River_valley_to_Shuili.jpg"], "xiaoliuqiu": ["Jun Jie Yam", "CC BY 4.0", "https://commons.wikimedia.org/wiki/File:Vase_Rock_on_Lambai_Island_(Xiaoliuqiu).jpg"], "taiwanmountains": ["Peellden", "CC BY-SA 3.0", "https://commons.wikimedia.org/wiki/File:Taiwan-Central_Mountain_Range.jpg"], "qingshui": ["Huaiwun", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Taroko_National_Park_Qingshui_Cliff_(Huaiwun).jpg"], "saltfield": ["MW2019", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Jingzaijiao_Tile-paved_Salt_Fields_,_Tainan_city_,_Taiwan.jpg"], "morakot": ["ellery", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Damaged_Taimali_stream_Railway_Bridge-P1010273.JPG"]};
+function phHtml(c){
+  var a=PHOTOS[c.h];if(!a)return'';
+  return '<div class="ph">'+a.map(function(x){return'<figure class="'+(x[2]?'full':'')+'"><img src="img/soc5/'+x[0]+'.jpg" alt="'+x[1]+'" data-zoom="1" onerror="imgFail(this)"><figcaption>'+x[1]+(CREDIT[x[0]]?'<small class="cr">'+esc(CREDIT[x[0]][0])+'・'+esc(CREDIT[x[0]][1])+'・<a href="'+CREDIT[x[0]][2]+'" target="_blank" rel="noopener">來源</a></small>':'')+'</figcaption></figure>'}).join('')+'</div>';
+}
+function imgFail(im){var d=document.createElement('div');d.className='imgerr';d.textContent='圖片載入失敗：請確認 img/soc5 資料夾和 island-g5-soc.html 放在一起，並用網址（不是預覽窗）開啟';im.replaceWith(d)}
+function zoom(src,alt){var lb=document.getElementById('lb');lb.innerHTML='<img src="'+src+'" alt="'+alt+'"><span>點一下關閉</span>';lb.classList.add('on')}
+
+var byId={};L.forEach(function(p){byId[p.id]=p});
+var done={};try{done=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}}
+
+function bg(){
+  var KY=1.35,s='<svg viewBox="0 0 720 '+Math.round(860*KY)+'" aria-hidden="true">';
+  s+='<g fill="none" stroke="var(--line)" stroke-width="2" opacity=".8"><circle cx="720" cy="0" r="120"/><circle cx="720" cy="0" r="170"/><circle cx="720" cy="0" r="220"/><circle cx="0" cy="1161" r="120"/><circle cx="0" cy="1161" r="170"/></g>';
+  function T(cy,g){return '<g transform="translate(0,'+(cy*(KY-1))+')">'+g+'</g>'}
+  s+='<g transform="scale(1 '+KY+')" stroke="var(--edge)" stroke-width="4">';
+  s+='<path vector-effect="non-scaling-stroke" d="M60 200C50 130 140 100 230 110C330 105 420 150 425 240C432 330 400 420 330 470C250 510 140 500 90 430C45 370 70 280 60 200Z" fill="var(--land-a)"/>';
+  s+='<path vector-effect="non-scaling-stroke" d="M300 640C290 570 380 540 470 548C570 540 670 580 680 670C690 760 640 815 540 822C440 830 330 810 305 740C295 705 303 670 300 640Z" fill="var(--land-b)"/>';
+  s+='<path vector-effect="non-scaling-stroke" d="M520 110C520 70 590 50 640 62C690 75 700 130 670 170C640 205 560 200 530 165C512 145 518 128 520 110Z" fill="var(--land-c)"/>';
+  s+='<path vector-effect="non-scaling-stroke" d="M350 470C370 510 380 530 395 552" fill="none" stroke-width="16" stroke-linecap="round"/><path vector-effect="non-scaling-stroke" d="M350 470C370 510 380 530 395 552" fill="none" stroke="var(--land-a)" stroke-width="9" stroke-linecap="round" stroke-dasharray="3 12"/>';
+  s+='<path vector-effect="non-scaling-stroke" d="M145 205L320 262L160 375L340 440L445 622L595 610L390 745L580 762" fill="none" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" opacity=".55"/>';
+  s+='</g>';
+  s+=T(150,'<g stroke="var(--edge)" stroke-width="3"><circle cx="90" cy="150" r="22" fill="var(--sun)"/></g><g stroke="var(--edge)" stroke-width="3" stroke-linecap="round"><path d="M90 112v-10M90 188v10M52 150h-10M128 150h10M63 123l-7-7M117 177l7 7M63 177l-7 7M117 123l7-7"/></g>');
+  s+=T(330,'<g stroke="var(--edge)" stroke-width="3" stroke-linejoin="round"><circle cx="260" cy="330" r="12" fill="var(--paper)"/><path d="M272 330l30 14-4 6z" fill="var(--pick)"/></g>');
+  s+=T(420,'<g stroke="var(--edge)" stroke-width="3" stroke-linejoin="round"><path d="M110 440l20-34 20 34z" fill="var(--land-b)"/></g>');
+  [[340,690],[515,700],[640,700],[430,790],[520,790]].forEach(function(p){s+=T(p[1],'<g stroke="var(--edge)" stroke-width="3" stroke-linejoin="round"><rect x="'+(p[0]-4)+'" y="'+p[1]+'" width="8" height="18" fill="var(--trunk)"/><circle cx="'+p[0]+'" cy="'+(p[1]-6)+'" r="16" fill="var(--grass)"/></g>')});
+  s+=T(160,'<g stroke="var(--edge)" stroke-width="3" stroke-linejoin="round"><path d="M545 185l8-50h20l8 50z" fill="var(--paper)"/><path d="M549 155h28M547 170h32" fill="none"/><path d="M553 135l10-14 10 14z" fill="var(--bad)"/></g>');
+  [[470,300],[100,640],[200,740],[640,330]].forEach(function(p){s+=T(p[1],'<path d="M'+p[0]+' '+p[1]+'q12 -10 24 0t24 0" fill="none" stroke="var(--blue)" stroke-width="3" stroke-linecap="round" opacity=".7"/>')});
+  s+='</svg>';
+  return s;
+}
+function pinHtml(p){
+  var i=L.indexOf(p),n=p.boss?'★':(i+1);
+  return '<button class="pin'+(p.boss?' boss':'')+(done[p.id]?' done':'')+'" data-id="'+p.id+'" style="left:'+(p.x/7.2)+'%;top:'+(p.y/8.6)+'%" aria-label="'+p.name+(done[p.id]?'（已學）':'')+'"><span class="dot">'+n+'</span><span class="lbl">'+p.name+'</span></button>';
+}
+function tags(){
+  return '<span class="tag" style="left:23%;top:12%">單元一　臺灣我的家</span><span class="tag" style="left:60%;top:92%">單元二　臺灣的自然環境與生活</span>';
+}
+function updateProg(){
+  var T=L.filter(function(p){return !p.boss}),n=T.filter(function(p){return done[p.id]}).length;
+  document.getElementById('pt').textContent='已學 '+n+' / '+T.length;
+  document.getElementById('pb').style.width=(n/T.length*100)+'%';
+}
+function draw(){
+  var m=document.getElementById('map');
+  m.innerHTML=bg()+tags()+L.map(pinHtml).join('');
+  m.querySelectorAll('.pin').forEach(function(b){b.onclick=function(){open(b.dataset.id)}});
+  updateProg();
+}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function cardHtml(c){
+  var s='<div class="card"><h3>'+c.h+'</h3>'+(FIGMAP[c.h]||[]).map(function(n){return'<div class="figw">'+FIG[n]()+'</div>'}).join('')+phHtml(c);
+  if(c.table){s+='<table><thead><tr>'+c.table.h.map(function(x){return'<th>'+x+'</th>'}).join('')+'</tr></thead><tbody>'+c.table.r.map(function(r){return'<tr>'+r.map(function(x,k){return'<td'+(k===0?' style="font-weight:700"':'')+'>'+x+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table>'}
+  if(c.li)s+='<ul>'+c.li.map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul>';
+  return s+'</div>';
+}
+var last=null;
+function open(id){
+  var p=byId[id];last=document.activeElement;
+  var href='index.html?u='+p.u+(p.t>=0?'&t='+p.t:'');
+  var h='<div class="sh-top"><div><div class="u">'+p.unit+'</div><h2 id="st">'+p.name+'</h2></div><button class="x" id="cx" aria-label="關閉">×</button></div>'
+   +'<p class="intro">'+p.intro+'</p>'+(p.boss?'':'<div class="animbar"><button type="button" class="btn btn-sm" id="animbtn">暫停動畫</button></div>')+p.cards.map(cardHtml).join('')+(TIPS[p.id]?'<div class="tip">記憶口訣：'+TIPS[p.id]+'</div>':'')+(p.trap?'<div class="trap">'+p.trap+'</div>':'');
+  if(QA[p.id])h+='<div class="qa"><h3>想一想</h3>'+QA[p.id].map(function(x){return'<details><summary>'+x[0]+'</summary><p>'+x[1]+'</p></details>'}).join('')+'</div>';
+  if(p.jumps)h+='<div class="mini">'+p.jumps.map(function(j){return'<button data-j="'+j+'">'+byId[j].name+'</button>'}).join('')+'</div><div style="height:12px"></div>';
+  h+='<p class="credit">照片來自 Wikimedia Commons（自由授權，標有作者與授權）；點圖可放大。地圖、動畫與示意圖為自製，內容依評量整理。</p>';
+  h+='<div class="cta"><a class="btn btn-primary" id="go" href="'+href+'">'+(p.boss?'開始期中總複習':'我看完了，開始刷題')+'</a><button class="btn" id="ok">'+(done[p.id]?'回到地圖':'標記為已學，回地圖')+'</button></div>';
+  var sh=document.getElementById('sheet');sh.innerHTML=h;sh.scrollTop=0;
+  document.getElementById('ov').classList.add('on');document.body.style.overflow='hidden';
+  document.getElementById('cx').focus();
+  document.getElementById('cx').onclick=close;
+  document.getElementById('ok').onclick=function(){if(!p.boss){done[p.id]=1;save()}close();draw()};
+  document.getElementById('go').onclick=function(){if(!p.boss){done[p.id]=1;save()}};
+  var ab=document.getElementById('animbtn');if(ab)ab.onclick=function(){ANIM.on=!ANIM.on;syncAnim()};
+  initShadow(sh);syncAnim();
+  sh.querySelectorAll('[data-j]').forEach(function(b){b.onclick=function(){open(b.dataset.j)}});
+}
+function close(){document.getElementById('ov').classList.remove('on');document.body.style.overflow='';if(last&&last.focus)try{last.focus()}catch(e){}}
+document.getElementById('lb').onclick=function(){this.classList.remove('on')};
+document.getElementById('sheet').addEventListener('click',function(e){var t=e.target;if(t.dataset&&t.dataset.zoom)zoom(t.src,t.alt)});
+document.getElementById('ov').onclick=function(e){if(e.target===this)close()};
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){var lb=document.getElementById('lb');if(lb.classList.contains('on'))lb.classList.remove('on');else close()}});
+if(location.hash==="#gallery"){document.querySelector(".shell").innerHTML=L.map(function(p){return p.cards.filter(function(c){return FIGMAP[c.h]}).map(function(c){return "<h3>"+p.id+" "+c.h+"</h3>"+FIGMAP[c.h].map(function(n){return "<div class=figw style=max-width:520px>"+FIG[n]()+"</div>"}).join("")}).join("")}).join("")}else draw();
+})();
+</script>
+</body></html>

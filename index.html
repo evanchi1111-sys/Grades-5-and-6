@@ -1492,6 +1492,7 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(P))}catch(e){}}
 var S={topic:{},subj:'自然'};
 Object.keys(UNITS).forEach(function(u){S.topic[u]=-1});
 if(P.subj==='自然'||P.subj==='社會'||P.subj==='國語'||P.subj==='數學'||P.subj==='五年級國語'||P.subj==='五年級自然'||P.subj==='五年級社會'||P.subj==='五年級數學')S.subj=P.subj;
+var ISLAND={'五年級自然':'island.html','五年級社會':'island-g5-soc.html'};
 var GR={'六年級':['自然','社會','國語','數學'],'五年級':['五年級國語','五年級自然','五年級社會','五年級數學']};
 var R=null;
 var app=document.getElementById('app');
@@ -1542,7 +1543,7 @@ function renderHome(){
    +'<div class="rank"><div class="rank-top"><span class="rank-title">Lv.'+li.L+'　'+esc(li.title)+'</span><span class="num hint">'+li.into+' / '+XP_PER_LV+' XP</span></div><div class="bar"><i style="width:'+Math.round(li.into/XP_PER_LV*100)+'%"></i></div></div></header>'
    +'<div class="subj" role="group" aria-label="選擇年級">'+['六年級','五年級'].map(function(g){return'<button class="btn subjbtn" data-gr="'+g+'" aria-pressed="'+(grade===g)+'">'+g+'</button>'}).join('')+'</div>'
    +'<div class="subj" role="group" aria-label="選擇科目" style="grid-template-columns:repeat('+GR[grade].length+',1fr)">'+GR[grade].map(function(s){return'<button class="btn subjbtn" data-sub="'+s.replace('五年級','')+'" data-s="'+s+'" aria-pressed="'+(S.subj===s)+'">'+s.replace('五年級','')+'</button>'}).join('')+'</div>'
-   +(S.subj==='五年級自然'?'<a class="btn btn-wide" href="island.html" style="text-decoration:none;margin-bottom:12px">先去學習島看教學</a>':'')
+   +(ISLAND[S.subj]?'<a class="btn btn-wide" href="'+ISLAND[S.subj]+'" style="text-decoration:none;margin-bottom:12px">先去學習島看教學</a>':'')
    +'<div class="units">'+units+'</div>'
    +'<div class="row2"><button class="btn btn-sun" data-go="mix">'+S.subj.replace('五年級','')+'混合挑戰</button><button class="btn" data-go="wrong"'+(wc?'':' disabled')+'>錯題本（'+wc+'）</button></div>'
    +'<div class="foot"><span>題庫 '+BANK.length+' 題（六年級四科＋五年級四科）：選擇、是非、填空、連連看、排順序、分類</span><button class="btn btn-sm" id="snd">聲音：'+(P.sound?'開':'關')+'</button></div>'
