@@ -465,8 +465,9 @@ var PHOTOS={
 };
 function phHtml(c){
   var a=PHOTOS[c.h];if(!a)return'';
-  return '<div class="ph">'+a.map(function(x){return'<figure class="'+(x[2]?'full':'')+'"><img src="img/nat5/'+x[0]+'.jpg" alt="'+x[1]+'" data-zoom="1" onerror="this.outerHTML='<div class=imgerr>圖片載入失敗：請確認 img/nat5 資料夾和 island.html 放在一起，並用網址（不是預覽窗）開啟</div>'"><figcaption>'+x[1]+'</figcaption></figure>'}).join('')+'</div>';
+  return '<div class="ph">'+a.map(function(x){return'<figure class="'+(x[2]?'full':'')+'"><img src="img/nat5/'+x[0]+'.jpg" alt="'+x[1]+'" data-zoom="1" onerror="imgFail(this)"><figcaption>'+x[1]+'</figcaption></figure>'}).join('')+'</div>';
 }
+function imgFail(im){var d=document.createElement('div');d.className='imgerr';d.textContent='圖片載入失敗：請確認 img/nat5 資料夾和 island.html 放在一起，並用網址（不是預覽窗）開啟';im.replaceWith(d)}
 function zoom(src,alt){var lb=document.getElementById('lb');lb.innerHTML='<img src="'+src+'" alt="'+alt+'"><span>點一下關閉</span>';lb.classList.add('on')}
 
 var byId={};L.forEach(function(p){byId[p.id]=p});
