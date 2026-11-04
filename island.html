@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>五年級自然學習島</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#E4F0EA; --paper:#FBFEFC; --ink:#0A2B3D; --muted:#4D6A78; --line:#BFD6CD; --edge:#0A2B3D;
+  --sea:#CFE8F0; --land-a:#F6E7A8; --land-b:#BFE3A6; --land-c:#F2C9B8; --grass:#6FB36B; --trunk:#9B6B43;
+  --blue:#0E8F8F; --sun:#FFC83D; --sun-ink:#2B1F00; --good:#17835A; --bad:#C23B38; --bad-bg:#FBE0DD; --pick:#CDEFE8;
+  --sunc:#FFC83D; --sky:#CFE9F7; --night:#1D3B5A; --water:#8CCBEA; --leafc:#6FB36B; --leafd:#3E8A50; --soil:#B98A5E; --warm:#E8643A; --cool:#2F7FD8; --warmbg:#FBD9C9; --shade:rgba(10,43,61,.55);
+  --f-display:'LXGW WenKai TC','PingFang TC','Microsoft JhengHei',serif;
+  --f-body:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#071C29; --paper:#0F2D40; --ink:#E6F3EE; --muted:#9BB6BF; --line:#24495C; --edge:#02121B;
+    --sea:#0B2A3B; --land-a:#6B5B26; --land-b:#2F5B3A; --land-c:#6E4636; --grass:#3E8A50; --trunk:#B58559;
+    --blue:#35C4C0; --pick:#17485A; --bad:#FF8A82; --bad-bg:#46201F; --good:#4FD39A;
+    --sky:#173B52; --water:#1F5C7A; --warmbg:#5A3326; --shade:rgba(0,0,0,.6); --soil:#7B5636; --leafd:#4FB06A; --cool:#58B4F5; --warm:#FF7A55; --land-b:#2F5B3A;
+    color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.7 var(--f-body);
+  padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
+button,a{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px;box-shadow:0 0 0 5px var(--ink)}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.3;text-wrap:balance}
+.shell{max-width:720px;margin:0 auto;padding:14px 0 40px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.top h1{font-size:26px}
+.top p{margin:0;color:var(--muted);font-size:15px}
+.btn{border:2px solid var(--edge);background:var(--paper);border-radius:12px;box-shadow:0 4px 0 var(--edge);padding:8px 16px;min-height:46px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none}
+.btn:active{transform:translateY(4px);box-shadow:0 0 0 var(--edge)}
+.btn-primary{background:var(--blue);color:#fff}
+@media (prefers-color-scheme: dark){.btn-primary{color:#032123}}
+.btn-sun{background:var(--sun);color:var(--sun-ink)}
+.prog{display:flex;align-items:center;gap:10px;margin:6px 0 12px;font-size:15px;color:var(--muted)}
+.bar{flex:1;height:12px;border:2px solid var(--edge);border-radius:8px;background:var(--paper);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--blue);width:0}
+.how{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;padding:0;list-style:none;font-size:15px}
+.how li{background:var(--paper);border:2px solid var(--line);border-radius:10px;padding:4px 10px}
+.how b{color:var(--blue)}
+.map{position:relative;border:3px solid var(--edge);border-radius:16px;overflow:hidden;background:var(--sea);aspect-ratio:720/1161;box-shadow:0 5px 0 var(--edge)}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;padding:0;min-width:48px}
+.pin .dot{width:44px;height:44px;border-radius:50%;border:3px solid var(--edge);background:var(--sun);color:var(--sun-ink);font:700 20px/1 var(--f-display);display:grid;place-items:center;box-shadow:0 3px 0 var(--edge);position:relative}
+.pin:hover .dot{transform:translateY(-2px)}
+.pin .lbl{background:var(--paper);border:2px solid var(--edge);border-radius:8px;padding:0 8px;font-size:13px;font-weight:700;line-height:1.6;white-space:nowrap}
+.pin.done .dot{background:var(--good);color:#fff}
+.pin.done .dot::after{content:"✓";position:absolute;right:-8px;top:-8px;width:20px;height:20px;border-radius:50%;background:var(--paper);color:var(--good);border:2px solid var(--edge);font:700 13px/16px var(--f-body);text-align:center}
+.pin.boss .dot{background:var(--bad);color:#fff}
+.tag{position:absolute;background:var(--paper);border:2px solid var(--edge);border-radius:8px;padding:1px 10px;font:700 14px/1.6 var(--f-display);transform:translate(-50%,-50%);pointer-events:none}
+.legend{margin:12px 0 0;font-size:14px;color:var(--muted)}
+
+#ov{position:fixed;inset:0;background:rgba(5,20,30,.55);display:none;align-items:flex-end;justify-content:center;z-index:10}
+#ov.on{display:flex}
+.sheet{background:var(--paper);width:100%;max-width:720px;max-height:92vh;overflow:auto;border:3px solid var(--edge);border-bottom:0;border-radius:20px 20px 0 0;padding:16px 16px 28px}
+.sh-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.sh-top .u{font-size:14px;color:var(--muted)}
+.sh-top h2{font-size:24px}
+.x{width:44px;height:44px;border:2px solid var(--edge);border-radius:12px;background:var(--paper);font-size:22px;line-height:1;flex:none}
+.intro{margin:6px 0 12px}
+.card{border:2px solid var(--edge);border-radius:14px;padding:10px 14px;margin:0 0 12px;background:var(--paper)}
+.card h3{font-size:18px;margin:0 0 4px}
+.card ul{margin:0;padding-left:1.2em}
+.card li{margin:2px 0}
+.card b{color:var(--blue)}
+.card table{border-collapse:collapse;width:100%;font-size:15px;margin:6px 0}
+.card th,.card td{border:1.5px solid var(--line);padding:3px 6px;text-align:center}
+.card th{background:var(--pick)}
+.trap{border:2px solid var(--bad);background:var(--bad-bg);border-radius:14px;padding:10px 14px;margin:0 0 14px}
+.trap b{color:var(--bad)}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.cta .btn{flex:1 1 180px}
+.mini{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 0}
+.mini button{border:2px solid var(--edge);background:var(--pick);border-radius:10px;padding:2px 10px;font-weight:700;min-height:40px}
+.figw{margin:4px 0 8px;background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:6px}
+.fig{display:block;width:100%;height:auto}
+.fig text{font:500 13px var(--f-body);fill:var(--ink)}
+.fig text.h{font-weight:700;font-size:14px}
+.fig text.m{font-size:12px;fill:var(--muted)}
+.fig text.w{fill:#fff}
+.fig .s{stroke:var(--edge);stroke-width:2;stroke-linejoin:round}
+.tip{border:2px dashed var(--edge);background:color-mix(in srgb,var(--sun) 28%,var(--paper));border-radius:14px;padding:8px 14px;margin:0 0 12px;font-weight:700}
+.qa{border:2px solid var(--edge);border-radius:14px;padding:8px 14px;margin:0 0 12px}
+.qa h3{font-size:18px;margin:0 0 4px}
+.qa details{margin:4px 0}
+.qa summary{cursor:pointer;font-weight:700;min-height:36px;display:flex;align-items:center}
+.qa details p{margin:2px 0 6px;color:var(--good);font-weight:700}
+.btn-sm{min-height:38px;padding:4px 12px;font-size:15px;border-radius:10px;box-shadow:0 3px 0 var(--edge)}
+.animbar{margin:0 0 10px}
+.sdctl{display:flex;align-items:center;gap:10px;padding:2px 6px}
+.sdctl input[type=range]{flex:1;min-width:0;accent-color:var(--blue)}
+.sdctl output{font-weight:700;min-width:3.2em;text-align:right}
+.sd-note{margin:2px 6px 4px;font-size:15px;font-weight:700;color:var(--blue)}
+.ph{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:6px 0 8px}
+.ph figure{margin:0;border:2px solid var(--line);border-radius:10px;overflow:hidden;background:var(--paper)}
+.ph figure.full{grid-column:1/-1}
+.ph img{display:block;width:100%;height:auto;cursor:zoom-in}
+.ph figcaption{font-size:13px;line-height:1.5;padding:3px 8px 5px;color:var(--muted)}
+#lb{position:fixed;inset:0;background:rgba(5,20,30,.92);z-index:30;display:none;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;cursor:zoom-out}
+#lb.on{display:flex}
+#lb img{max-width:100%;max-height:88vh;object-fit:contain;border-radius:8px;background:#fff}
+#lb span{color:#fff;font-size:14px}
+.imgerr{padding:10px;font-size:13px;color:var(--bad);background:var(--bad-bg)}
+.credit{font-size:13px;color:var(--muted);margin:0 0 12px}
+@media (max-width:520px){.pin .dot{width:38px;height:38px;font-size:17px}.pin .lbl{font-size:12px;padding:0 5px}.tag{font-size:12px;padding:0 6px}}
+@media (prefers-reduced-motion:no-preference){.pin .dot{transition:transform .12s}}
+</style></head><body>
+<div class="shell">
+  <div class="top">
+    <div><h1>五年級自然學習島</h1><p>先看教學，再去刷題｜內容依評量整理</p></div>
+    <a class="btn" href="index.html">刷題小勇者</a>
+  </div>
+  <ol class="how"><li><b>1</b> 點地標看教學</li><li><b>2</b> 讀完按「開始刷題」</li><li><b>3</b> 回島上點亮下一站</li></ol>
+  <div class="prog"><span id="pt">已學 0 / 8</span><div class="bar"><i id="pb"></i></div></div>
+  <div class="map" id="map"></div>
+  <p class="legend">綠色打勾＝已經看過教學。進度只存在這台裝置的瀏覽器。</p>
+</div>
+<div id="lb" role="dialog" aria-label="放大圖片"></div>
+<div id="ov" role="dialog" aria-modal="true" aria-labelledby="st"><div class="sheet" id="sheet"></div></div>
+<script>
+(function(){
+var KEY='island-g5-nat-v1';
+var L=[
+{id:'a1',u:20,t:0,name:'太陽與生活',unit:'第 1 單元・太陽的祕密',x:145,y:205,intro:'太陽的光和熱，讓地球有白天、有生物，也能被人類拿來用。',
+ cards:[
+  {h:'白天和夜晚',li:['<b>白天</b>：太陽升起，有陽光照射，看得清楚景色，氣溫比較高。','<b>夜晚</b>：太陽落下，沒有陽光，要開燈才看得清楚，氣溫比白天低。','太陽的升起和落下，形成<b>晝夜變化</b>。']},
+  {h:'太陽的光和熱有什麼用',li:['<b>光</b>：人需要光才看得見；植物利用陽光進行光合作用，製造養分。','<b>熱</b>：提供生物生存需要的溫暖，也促進水循環，形成不同的天氣。','適當曬太陽，身體可以產生<b>維生素 D</b>。']},
+  {h:'生活中怎麼用太陽',li:['<b>直接用太陽的熱</b>：晒鹽、晒衣服、晒蝦乾、晒魚乾、晒柿子。','<b>太陽能光電板</b>：把太陽光能變成電能，例如路燈、電動車充電。','<b>太陽能集熱器</b>：用太陽的熱把水加熱，供應熱水。']},
+  {h:'太陽能是綠色能源',li:['取之不盡、用之不竭，對環境造成的汙染較少。','在臺灣安裝太陽能板：要<b>朝南</b>、適當<b>傾斜</b>、周圍避免有高物遮住陽光。']}],
+ trap:'<b>易錯：</b>光電板是「光變成電」，集熱器是「熱把水加熱」。不要把兩個搞混。'},
+{id:'a2',u:20,t:1,name:'影子與方位',unit:'第 1 單元・太陽的祕密',x:320,y:262,intro:'影子和太陽的位置有固定的關係，一天中會規律改變。',
+ cards:[
+  {h:'影子在哪裡',li:['影子出現在太陽的<b>另一邊</b>，所以太陽和影子的方位剛好相反。','同一時間，不管面向哪裡，大家的影子都在同一個方向。']},
+  {h:'一天中樹影的變化',table:{h:['時間','太陽方位','影子方位','影子長度'],r:[['9:00','東偏南','西偏北','上午到中午愈來愈短'],['12:00','南方','北方','最短'],['15:00','西偏南','東偏北','中午過後愈來愈長']]},
+   li:['影子的位置從上午到下午，由<b>西向東</b>慢慢移動。']},
+  {h:'日晷',li:['日晷是古人用來計時的工具，利用「晷針影子的方位和長度」判斷時間。','太陽高度角愈大，晷針影子愈短。']},
+  {h:'怎麼觀測太陽',li:['用<b>方位</b>和<b>高度角</b>描述太陽的位置；不能用眼睛直視太陽。','方位常用八方位表示。先用指北針找出竿影方位，<b>相反方向就是太陽方位</b>（竿影在西北方，太陽在東南方）。','一天中太陽由東向西移動，大約中午 12 時在南方，高度角從上午到中午愈來愈大，中午最大，之後愈來愈小。']}],
+ trap:'<b>易錯：</b>影子最短＝太陽最高＝中午 12 時。影子方位和太陽方位是相反的。'},
+{id:'a3',u:20,t:2,name:'四季的太陽',unit:'第 1 單元・太陽的祕密',x:160,y:375,intro:'同一個地方，不同季節的日出日落位置和高度角都不一樣。',
+ cards:[
+  {h:'四個節氣',table:{h:['節氣','可能日期'],r:[['春分','3 月 20～22 日'],['夏至','6 月 20～22 日'],['秋分','9 月 22～24 日'],['冬至','12 月 21～23 日']]},li:['評量用這四天代表一年的四個季節。']},
+  {h:'日出和日落的方位',table:{h:['','日出','日落'],r:[['春分、秋分','正東','正西'],['夏至','東偏北','西偏北'],['冬至','東偏南','西偏南']]},
+   li:['日出時間：<b>夏至最早、冬至最晚</b>，春分和秋分差不多。']},
+  {h:'中午 12 時的太陽高度角',li:['<b>夏至最大</b>，冬至最小，春分和秋分在中間。','從春分到夏至，高度角愈來愈大；從夏至到冬至，愈來愈小。','夏季太陽高度角大，氣溫比較高，天氣炎熱；冬季相反。']},
+  {h:'太陽東升西落的原因',li:['其實不是太陽在移動，而是<b>地球自轉</b>造成的現象。']}],
+ trap:'<b>易錯：</b>同一個季節裡，太陽高度角愈大的月份，平均氣溫「不一定」愈高，還會受到水蒸氣含量等因素影響。'},
+{id:'a4',u:20,t:3,name:'光與放大鏡',unit:'第 1 單元・太陽的祕密',x:340,y:440,intro:'陽光是由不同色光組成；光走過不同物質會轉彎。',
+ cards:[
+  {h:'彩虹和陽光的顏色',li:['陽光由<b>紅、橙、黃、綠、藍、靛、紫</b>色光組成；陽光穿過三稜鏡或水珠，會分散成彩虹般的色光。','看彩虹要有陽光、附近有大量小水滴（雨後、噴水池旁），而且要<b>背向太陽</b>。','用噴水器製造彩虹：背向太陽，朝有陰影的地方噴。']},
+  {h:'光的折射',li:['光<b>斜斜地</b>進入不同的物質（介質），例如空氣和水，路線會偏折，這叫<b>折射</b>。','光在同一種介質裡直線前進，不會折射。','從空氣看水中的物體，看起來比較淺，實際位置<b>比看到的更深</b>；泡在水中的腳看起來變短，水中的吸管看起來像斷掉。']},
+  {h:'放大鏡',li:['放大鏡是<b>中間厚、周圍薄</b>的凸透鏡；光穿過會折射，在適當距離聚成光點（<b>聚光</b>）。','用放大鏡看東西會看到不同大小的像（<b>成像</b>），可能正立放大，也可能倒立縮小。','影響成像的有：物體和放大鏡的距離、觀察者和放大鏡的距離。','不可以用放大鏡看太陽，會傷害眼睛。']}],
+ trap:'<b>易錯：</b>折射只發生在「斜斜地」進入不同物質；光在同一種物質裡直走不會折射。'},
+{id:'b1',u:21,t:0,name:'不同環境',unit:'第 2 單元・千變萬化的植物',x:445,y:622,intro:'植物為了適應環境，會長出特別的構造。',
+ cards:[
+  {h:'校園裡的植物',li:['<b>榕樹</b>的氣生根：吸收空氣中的水分，也能形成支柱。','<b>鳳凰木</b>的板根：固定植物體，也增加根部呼吸面積。','<b>大萍</b>：葉有細毛、葉片有通氣組織，讓它漂在水面。','<b>布袋蓮</b>：膨大的葉柄有通氣組織，儲存空氣漂浮。','<b>樟樹</b>：木本莖支持植物體。']},
+  {h:'海邊植物（缺水、強風、高鹽）',table:{h:['植物','特別的構造'],r:[['海茄苳','葉面硬挺像皮革，防水分散失；長出呼吸根，獲取氧氣'],['濱水菜','葉面有蠟質；肉質葉儲水、耐鹽'],['木麻黃','葉子極小，減少水分散失；板根抵抗強風']]}},
+  {h:'高山植物（強風、低溫、日晒強）',table:{h:['植物','特別的構造'],r:[['玉山杜鵑','葉面有蠟質；植株矮小、莖緊貼地面'],['玉山薄雪草','葉面有絨毛；全株絨毛抗低溫和強日晒'],['玉山圓柏','針狀葉防水分散失；莖彎曲生長適應強風']]}}],
+ trap:'<b>易錯：</b>「呼吸根」是海茄苳，「板根」是鳳凰木和木麻黃，「氣生根」是榕樹，不要混在一起。'},
+{id:'b2',u:21,t:1,name:'存活本事',unit:'第 2 單元・千變萬化的植物',x:595,y:610,intro:'植物靠陽光和水生長：葉做養分，根吸水，莖運水。',
+ cards:[
+  {h:'光合作用',li:['在陽光下，葉子把<b>二氧化碳和水</b>變成<b>養分</b>，並釋放<b>氧氣</b>。','養分儲存在植物體內，提供生長需要的能量；氧氣釋放到大氣，讓生物呼吸。','陽光照不到的地方（例如山洞），植物很難生長。']},
+  {h:'水怎麼走',li:['水路線：<b>根吸收 → 莖輸送 → 葉蒸散</b>到空氣中。','從葉面以水蒸氣散出去，叫<b>蒸散作用</b>。','紅色色素水實驗：根、莖、葉都會變紅，說明水從根進入、經莖送到葉。','缺水時葉片枯萎下垂，澆水後會恢復挺直。']},
+  {h:'根、莖、葉的功能',table:{h:['部位','主要功能'],r:[['根','抓住土壤固定植物，吸收水分和養分'],['莖','輸送水分、養分，支撐植物體'],['葉','蒸散水分，利用陽光製造養分']]},li:['仙人掌的針狀葉可以減少水分散失，適應缺水環境。']}],
+ trap:'<b>易錯：</b>水是從「根」吸收、從「葉」散出去，不是倒過來；支撐植物體主要靠莖，不是葉。'},
+{id:'b3',u:21,t:2,name:'繁殖傳播',unit:'第 2 單元・千變萬化的植物',x:390,y:745,intro:'花、果實和種子，讓植物把下一代送出去。',
+ cards:[
+  {h:'花和果實',li:['花的基本構造：<b>雄蕊、雌蕊、花瓣、花萼</b>。雄蕊和雌蕊是繁殖的重要部位。','杜鵑每朵花<b>同時有</b>雄蕊和雌蕊；玉米每朵花只有雄蕊<b>或</b>雌蕊。','花粉傳到雌蕊柱頭叫<b>授粉</b>；之後子房發育成果實，胚珠發育成種子。','花粉可靠動物（如蜜蜂）、風（如水稻）傳播。蕨類不開花，用<b>孢子</b>繁殖。']},
+  {h:'種子怎麼旅行',table:{h:['傳播方式','果實特徵','例子'],r:[['動物','多肉多汁或有倒勾刺','榕樹、大花咸豐草'],['自身彈力','成熟後迸開彈出種子','非洲鳳仙花、黃花酢漿草'],['風力','有絨毛或薄翅','蒲公英、木棉、青楓'],['水力','具浮水性','椰子樹、棋盤腳']]}},
+  {h:'不只用種子繁殖',li:['<b>根</b>：甘藷　<b>莖</b>：萬年青、甘藷　<b>葉</b>：落地生根、石蓮。','這些部位儲存很多養分，供新芽初期生長。','同一種植物可以有多種繁殖方式，通常會依環境選對自己有利的。']}],
+ trap:'<b>易錯：</b>青楓靠風（薄翅），椰子靠水；甘藷可以用種子、莖、塊根繁殖。'},
+{id:'b4',u:21,t:3,name:'特徵分類',unit:'第 2 單元・千變萬化的植物',x:580,y:762,intro:'認識植物的特徵，再用明確的標準分類。',
+ cards:[
+  {h:'怎麼認識植物',li:['實地觀察，或上網、查植物圖鑑。','實地觀察要帶<b>相機、放大鏡、筆、筆記本</b>等記錄器材。','不同植物有不同的根、莖、葉、生長環境、繁殖方式和特殊構造。']},
+  {h:'分類的標準',li:['可依外形（根、莖、葉、花、果實、種子）、生長環境（水生、陸生）、繁殖方法來分類。','分類標準要明確，例如「花開得美不美」不適合。','<b>二分法</b>：用一個標準分成「符合」和「不符合」兩類，每一類還可以再細分。']},
+  {h:'二分法例子',li:['先問「生長在水中嗎？」→ 是：布袋蓮、蓮、大萍；不是：樟樹、甘藷、蛇莓。','水中的再問「會漂浮嗎？」→ 會：布袋蓮、大萍；不會：蓮。','不在水中的再問「有木本莖嗎？」→ 有：樟樹；沒有：甘藷、蛇莓。']}],
+ trap:'<b>易錯：</b>分類不能「只」用繁殖方法，外形、生長環境也可以當標準；二分法一次只用一個標準。'},
+{id:'boss',u:22,t:-1,boss:1,name:'期中燈塔',unit:'期中複習・單元一～二',x:600,y:125,intro:'兩個單元都走過了嗎？到燈塔做期中總複習，題目混合兩個單元。',
+ cards:[
+  {h:'出發前快速檢查',li:['想一想：影子最短是什麼時候？夏至和冬至的日出方位各是哪裡？','想一想：水在植物裡怎麼走？青楓、椰子、蒲公英各靠什麼傳播？','不確定的話，點下面的地標重看教學。']}],
+ jumps:['a1','a2','a3','a4','b1','b2','b3','b4']}
+];
+/* ---- figures ---- */
+function SV(h,alt,inner){return '<svg class="fig" viewBox="0 0 360 '+h+'" role="img" aria-label="'+alt+'"><defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ink)"/></marker></defs>'+inner+'</svg>'}
+function tx(x,y,t,o){o=o||{};return '<text x="'+x+'" y="'+y+'"'+(o.a?' text-anchor="'+o.a+'"':'')+(o.c?' class="'+o.c+'"':'')+'>'+t+'</text>'}
+function rc(x,y,w,h,f,r){return '<rect class="s" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+(r==null?8:r)+'" fill="'+f+'"/>'}
+function ln(x1,y1,x2,y2,o){o=o||{};return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+(o.s||'var(--ink)')+'" stroke-width="'+(o.w||2)+'"'+(o.d?' stroke-dasharray="'+o.d+'"':'')+(o.m?' marker-end="url(#ar)"':'')+' stroke-linecap="round"/>'}
+function ci(x,y,r,f){return '<circle class="s" cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+f+'"/>'}
+var FIG={
+daynight:function(){
+  var rays='<path class="s" d="M60 24v-8M60 80v8M32 52h-8M88 52h8M40 32l-6-6M80 72l6 6M40 72l-6 6M80 32l6-6" fill="none"/>';
+  var stars='<path stroke="#fff" stroke-width="2" stroke-linecap="round" d="M300 30v8M296 34h8M326 60v6M323 63h6M280 76v6M277 79h6"/>';
+  return SV(150,'白天有太陽、夜晚沒有太陽的對照圖',
+   rc(6,6,168,138,'var(--sky)',12)+ci(60,52,20,'var(--sunc)')+rays+tx(90,104,'白天',{a:'middle',c:'h'})+tx(90,122,'有陽光，看得清楚',{a:'middle'})+tx(90,138,'氣溫比較高',{a:'middle'})+
+   rc(186,6,168,138,'var(--night)',12)+ci(240,50,18,'#F5E9A8')+'<circle cx="249" cy="44" r="15" fill="var(--night)"/>'+stars+tx(270,104,'夜晚',{a:'middle',c:'h w'})+tx(270,122,'沒有陽光，要開燈',{a:'middle',c:'w'})+tx(270,138,'氣溫比白天低',{a:'middle',c:'w'}));
+},
+use:function(){
+  function chip(x,y,t,f){return rc(x,y,168,30,f,8)+tx(x+84,y+20,t,{a:'middle'})}
+  return SV(215,'太陽的光和熱在生活中的用途',
+   ci(180,28,18,'var(--sunc)')+tx(180,64,'太陽',{a:'middle',c:'h'})+
+   ln(160,44,100,76,{m:1})+ln(200,44,260,76,{m:1})+
+   tx(90,92,'光',{a:'middle',c:'h'})+tx(270,92,'熱',{a:'middle',c:'h'})+
+   chip(6,104,'植物行光合作用','var(--sky)')+chip(6,140,'光電板：光變成電','var(--sky)')+chip(6,176,'曬太陽生成維生素 D','var(--sky)')+
+   chip(186,104,'曬鹽、衣服、蝦乾','var(--warmbg)')+chip(186,140,'集熱器：把水加熱','var(--warmbg)')+chip(186,176,'促進水循環','var(--warmbg)'));
+},
+shadow:function(){
+  var s='',cs=[60,180,300],sun=[[22,50],[180,28],[338,50]],tip=[98,186,262],lab=[['9:00','影子長'],['12:00','影子最短'],['15:00','影子又變長']];
+  s+=tx(8,16,'東',{c:'h'})+tx(352,16,'西',{a:'end',c:'h'})+ln(6,130,354,130,{w:3});
+  cs.forEach(function(c,i){
+    var sh=i===1?[c,c+8]:(i===0?[c,tip[0]]:[tip[2],c]);
+    s+='<line x1="'+sh[0]+'" y1="130" x2="'+sh[1]+'" y2="130" stroke="var(--shade)" stroke-width="8" stroke-linecap="round"/>'+
+       ln(c,130,c,90,{w:4,s:'var(--trunk)'})+ln(sun[i][0],sun[i][1],tip[i],130,{d:'4 4',w:1.5})+ci(sun[i][0],sun[i][1],11,'var(--sunc)')+
+       tx(c,152,lab[i][0],{a:'middle',c:'h'})+tx(c,170,lab[i][1],{a:'middle'});
+  });
+  return SV(182,'一天中太陽位置和竿子影子的長短變化',s);
+},
+arcs:function(){
+  return SV(206,'四季太陽一天走過的路線高低不同',
+   ln(20,160,340,160,{w:3})+ln(180,160,180,24,{d:'3 5',w:1.5})+
+   '<path d="M30 160Q180 -80 330 160" fill="none" stroke="var(--warm)" stroke-width="4"/><path d="M30 160Q180 10 330 160" fill="none" stroke="var(--leafd)" stroke-width="4"/><path d="M30 160Q180 80 330 160" fill="none" stroke="var(--cool)" stroke-width="4"/>'+
+   tx(180,32,'夏至（最高）',{a:'middle',c:'h'})+tx(180,76,'春分、秋分',{a:'middle',c:'h'})+tx(180,111,'冬至（最低）',{a:'middle',c:'h'})+
+   tx(30,180,'東',{a:'middle',c:'h'})+tx(330,180,'西',{a:'middle',c:'h'})+tx(180,180,'南方天空・中午 12 時',{a:'middle'})+
+   tx(180,200,'中午的太陽高度角：夏至最大、冬至最小',{a:'middle',c:'m'}));
+},
+compass:function(){
+  var cx=130,cy=108,r=70,c25=Math.cos(25*Math.PI/180)*r,s25=Math.sin(25*Math.PI/180)*r,d=function(x,y,f){return ci(x,y,7,f)};
+  return SV(222,'從上往下看，四季日出日落的方位',
+   tx(8,16,'（從上往下看，上方是北）',{c:'m'})+
+   '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="var(--sky)" class="s"/>'+
+   tx(cx,cy-r-8,'北',{a:'middle',c:'h'})+tx(cx,cy+r+22,'南',{a:'middle',c:'h'})+tx(cx+r+10,cy+5,'東',{c:'h'})+tx(cx-r-10,cy+5,'西',{a:'end',c:'h'})+
+   d(cx+c25,cy-s25,'var(--warm)')+d(cx+r,cy,'var(--leafd)')+d(cx+c25,cy+s25,'var(--cool)')+
+   d(cx-c25,cy-s25,'var(--warm)')+d(cx-r,cy,'var(--leafd)')+d(cx-c25,cy+s25,'var(--cool)')+
+   tx(248,cy-s25+5,'夏至：東偏北',{c:'h'})+tx(248,cy+22-12,'春分、秋分：正東',{c:'h'})+tx(248,cy+s25+5,'冬至：東偏南',{c:'h'})+
+   tx(180,214,'日落位置左右對稱：夏至西偏北、冬至西偏南',{a:'middle',c:'m'}));
+},
+refract:function(){
+  return SV(226,'光從空氣斜斜進入水中會折射，水中的魚看起來比較淺',
+   rc(6,10,168,80,'var(--sky)',0)+rc(6,90,168,86,'var(--water)',0)+tx(150,32,'空氣',{a:'end'})+tx(150,128,'水',{a:'end'})+
+   ln(95,30,95,170,{d:'3 4',w:1.5})+ln(20,22,95,90,{m:1,w:3})+ln(95,90,128,168,{m:1,w:3})+
+   rc(186,10,168,60,'var(--sky)',0)+rc(186,70,168,106,'var(--water)',0)+
+   ci(212,34,8,'var(--paper)')+ln(216,40,272,112,{d:'4 4',w:1.5})+
+   '<ellipse class="s" cx="276" cy="150" rx="22" ry="10" fill="var(--warm)"/><path class="s" d="M298 150l14-9v18z" fill="var(--warm)"/>'+
+   '<ellipse cx="276" cy="112" rx="22" ry="10" fill="none" stroke="var(--ink)" stroke-width="2" stroke-dasharray="4 3"/>'+
+   tx(212,56,'眼睛',{a:'middle',c:'m'})+
+   tx(6,196,'左：光斜斜進入水中，路線偏折（折射）',{})+tx(6,214,'右：虛線是看到的位置，實心魚才是實際位置',{}));
+},
+prism:function(){
+  var cols=['#E53935','#FB8C00','#FDD835','#43A047','#1E88E5','#3949AB','#8E24AA'],names='紅橙黃綠藍靛紫',s='';
+  cols.forEach(function(c,i){var y=20+i*18;s+='<line x1="170" y1="65" x2="296" y2="'+y+'" stroke="'+c+'" stroke-width="3.5" stroke-linecap="round"/>'+tx(304,y+5,names[i],{c:'h'})});
+  return SV(158,'白色陽光通過三稜鏡分散成紅橙黃綠藍靛紫七種色光',
+   ln(14,65,130,65,{w:4})+tx(14,52,'陽光（白）',{})+'<path class="s" d="M150 22L108 108H192Z" fill="var(--sky)" fill-opacity=".7"/>'+s+tx(150,128,'三稜鏡',{a:'middle',c:'m'})+tx(180,150,'陽光是由不同色光組成的',{a:'middle',c:'h'}));
+},
+lens:function(){
+  return SV(160,'放大鏡中間厚周圍薄，光穿過後聚在一點',
+   '<path class="s" d="M150 14Q182 75 150 136Q118 75 150 14Z" fill="var(--water)" fill-opacity=".8"/>'+
+   [38,75,112].map(function(y){return ln(16,y,148,y,{m:0,w:2.5})+ln(152,y,268,75,{w:2.5})}).join('')+
+   ci(270,75,8,'var(--sunc)')+tx(270,58,'聚光點',{a:'middle',c:'h'})+tx(14,20,'陽光',{c:'h'})+tx(150,154,'中間厚、周圍薄（凸透鏡）',{a:'middle'}));
+},
+roots:function(){
+  var g=130,t='var(--trunk)';
+  var a=ln(60,g,60,70,{w:14,s:t})+'<path d="M60 84L96 74" stroke="'+t+'" stroke-width="7" fill="none" stroke-linecap="round"/>'+ci(60,52,28,'var(--leafc)')+ln(78,80,78,g-2,{w:3,s:t})+ln(92,77,92,g-2,{w:3,s:t});
+  var b='<path class="s" d="M174 122L150 130L174 98ZM186 122L210 130L186 98Z" fill="'+t+'"/>'+ln(180,126,180,60,{w:14,s:t})+ci(180,38,26,'var(--leafc)');
+  var c='<rect x="246" y="130" width="108" height="14" fill="var(--soil)"/>'+ln(300,130,300,72,{w:14,s:t})+ci(300,50,24,'var(--leafc)')+[264,278,322,336].map(function(x){return ln(x,130,x,114,{w:3,s:t})}).join('');
+  return SV(198,'榕樹氣生根、鳳凰木板根、海茄苳呼吸根的樣子',
+   ln(6,g,240,g,{w:3})+a+b+c+
+   tx(60,156,'榕樹',{a:'middle',c:'h'})+tx(60,174,'氣生根',{a:'middle'})+tx(60,192,'吸空氣中的水分',{a:'middle',c:'m'})+
+   tx(180,156,'鳳凰木',{a:'middle',c:'h'})+tx(180,174,'板根',{a:'middle'})+tx(180,192,'固定、增加呼吸面積',{a:'middle',c:'m'})+
+   tx(300,156,'海茄苳',{a:'middle',c:'h'})+tx(300,174,'呼吸根',{a:'middle'})+tx(300,192,'獲取氧氣',{a:'middle',c:'m'}));
+},
+env:function(){
+  function col(x,f,head,items){var s=rc(x,6,112,30,f,8)+tx(x+56,27,head,{a:'middle',c:'h'});items.forEach(function(t,i){s+=rc(x,44+i*30,112,25,'var(--paper)',6)+tx(x+56,61+i*30,t,{a:'middle'})});return s}
+  return SV(182,'植物在缺水、強風、低溫日晒環境的對策',
+   col(4,'var(--warmbg)','缺水',['葉面蠟質或硬挺','肉質葉儲水','葉子極小','針狀葉'])+col(124,'var(--sky)','強風',['植株矮小','莖緊貼地面','板根','莖彎曲生長'])+col(244,'var(--water)','低溫、日晒',['全株有絨毛','葉面有絨毛']));
+},
+photo:function(){
+  var g=186;
+  return SV(246,'葉片在陽光下進行光合作用，水從根經莖送到葉',
+   '<rect x="0" y="'+g+'" width="360" height="60" fill="var(--soil)"/>'+
+   ci(46,38,17,'var(--sunc)')+'<path class="s" d="M46 12v-6M46 64v6M20 38h-6M72 38h6" fill="none"/>'+tx(46,84,'陽光',{a:'middle',c:'h'})+ln(66,52,160,84,{m:1,w:3})+
+   ln(180,g,180,92,{w:7,s:'var(--leafd)'})+'<g transform="rotate(-14 220 88)"><ellipse class="s" cx="220" cy="88" rx="52" ry="22" fill="var(--leafc)"/></g>'+
+   ln(180,g,150,g+36,{w:4,s:'var(--trunk)'})+ln(180,g,210,g+36,{w:4,s:'var(--trunk)'})+ln(180,g,180,g+44,{w:4,s:'var(--trunk)'})+
+   ln(340,52,262,76,{m:1,w:3})+tx(300,42,'二氧化碳',{a:'middle',c:'h'})+
+   ln(262,104,334,124,{m:1,w:3})+tx(318,144,'氧氣',{a:'middle',c:'h'})+
+   ln(222,64,222,20,{m:1,w:2.5,s:'var(--cool)'})+tx(232,24,'水蒸氣（蒸散）',{})+
+   ln(194,g-6,194,120,{m:1,w:3,s:'var(--cool)'})+tx(206,160,'水',{c:'h'})+tx(168,126,'葉：製造養分',{a:'end'})+tx(250,g+34,'根：吸收水分',{c:'w'}));
+},
+flow:function(){
+  function b(x,h,t){return rc(x,8,104,54,'var(--paper)',10)+tx(x+52,30,h,{a:'middle',c:'h'})+tx(x+52,50,t,{a:'middle'})}
+  return SV(72,'水在植物裡的路線：根吸收、莖輸送、葉蒸散',
+   b(4,'根','吸收水分')+ln(110,35,128,35,{m:1,w:3})+b(128,'莖','輸送到全株')+ln(236,35,254,35,{m:1,w:3})+b(252,'葉','水蒸氣散出'));
+},
+flower:function(){
+  var pk='#F4A6C0',gr='#CFE8A0';
+  return SV(236,'花的構造：花瓣、花萼、雄蕊、雌蕊、子房和胚珠',
+   '<g transform="rotate(-28 125 118)"><ellipse class="s" cx="125" cy="118" rx="24" ry="46" fill="'+pk+'"/></g><g transform="rotate(28 235 118)"><ellipse class="s" cx="235" cy="118" rx="24" ry="46" fill="'+pk+'"/></g>'+
+   '<ellipse class="s" cx="180" cy="174" rx="36" ry="10" fill="var(--leafc)"/>'+
+   ln(160,158,148,102,{w:3})+ln(200,158,212,102,{w:3})+ci(146,96,7,'var(--sunc)')+ci(214,96,7,'var(--sunc)')+
+   '<rect class="s" x="177" y="98" width="6" height="36" fill="'+gr+'"/><ellipse class="s" cx="180" cy="152" rx="17" ry="21" fill="'+gr+'"/>'+ci(180,154,6,'var(--trunk)')+ci(180,92,8,'#E0568A')+
+   ln(262,48,190,90,{w:1.5})+tx(268,52,'柱頭',{c:'h'})+
+   ln(262,76,184,118,{w:1.5})+tx(268,80,'雌蕊',{c:'h'})+
+   ln(262,104,222,98,{w:1.5})+tx(268,108,'雄蕊（有花粉）',{c:'h'})+
+   ln(262,152,198,152,{w:1.5})+tx(268,156,'子房→果實',{c:'h'})+
+   ln(262,184,186,157,{w:1.5})+tx(268,188,'胚珠→種子',{c:'h'})+
+   ln(94,60,112,84,{w:1.5})+tx(90,58,'花瓣',{a:'end',c:'h'})+
+   ln(94,196,150,176,{w:1.5})+tx(90,200,'花萼',{a:'end',c:'h'})+
+   tx(180,226,'雄蕊和雌蕊是繁殖的重要部位',{a:'middle',c:'m'}));
+},
+seed:function(){
+  function cell(x,y,icon,a,b,c){return rc(x,y,168,86,'var(--paper)',10)+icon+tx(x+68,y+28,a,{c:'h'})+tx(x+68,y+49,b,{c:'m'})+tx(x+68,y+68,c,{c:'m'})}
+  var an=ci(40,50,13,'var(--warm)')+[[40,32,40,26],[40,68,40,74],[22,50,16,50],[58,50,64,50]].map(function(p){return ln(p[0],p[1],p[2],p[3],{w:2})}).join('');
+  var sp='<path class="s" d="M214 62Q214 40 230 36Q246 40 246 62Z" fill="var(--leafc)"/>'+ci(214,22,4,'var(--trunk)')+ci(228,14,4,'var(--trunk)')+ci(244,26,4,'var(--trunk)');
+  var wd=ln(40,184,40,148,{w:2})+[[40,134],[26,142],[54,142],[30,126],[50,126]].map(function(p){return ln(40,148,p[0],p[1],{w:1.5})+ci(p[0],p[1],3,'var(--paper)')}).join('');
+  var wt='<path d="M206 170q10 -10 20 0t20 0" fill="none" stroke="var(--cool)" stroke-width="3" stroke-linecap="round"/>'+ci(226,148,12,'var(--trunk)');
+  return SV(196,'種子傳播的四種方式：動物、自身彈力、風力、水力',
+   cell(6,6,an,'動物','多肉多汁或倒勾刺','榕樹、大花咸豐草')+
+   cell(186,6,sp,'自身彈力','成熟後迸開彈出','非洲鳳仙花')+
+   cell(6,102,wd,'風力','有絨毛或薄翅','蒲公英、青楓')+
+   cell(186,102,wt,'水力','具有浮水性','椰子樹、棋盤腳'));
+},
+binary:function(){
+  function bx(x,y,w,h,f,l){var s=rc(x,y,w,h,f,8);l.forEach(function(t,i){s+=tx(x+w/2,y+19+i*18,t,{a:'middle',c:i===0?'h':''})});return s}
+  return SV(214,'二分法分類植物的例子',
+   bx(30,4,300,42,'var(--paper)',['布袋蓮、蓮、大萍、樟樹、甘藷、蛇莓','生長在水中嗎？'])+
+   ln(110,46,90,74,{m:1})+tx(88,64,'是',{a:'end',c:'h'})+ln(250,46,270,74,{m:1})+tx(274,64,'否',{c:'h'})+
+   bx(6,76,168,60,'var(--water)',['生長在水中','布袋蓮、蓮、大萍','再問：會漂浮嗎？'])+bx(186,76,168,60,'var(--land-b)',['不在水中','樟樹、甘藷、蛇莓','再問：有木本莖嗎？'])+
+   ln(45,136,45,160,{m:1})+ln(135,136,135,160,{m:1})+ln(225,136,225,160,{m:1})+ln(315,136,315,160,{m:1})+
+   tx(40,152,'是',{a:'end',c:'h'})+tx(140,152,'否',{c:'h'})+tx(220,152,'是',{a:'end',c:'h'})+tx(320,152,'否',{c:'h'})+
+   bx(3,162,84,46,'var(--paper)',['會漂浮','布袋蓮、大萍'])+bx(93,162,84,46,'var(--paper)',['不漂浮','蓮'])+bx(183,162,84,46,'var(--paper)',['有木本莖','樟樹'])+bx(273,162,84,46,'var(--paper)',['沒有','甘藷、蛇莓']));
+}
+};
+
+var FIGMAP={'白天和夜晚':['daynight'],'生活中怎麼用太陽':['use'],'一天中樹影的變化':['shadow'],'日出和日落的方位':['compass'],'中午 12 時的太陽高度角':['arcs'],
+ '彩虹和陽光的顏色':['prism'],'光的折射':['refract'],'放大鏡':['lens'],'校園裡的植物':['roots'],'海邊植物（缺水、強風、高鹽）':['env'],
+ '光合作用':['photo'],'水怎麼走':['flow'],'花和果實':['flower'],'種子怎麼旅行':['seed'],'二分法例子':['binary']};
+var TIPS={a1:'光變電（光電板）、熱加熱（集熱器）',a2:'影子在太陽的對面；中午太陽最高，影子最短',a3:'夏至最高、日出最早；冬至最低、日出最晚',a4:'斜斜進入才折射；背向太陽才看得到彩虹',
+ b1:'海邊防缺水、抗鹽；高山防風、防凍、防日晒',b2:'根吸、莖送、葉散',b3:'風有翅有毛、水會浮、彈會裂、動物吃或勾',b4:'二分法：一次一個標準，可以一直分下去'};
+var QA={a1:[['太陽能光電板是把什麼變成什麼？','太陽的光能變成電能。'],['在臺灣安裝太陽能板，要朝哪個方向？','朝南方。']],
+ a2:[['中午 12 時，影子在哪個方向？長度怎麼樣？','在北方，長度最短。'],['太陽在東南方，竿影在哪裡？','西北方（方位相反）。']],
+ a3:[['哪個節氣的中午，太陽高度角最大？','夏至。'],['冬至的日出在哪個方位？','東偏南。']],
+ a4:[['在陽光下用噴水器製造彩虹，要面向還是背向太陽？','背向太陽，朝有陰影的地方噴。'],['水中的魚，實際位置比看到的淺還是深？','比看到的更深。']],
+ b1:[['哪一種植物長出呼吸根來獲取氧氣？','海茄苳。'],['玉山薄雪草怎麼抵抗低溫和日晒？','全株有絨毛。']],
+ b2:[['水在植物裡走的路線是什麼？','根吸收 → 莖輸送 → 葉蒸散。'],['光合作用需要什麼原料？會產生什麼？','需要二氧化碳和水，產生養分並釋放氧氣。']],
+ b3:[['青楓靠什麼方式傳播種子？','風力（果實有薄翅）。'],['玉米的每一朵花都同時有雄蕊和雌蕊嗎？','不是，每朵花只有雄蕊或雌蕊。']],
+ b4:[['二分法一次用幾個標準？','一個，分成符合和不符合兩類。'],['「花開得美不美」適合當分類標準嗎？','不適合，分類標準要明確。']]};
+
+/* ---- animation overlays ---- */
+function AN(base,extra){return function(){return base().replace(/<\/svg>$/,extra()+'</svg>')}}
+function mdot(path,dur,fill,begin,r,o){o=o||{};var vis=o.vis||'0;1;1;0',kt=o.kt||'0;.1;.85;1';
+  return '<circle r="'+(r||5)+'" fill="'+fill+'" stroke="var(--edge)" stroke-width="1.5"><animateMotion dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite" path="'+path+'"/><animate attributeName="opacity" values="'+vis+'" keyTimes="'+kt+'" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/></circle>'}
+function pulse(cx,cy,r1,r2,dur,stroke,begin){return '<circle cx="'+cx+'" cy="'+cy+'" r="'+r1+'" fill="none" stroke="'+stroke+'" stroke-width="3"><animate attributeName="r" values="'+r1+';'+r2+'" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;0" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/></circle>'}
+var FIGBASE={};Object.keys(FIG).forEach(function(k){FIGBASE[k]=FIG[k]});
+FIG.daynight=AN(FIGBASE.daynight,function(){
+  return pulse(60,52,20,32,2.4,'var(--sunc)')+pulse(60,52,20,32,2.4,'var(--sunc)',1.2)+
+   [[300,34],[326,62],[280,78],[330,28]].map(function(p,i){return '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="2.5" fill="#fff"><animate attributeName="opacity" values="1;.1;1" dur="'+(1.4+i*.3)+'s" repeatCount="indefinite"/></circle>'}).join('');
+});
+FIG.use=AN(FIGBASE.use,function(){
+  return pulse(180,28,18,30,2.4,'var(--sunc)')+mdot('M160 44L100 76',2.2,'var(--sunc)',0,5)+mdot('M200 44L260 76',2.2,'var(--warm)',.6,5);
+});
+FIG.arcs=AN(FIGBASE.arcs,function(){
+  return mdot('M30 160Q180 -80 330 160',7,'var(--warm)',0,9,{vis:'1;1;1;1',kt:'0;.1;.9;1'})+mdot('M30 160Q180 10 330 160',7,'var(--leafd)',0,9,{vis:'1;1;1;1',kt:'0;.1;.9;1'})+mdot('M30 160Q180 80 330 160',7,'var(--cool)',0,9,{vis:'1;1;1;1',kt:'0;.1;.9;1'});
+});
+FIG.compass=AN(FIGBASE.compass,function(){
+  var cx=130,cy=108,r=70,c=Math.cos(25*Math.PI/180)*r,s=Math.sin(25*Math.PI/180)*r;
+  return pulse(cx+c,cy-s,7,16,2,'var(--warm)')+pulse(cx+r,cy,7,16,2,'var(--leafd)',.6)+pulse(cx+c,cy+s,7,16,2,'var(--cool)',1.2);
+});
+FIG.refract=AN(FIGBASE.refract,function(){
+  return mdot('M20 22L95 90L128 168',3,'#fff',0,6)+mdot('M216 40L272 112',3,'#fff',.4,4);
+});
+FIG.prism=AN(FIGBASE.prism,function(){
+  var cols=['#E53935','#FB8C00','#FDD835','#43A047','#1E88E5','#3949AB','#8E24AA'],s='';
+  s+='<circle r="6" fill="#fff" stroke="var(--edge)" stroke-width="1.5"><animateMotion dur="4s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;.4;1" calcMode="linear" path="M14 65L170 65"/><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;.39;.4;1" dur="4s" repeatCount="indefinite"/></circle>';
+  cols.forEach(function(c,i){var y=20+i*18;s+='<circle r="4.5" fill="'+c+'" stroke="var(--edge)" stroke-width="1.2"><animateMotion dur="4s" repeatCount="indefinite" keyPoints="0;0;1" keyTimes="0;.4;1" calcMode="linear" path="M170 65L296 '+y+'"/><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.4;.41;1" dur="4s" repeatCount="indefinite"/></circle>'});
+  return s;
+});
+FIG.lens=AN(FIGBASE.lens,function(){
+  return [38,75,112].map(function(y,i){return mdot('M16 '+y+'L150 '+y+'L270 75',3,'var(--sunc)',i*.25,4.5)}).join('')+pulse(270,75,8,18,1.5,'var(--sunc)',1.5);
+});
+FIG.photo=AN(FIGBASE.photo,function(){
+  return mdot('M66 52L160 84',2.4,'var(--sunc)',0,5)+mdot('M340 52L262 76',2.4,'#9AA7AD',.5,5)+mdot('M262 104L334 124',2.4,'#C9E7F7',1,5)+
+   mdot('M194 180L194 120L215 100',3,'var(--cool)',0,5)+mdot('M194 180L194 120L215 100',3,'var(--cool)',1.5,5)+mdot('M222 64L222 20',2.4,'#DCEBF2',.8,4);
+});
+FIG.flow=AN(FIGBASE.flow,function(){
+  return mdot('M30 35L180 35L330 35',4,'var(--cool)',0,6)+mdot('M30 35L180 35L330 35',4,'var(--cool)',2,6);
+});
+FIG.flower=AN(FIGBASE.flower,function(){
+  return mdot('M146 96Q160 60 180 90',3,'var(--sunc)',0,4.5)+mdot('M214 96Q200 60 180 90',3,'var(--sunc)',1.5,4.5)+tx(180,24,'花粉從雄蕊傳到柱頭＝授粉',{a:'middle',c:'h'});
+});
+FIG.seed=AN(FIGBASE.seed,function(){
+  var s='',i;
+  for(i=0;i<3;i++)s+=mdot('M214 40Q230 '+(10-i*4)+' 262 '+(18+i*14),2.4,'var(--trunk)',i*.7,3.5);
+  for(i=0;i<3;i++)s+=mdot('M40 148L'+(80+i*10)+' '+(120+i*14),3,'var(--paper)',i*.9,3.5);
+  s+='<circle cx="226" cy="148" r="13" fill="var(--trunk)" stroke="var(--edge)" stroke-width="2"><animateTransform attributeName="transform" type="translate" values="0 0;0 -4;0 0" dur="2s" repeatCount="indefinite"/></circle>';
+  return s;
+});
+/* interactive shadow */
+FIG.shadow=function(){
+  return '<div class="sdui">'+SV(196,'拖曳時間，看太陽位置和影子的變化',
+    tx(8,16,'東',{c:'h'})+tx(352,16,'西',{a:'end',c:'h'})+ln(6,165,354,165,{w:3})+
+    '<line class="sd-shadow" x1="180" y1="165" x2="180" y2="165" stroke="var(--shade)" stroke-width="9" stroke-linecap="round"/>'+
+    '<line class="sd-ray" x1="180" y1="125" x2="180" y2="125" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="4 4"/>'+
+    ln(180,165,180,125,{w:5,s:'var(--trunk)'})+
+    '<circle class="s sd-sun" cx="180" cy="20" r="11" fill="var(--sunc)"/>'+
+    '<text class="h sd-time" x="180" y="188" text-anchor="middle"></text>')+
+   '<div class="sdctl"><button type="button" class="btn btn-sm sd-play">暫停</button><input class="sd-range" type="range" min="6" max="18" step="0.05" value="9" aria-label="一天中的時間"><output class="sd-out"></output></div><p class="sd-note"></p></div>';
+};
+var ANIM={on:true,raf:0};
+function initShadow(root){
+  var el=root.querySelector('.sdui');if(!el)return;
+  var sun=el.querySelector('.sd-sun'),ray=el.querySelector('.sd-ray'),sh=el.querySelector('.sd-shadow'),rg=el.querySelector('.sd-range'),tm=el.querySelector('.sd-time'),nt=el.querySelector('.sd-note'),pb=el.querySelector('.sd-play'),out=el.querySelector('.sd-out');
+  var t=9,last=0,R=105,h=40,G=165;
+  function bins(t){return t<8?['東方','西方']:t<11?['東偏南','西偏北']:t<13?['南方','北方']:t<16?['西偏南','東偏北']:['西方','東方']}
+  function draw(){
+    var f=Math.min(Math.max(Math.PI*(t-6)/12,.1),Math.PI-.1),c=Math.cos(f),s=Math.sin(f);
+    var tip=Math.min(Math.max(180+h*c/s,12),348),sx=180-R*c,sy=G-h-R*s;
+    sun.setAttribute('cx',sx);sun.setAttribute('cy',sy);
+    ray.setAttribute('x1',tip);ray.setAttribute('y1',G);ray.setAttribute('x2',sx);ray.setAttribute('y2',sy);
+    sh.setAttribute('x2',tip);
+    var L=Math.abs(tip-180),b=bins(t),hh=Math.floor(t),mm=Math.round((t-hh)*60);if(mm===60){hh++;mm=0}
+    var txt=hh+':'+(mm<10?'0':'')+mm;tm.textContent=txt;out.textContent=txt;
+    rg.value=t;
+    nt.textContent='太陽約在'+b[0]+'，影子在'+b[1]+'，影子'+(L<20?'最短':L<70?'較短':'較長')+'。'+(t>=11&&t<13?'（中午，太陽最高）':'');
+  }
+  function tick(ts){
+    if(!el.isConnected){ANIM.raf=0;return}
+    if(ANIM.on&&last){t+=(ts-last)/1000*1.4;if(t>18)t=6;draw()}
+    last=ts;ANIM.raf=requestAnimationFrame(tick);
+  }
+  rg.oninput=function(){t=+rg.value;draw();ANIM.on=false;pb.textContent='播放';syncAnim()};
+  pb.onclick=function(){ANIM.on=!ANIM.on;pb.textContent=ANIM.on?'暫停':'播放';syncAnim()};
+  draw();pb.textContent=ANIM.on?'暫停':'播放';
+  cancelAnimationFrame(ANIM.raf);ANIM.raf=requestAnimationFrame(tick);
+}
+function syncAnim(){
+  var sh=document.getElementById('sheet');if(!sh)return;
+  sh.querySelectorAll('svg.fig').forEach(function(sv){try{ANIM.on?sv.unpauseAnimations():sv.pauseAnimations()}catch(e){}});
+  var b=document.getElementById('animbtn');if(b)b.textContent=ANIM.on?'暫停動畫':'播放動畫';
+  var p=sh.querySelector('.sd-play');if(p)p.textContent=ANIM.on?'暫停':'播放';
+}
+
+ANIM.on=!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+var PHOTOS={
+'太陽的光和熱有什麼用':[['kids','人適當曬太陽，可以產生維生素 D'],['turtle','太陽的熱讓動物溫暖、有活動的能量'],['grass','植物利用陽光行光合作用，製造養分']],
+'生活中怎麼用太陽':[['salt','太陽的熱把海水蒸發，製成鹽'],['clothes','太陽的熱把衣服上的水分曬乾'],['shrimp','曬蝦乾'],['fish','曬魚乾'],['persimmon','曬柿餅'],['roof','屋頂上的太陽能光電板（遮陽和發電）'],['lamp','路燈：光電板把光能變成電能'],['ev','光電板為電動車充電'],['heater','太陽能集熱器：用熱把水加熱，供應熱水']],
+'一天中樹影的變化':[['treeshadow','同一棵樹，9:00、12:00、15:00 的影子（左東右西）',1]],
+'日晷':[['sundial','日晷和晷針的影子',1],['sundial3','上午 9 點、中午 12 點、下午 3 點，晷針影子落在晷面的位置',1]],
+'怎麼觀測太陽':[['sunpath','太陽一天在天空中的位置（東邊升起、中午最高、西邊落下）',1],['skydome','半球形的天空：太陽在天空中畫出的路徑',1]],
+'日出和日落的方位':[['sunrise','臺東三仙台：夏至和冬至的日出（北上南下）',1],['sunset','臺南四草大橋：四季日落的位置',1]],
+'太陽東升西落的原因':[['rotation','地球自轉：面向太陽的一面是白天',1]],
+'彩虹和陽光的顏色':[['rainbow','下雨後，陽光照射空中的小水滴，可能出現彩虹',1],['fountain_prism','噴水池旁的水霧、三稜鏡，也會分散出彩虹色光',1]],
+'光的折射':[['legstraw','泡在水中的腳看起來變短、水中的吸管看起來像斷掉',1],['refract_box','雷射光在空氣、水中直進；斜斜進入不同物質才會偏折',1],['cliff','白色虛線是眼睛看到的石頭和池底（比實際淺）',1],['fishnet','撈魚時，瞄準看到的位置會撈不到',1]],
+'放大鏡':[['lens_photo','放大鏡中間厚、周圍薄，是凸透鏡',1],['lens_focus','陽光穿透放大鏡，匯聚成光點（不可以用來看太陽）',1]],
+'校園裡的植物':[['roots3','榕樹的氣生根、鳳凰木的板根、樟樹的木本莖',1],['floatplants','大萍和布袋蓮漂浮在水面',1]],
+'海邊植物（缺水、強風、高鹽）':[['coastal','海茄苳、濱水菜、木麻黃（課本）',1]],
+'高山植物（強風、低溫、日晒強）':[['alpine','玉山杜鵑、玉山薄雪草、玉山圓柏（課本）',1]],
+'光合作用':[['photodiagram','光合作用：二氧化碳和水，在陽光下變成養分和氧氣',1]],
+'水怎麼走':[['wilt','缺水的葉片下垂，澆水後恢復挺直',1],['dye','紅色色素水實驗：觀察水在植物裡的路線',1]],
+'花和果實':[['kumquat','金桔的花、果實和種子',1],['azalea_corn','杜鵑的每朵花有雄蕊和雌蕊；玉米的每朵花只有雄蕊或雌蕊',1],['flowerdiagram','花的構造和授粉',1],['pollination','蜜蜂幫助授粉；水稻花小，靠風傳播花粉',1]],
+'種子怎麼旅行':[['disp_animal','動物傳播',1],['disp_spring','自身彈力傳播',1],['disp_wind','風力傳播',1],['disp_water','水力傳播',1]],
+'不只用種子繁殖':[['propagation','用葉、莖、根繁殖：落地生根、萬年青、甘藷',1]],
+'怎麼認識植物':[['plants4','樟樹、蛇莓、甘藷、大萍的特徵（課本）',1]],
+'二分法例子':[['binarytree','課本的二分法樹狀圖',1]]
+};
+function phHtml(c){
+  var a=PHOTOS[c.h];if(!a)return'';
+  return '<div class="ph">'+a.map(function(x){return'<figure class="'+(x[2]?'full':'')+'"><img src="img/nat5/'+x[0]+'.jpg" alt="'+x[1]+'" data-zoom="1" onerror="this.outerHTML='<div class=imgerr>圖片載入失敗：請確認 img/nat5 資料夾和 island.html 放在一起，並用網址（不是預覽窗）開啟</div>'"><figcaption>'+x[1]+'</figcaption></figure>'}).join('')+'</div>';
+}
+function zoom(src,alt){var lb=document.getElementById('lb');lb.innerHTML='<img src="'+src+'" alt="'+alt+'"><span>點一下關閉</span>';lb.classList.add('on')}
+
+var byId={};L.forEach(function(p){byId[p.id]=p});
+var done={};try{done=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}}
+
+function bg(){
+  var KY=1.35,s='<svg viewBox="0 0 720 '+Math.round(860*KY)+'" aria-hidden="true">';
+  s+='<g fill="none" stroke="var(--line)" stroke-width="2" opacity=".8"><circle cx="720" cy="0" r="120"/><circle cx="720" cy="0" r="170"/><circle cx="720" cy="0" r="220"/><circle cx="0" cy="1161" r="120"/><circle cx="0" cy="1161" r="170"/></g>';
+  function T(cy,g){return '<g transform="translate(0,'+(cy*(KY-1))+')">'+g+'</g>'}
+  s+='<g transform="scale(1 '+KY+')" stroke="var(--edge)" stroke-width="4">';
+  s+='<path vector-effect="non-scaling-stroke" d="M60 200C50 130 140 100 230 110C330 105 420 150 425 240C432 330 400 420 330 470C250 510 140 500 90 430C45 370 70 280 60 200Z" fill="var(--land-a)"/>';
+  s+='<path vector-effect="non-scaling-stroke" d="M300 640C290 570 380 540 470 548C570 540 670 580 680 670C690 760 640 815 540 822C440 830 330 810 305 740C295 705 303 670 300 640Z" fill="var(--land-b)"/>';
+  s+='<path vector-effect="non-scaling-stroke" d="M520 110C520 70 590 50 640 62C690 75 700 130 670 170C640 205 560 200 530 165C512 145 518 128 520 110Z" fill="var(--land-c)"/>';
+  s+='<path vector-effect="non-scaling-stroke" d="M350 470C370 510 380 530 395 552" fill="none" stroke-width="16" stroke-linecap="round"/><path vector-effect="non-scaling-stroke" d="M350 470C370 510 380 530 395 552" fill="none" stroke="var(--land-a)" stroke-width="9" stroke-linecap="round" stroke-dasharray="3 12"/>';
+  s+='<path vector-effect="non-scaling-stroke" d="M145 205L320 262L160 375L340 440L445 622L595 610L390 745L580 762" fill="none" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" opacity=".55"/>';
+  s+='</g>';
+  s+=T(150,'<g stroke="var(--edge)" stroke-width="3"><circle cx="90" cy="150" r="22" fill="var(--sun)"/></g><g stroke="var(--edge)" stroke-width="3" stroke-linecap="round"><path d="M90 112v-10M90 188v10M52 150h-10M128 150h10M63 123l-7-7M117 177l7 7M63 177l-7 7M117 123l7-7"/></g>');
+  s+=T(330,'<g stroke="var(--edge)" stroke-width="3" stroke-linejoin="round"><circle cx="260" cy="330" r="12" fill="var(--paper)"/><path d="M272 330l30 14-4 6z" fill="var(--pick)"/></g>');
+  s+=T(420,'<g stroke="var(--edge)" stroke-width="3" stroke-linejoin="round"><path d="M110 440l20-34 20 34z" fill="var(--land-b)"/></g>');
+  [[340,690],[515,700],[640,700],[430,790],[520,790]].forEach(function(p){s+=T(p[1],'<g stroke="var(--edge)" stroke-width="3" stroke-linejoin="round"><rect x="'+(p[0]-4)+'" y="'+p[1]+'" width="8" height="18" fill="var(--trunk)"/><circle cx="'+p[0]+'" cy="'+(p[1]-6)+'" r="16" fill="var(--grass)"/></g>')});
+  s+=T(160,'<g stroke="var(--edge)" stroke-width="3" stroke-linejoin="round"><path d="M545 185l8-50h20l8 50z" fill="var(--paper)"/><path d="M549 155h28M547 170h32" fill="none"/><path d="M553 135l10-14 10 14z" fill="var(--bad)"/></g>');
+  [[470,300],[100,640],[200,740],[640,330]].forEach(function(p){s+=T(p[1],'<path d="M'+p[0]+' '+p[1]+'q12 -10 24 0t24 0" fill="none" stroke="var(--blue)" stroke-width="3" stroke-linecap="round" opacity=".7"/>')});
+  s+='</svg>';
+  return s;
+}
+function pinHtml(p){
+  var i=L.indexOf(p),n=p.boss?'★':(i+1);
+  return '<button class="pin'+(p.boss?' boss':'')+(done[p.id]?' done':'')+'" data-id="'+p.id+'" style="left:'+(p.x/7.2)+'%;top:'+(p.y/8.6)+'%" aria-label="'+p.name+(done[p.id]?'（已學）':'')+'"><span class="dot">'+n+'</span><span class="lbl">'+p.name+'</span></button>';
+}
+function tags(){
+  return '<span class="tag" style="left:23%;top:12%">第 1 單元　太陽的祕密</span><span class="tag" style="left:60%;top:92%">第 2 單元　千變萬化的植物</span>';
+}
+function updateProg(){
+  var T=L.filter(function(p){return !p.boss}),n=T.filter(function(p){return done[p.id]}).length;
+  document.getElementById('pt').textContent='已學 '+n+' / '+T.length;
+  document.getElementById('pb').style.width=(n/T.length*100)+'%';
+}
+function draw(){
+  var m=document.getElementById('map');
+  m.innerHTML=bg()+tags()+L.map(pinHtml).join('');
+  m.querySelectorAll('.pin').forEach(function(b){b.onclick=function(){open(b.dataset.id)}});
+  updateProg();
+}
+function esc(s){return s}
+function cardHtml(c){
+  var s='<div class="card"><h3>'+c.h+'</h3>'+(FIGMAP[c.h]||[]).map(function(n){return'<div class="figw">'+FIG[n]()+'</div>'}).join('')+phHtml(c);
+  if(c.table){s+='<table><thead><tr>'+c.table.h.map(function(x){return'<th>'+x+'</th>'}).join('')+'</tr></thead><tbody>'+c.table.r.map(function(r){return'<tr>'+r.map(function(x,k){return'<td'+(k===0?' style="font-weight:700"':'')+'>'+x+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table>'}
+  if(c.li)s+='<ul>'+c.li.map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul>';
+  return s+'</div>';
+}
+var last=null;
+function open(id){
+  var p=byId[id];last=document.activeElement;
+  var href='index.html?u='+p.u+(p.t>=0?'&t='+p.t:'');
+  var h='<div class="sh-top"><div><div class="u">'+p.unit+'</div><h2 id="st">'+p.name+'</h2></div><button class="x" id="cx" aria-label="關閉">×</button></div>'
+   +'<p class="intro">'+p.intro+'</p>'+(p.boss?'':'<div class="animbar"><button type="button" class="btn btn-sm" id="animbtn">暫停動畫</button></div>')+p.cards.map(cardHtml).join('')+(TIPS[p.id]?'<div class="tip">記憶口訣：'+TIPS[p.id]+'</div>':'')+(p.trap?'<div class="trap">'+p.trap+'</div>':'');
+  if(QA[p.id])h+='<div class="qa"><h3>想一想</h3>'+QA[p.id].map(function(x){return'<details><summary>'+x[0]+'</summary><p>'+x[1]+'</p></details>'}).join('')+'</div>';
+  if(p.jumps)h+='<div class="mini">'+p.jumps.map(function(j){return'<button data-j="'+j+'">'+byId[j].name+'</button>'}).join('')+'</div><div style="height:12px"></div>';
+  h+='<p class="credit">照片和圖表出自課本（康軒版五年級自然）掃描，點圖可放大；動畫與示意圖為自製。</p>';
+  h+='<div class="cta"><a class="btn btn-primary" id="go" href="'+href+'">'+(p.boss?'開始期中總複習':'我看完了，開始刷題')+'</a><button class="btn" id="ok">'+(done[p.id]?'回到地圖':'標記為已學，回地圖')+'</button></div>';
+  var sh=document.getElementById('sheet');sh.innerHTML=h;sh.scrollTop=0;
+  document.getElementById('ov').classList.add('on');document.body.style.overflow='hidden';
+  document.getElementById('cx').focus();
+  document.getElementById('cx').onclick=close;
+  document.getElementById('ok').onclick=function(){if(!p.boss){done[p.id]=1;save()}close();draw()};
+  document.getElementById('go').onclick=function(){if(!p.boss){done[p.id]=1;save()}};
+  var ab=document.getElementById('animbtn');if(ab)ab.onclick=function(){ANIM.on=!ANIM.on;syncAnim()};
+  initShadow(sh);syncAnim();
+  sh.querySelectorAll('[data-j]').forEach(function(b){b.onclick=function(){open(b.dataset.j)}});
+}
+function close(){document.getElementById('ov').classList.remove('on');document.body.style.overflow='';if(last&&last.focus)try{last.focus()}catch(e){}}
+document.getElementById('lb').onclick=function(){this.classList.remove('on')};
+document.getElementById('sheet').addEventListener('click',function(e){var t=e.target;if(t.dataset&&t.dataset.zoom)zoom(t.src,t.alt)});
+document.getElementById('ov').onclick=function(e){if(e.target===this)close()};
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){var lb=document.getElementById('lb');if(lb.classList.contains('on'))lb.classList.remove('on');else close()}});
+draw();
+})();
+</script>
+</body></html>

@@ -1542,6 +1542,7 @@ function renderHome(){
    +'<div class="rank"><div class="rank-top"><span class="rank-title">Lv.'+li.L+'　'+esc(li.title)+'</span><span class="num hint">'+li.into+' / '+XP_PER_LV+' XP</span></div><div class="bar"><i style="width:'+Math.round(li.into/XP_PER_LV*100)+'%"></i></div></div></header>'
    +'<div class="subj" role="group" aria-label="選擇年級">'+['六年級','五年級'].map(function(g){return'<button class="btn subjbtn" data-gr="'+g+'" aria-pressed="'+(grade===g)+'">'+g+'</button>'}).join('')+'</div>'
    +'<div class="subj" role="group" aria-label="選擇科目" style="grid-template-columns:repeat('+GR[grade].length+',1fr)">'+GR[grade].map(function(s){return'<button class="btn subjbtn" data-sub="'+s.replace('五年級','')+'" data-s="'+s+'" aria-pressed="'+(S.subj===s)+'">'+s.replace('五年級','')+'</button>'}).join('')+'</div>'
+   +(S.subj==='五年級自然'?'<a class="btn btn-wide" href="island.html" style="text-decoration:none;margin-bottom:12px">先去學習島看教學</a>':'')
    +'<div class="units">'+units+'</div>'
    +'<div class="row2"><button class="btn btn-sun" data-go="mix">'+S.subj.replace('五年級','')+'混合挑戰</button><button class="btn" data-go="wrong"'+(wc?'':' disabled')+'>錯題本（'+wc+'）</button></div>'
    +'<div class="foot"><span>題庫 '+BANK.length+' 題（六年級四科＋五年級四科）：選擇、是非、填空、連連看、排順序、分類</span><button class="btn btn-sm" id="snd">聲音：'+(P.sound?'開':'關')+'</button></div>'
@@ -2122,6 +2123,10 @@ fill(43,0,2,"上午到中午，影子的長度逐漸變{}；中午到下午，�
 fill(43,2,1,"仙人掌的葉子變成{}，可以減少水分散失。",["刺", "花", "果實", "根"],["刺"],"仙人掌的葉子變成刺，減少水分蒸散，莖則能儲水。");
 fill(43,3,2,"蒲公英的種子靠{}傳播，椰子的果實靠{}傳播。",["風", "水", "動物", "彈力"],["風", "水"],"不同的植物會用不同的方法，把種子傳播到遠處。");
 renderHome();
+try{
+  var qp=new URLSearchParams(location.search),qu=+qp.get('u'),qt=qp.has('t')?+qp.get('t'):-1;
+  if(qu&&UNITS[qu]){S.subj=UNITS[qu].subj;P.subj=S.subj;S.topic[qu]=qt;save();renderHome();startRound({u:qu,t:qt});history.replaceState(null,'',location.pathname)}
+}catch(e){}
 })();
 </script>
 
