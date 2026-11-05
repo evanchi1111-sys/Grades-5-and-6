@@ -59,7 +59,7 @@ export const GRADES = [
         teach: null, u: 8, midU: 12, kaoguU: 37, mid: 'kt-g6-math-mid', kaogu: 'kaogu-g6-math' }),
       subject({ id: 'soc', name: '社會', building: 'museum', buildingName: '歷史博物館', color: '#f2b93b',
         desc: '單元一、二：消費與理財、戰後經濟與建設',
-        teach: null, u: 3, midU: 34, kaoguU: 38, mid: 'kt-g6-soc-mid', kaogu: 'kaogu-g6-soc' }),
+        teach: 'island-g6-soc.html', u: 3, midU: 34, kaoguU: 38, mid: 'kt-g6-soc-mid', kaogu: 'kaogu-g6-soc' }),
       subject({ id: 'nat', name: '自然', building: 'lab', buildingName: '科學實驗室', color: '#6cc56a',
         desc: '單元一、二：熱的影響與傳播、多變的天氣',
         teach: 'island-g6-nat.html', u: 1, midU: 35, kaoguU: 39, mid: 'kt-g6-nat-mid', kaogu: 'kaogu-g6-sci' }),
