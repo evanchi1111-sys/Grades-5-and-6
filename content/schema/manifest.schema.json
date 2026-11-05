@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "已發布教材清單 (manifest)",
+  "description": "學生端與 3D 冒險島只讀這個清單。只有 status 為 published 的單元才會出現；單元內容則依 file 讀取。",
+  "type": "object",
+  "required": ["schemaVersion", "generatedAt", "units"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "generatedAt": { "type": "string" },
+    "units": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["unitId", "grade", "subject", "subjectName", "unitNumber", "unitTitle", "version", "status", "file"],
+        "properties": {
+          "unitId": { "type": "string", "pattern": "^G(1[0-2]|[1-9])-[A-Z]{3,4}-U[0-9]{2}$" },
+          "grade": { "type": "integer", "minimum": 1, "maximum": 12 },
+          "subject": { "type": "string", "pattern": "^[A-Z]{3,4}$" }, "subjectName": { "type": "string" },
+          "unitNumber": { "type": "integer", "minimum": 1 }, "unitTitle": { "type": "string" },
+          "version": { "type": "integer", "minimum": 1, "description": "目前生效的版本；回復版本＝把這個數字改回舊版" },
+          "status": { "enum": ["published", "archived"] },
+          "file": { "type": "string", "description": "例如 content/units/G5-NAT-U01@v2.json（每個版本各一個檔，不覆蓋）" },
+          "publishedAt": { "type": "string" },
+          "legacy": { "type": "object", "properties": { "teachUrl": { "type": "string" }, "quizUrl": { "type": "string" } }, "description": "對應既有教材頁與刷題連結（維持原網址）" }
+        }
+      }
+    }
+  }
+}
