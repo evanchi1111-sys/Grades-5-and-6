@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>學習冒險島</title>
+<meta name="description" content="國小五、六年級 3D 學習冒險島：從島嶼進入教材、刷題與考卷。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="adventure/style.css">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="app">
+  <div id="stage">
+    <canvas id="c" aria-label="3D 學習冒險島場景"></canvas>
+    <div id="labels" aria-hidden="true"></div>
+    <div id="tip" aria-hidden="true"></div>
+  </div>
+  <div id="ui"></div>
+</div>
+
+<div id="loading"><div class="spin"></div><p>正在搭建學習島…</p></div>
+
+<!-- 備援：即使 JavaScript、3D 或 CDN 全部失敗，仍可進入原有網站 -->
+<section id="static-fallback" hidden>
+  <h1>學習冒險島</h1>
+  <p class="why">3D 場景暫時無法載入，請從下面的入口繼續學習。</p>
+  <p class="fb-links"><a href="index.html">刷題小勇者</a> ・ <a href="overview.html">學習總覽（所有考卷）</a> ・ <a href="home-classic.html">傳統首頁</a></p>
+</section>
+<noscript>
+  <section id="static-fallback" style="display:block">
+    <h1>學習冒險島</h1>
+    <p class="why">需要開啟 JavaScript 才能使用 3D 場景。你仍可使用：</p>
+    <p class="fb-links"><a href="index.html">刷題小勇者</a> ・ <a href="overview.html">學習總覽</a> ・ <a href="home-classic.html">傳統首頁</a></p>
+  </section>
+</noscript>
+
+<script>
+/* 看門狗：模組若 20 秒內沒有啟動（舊瀏覽器、CDN 卡住等），顯示靜態備援 */
+(function () {
+  function show() { if (window.__advReady) return; window.__advReady = true;
+    var l = document.getElementById('loading'); if (l) l.remove();
+    ['stage', 'ui'].forEach(function (i) { var e = document.getElementById(i); if (e) e.hidden = true; });
+    document.getElementById('static-fallback').hidden = false; }
+  setTimeout(show, 20000);
+  if (!('noModule' in HTMLScriptElement.prototype)) show();
+})();
+</script>
+<script type="module" src="adventure/main.js"></script>
+</body>
+</html>
