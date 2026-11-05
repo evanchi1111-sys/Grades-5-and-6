@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>六年級自然學習島</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#E4F0EA; --paper:#FBFEFC; --ink:#0A2B3D; --muted:#4D6A78; --line:#BFD6CD; --edge:#0A2B3D;
+  --sea:#CFE8F0; --land-a:#F6E7A8; --land-b:#BFE3A6; --land-c:#F2C9B8; --grass:#6FB36B; --trunk:#9B6B43;
+  --blue:#0E8F8F; --sun:#FFC83D; --sun-ink:#2B1F00; --good:#17835A; --bad:#C23B38; --bad-bg:#FBE0DD; --pick:#CDEFE8;
+  --sunc:#FFC83D; --sky:#CFE9F7; --night:#1D3B5A; --water:#8CCBEA; --leafc:#6FB36B; --leafd:#3E8A50; --soil:#B98A5E; --warm:#E8643A; --cool:#2F7FD8; --warmbg:#FBD9C9; --shade:rgba(10,43,61,.55);
+  --f-display:'LXGW WenKai TC','PingFang TC','Microsoft JhengHei',serif;
+  --f-body:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#071C29; --paper:#0F2D40; --ink:#E6F3EE; --muted:#9BB6BF; --line:#24495C; --edge:#02121B;
+    --sea:#0B2A3B; --land-a:#6B5B26; --land-b:#2F5B3A; --land-c:#6E4636; --grass:#3E8A50; --trunk:#B58559;
+    --blue:#35C4C0; --pick:#17485A; --bad:#FF8A82; --bad-bg:#46201F; --good:#4FD39A;
+    --sky:#173B52; --water:#1F5C7A; --warmbg:#5A3326; --shade:rgba(0,0,0,.6); --soil:#7B5636; --leafd:#4FB06A; --cool:#58B4F5; --warm:#FF7A55; --land-b:#2F5B3A;
+    color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.7 var(--f-body);
+  padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
+button,a{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px;box-shadow:0 0 0 5px var(--ink)}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.3;text-wrap:balance}
+.shell{max-width:720px;margin:0 auto;padding:14px 0 40px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.top h1{font-size:26px}
+.top p{margin:0;color:var(--muted);font-size:15px}
+.topbtns{display:flex;gap:10px;flex-wrap:wrap}
+.btn{border:2px solid var(--edge);background:var(--paper);border-radius:12px;box-shadow:0 4px 0 var(--edge);padding:8px 16px;min-height:46px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none}
+.btn:active{transform:translateY(4px);box-shadow:0 0 0 var(--edge)}
+.btn-primary{background:var(--blue);color:#fff}
+@media (prefers-color-scheme: dark){.btn-primary{color:#032123}}
+.btn-sun{background:var(--sun);color:var(--sun-ink)}
+.prog{display:flex;align-items:center;gap:10px;margin:6px 0 12px;font-size:15px;color:var(--muted)}
+.bar{flex:1;height:12px;border:2px solid var(--edge);border-radius:8px;background:var(--paper);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--blue);width:0}
+.how{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;padding:0;list-style:none;font-size:15px}
+.how li{background:var(--paper);border:2px solid var(--line);border-radius:10px;padding:4px 10px}
+.how b{color:var(--blue)}
+.map{position:relative;border:3px solid var(--edge);border-radius:16px;overflow:hidden;background:var(--sea);aspect-ratio:720/1161;box-shadow:0 5px 0 var(--edge)}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;padding:0;min-width:48px}
+.pin .dot{width:44px;height:44px;border-radius:50%;border:3px solid var(--edge);background:var(--sun);color:var(--sun-ink);font:700 20px/1 var(--f-display);display:grid;place-items:center;box-shadow:0 3px 0 var(--edge);position:relative}
+.pin:hover .dot{transform:translateY(-2px)}
+.pin .lbl{background:var(--paper);border:2px solid var(--edge);border-radius:8px;padding:0 8px;font-size:13px;font-weight:700;line-height:1.6;white-space:nowrap}
+.pin.done .dot{background:var(--good);color:#fff}
+.pin.done .dot::after{content:"✓";position:absolute;right:-8px;top:-8px;width:20px;height:20px;border-radius:50%;background:var(--paper);color:var(--good);border:2px solid var(--edge);font:700 13px/16px var(--f-body);text-align:center}
+.pin.boss .dot{background:var(--bad);color:#fff}
+.tag{position:absolute;background:var(--paper);border:2px solid var(--edge);border-radius:8px;padding:1px 10px;font:700 14px/1.6 var(--f-display);transform:translate(-50%,-50%);pointer-events:none}
+.legend{margin:12px 0 0;font-size:14px;color:var(--muted)}
+
+#ov{position:fixed;inset:0;background:rgba(5,20,30,.55);display:none;align-items:flex-end;justify-content:center;z-index:10}
+#ov.on{display:flex}
+.sheet{background:var(--paper);width:100%;max-width:720px;max-height:92vh;overflow:auto;border:3px solid var(--edge);border-bottom:0;border-radius:20px 20px 0 0;padding:16px 16px 28px}
+.sh-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.sh-top .u{font-size:14px;color:var(--muted)}
+.sh-top h2{font-size:24px}
+.x{width:44px;height:44px;border:2px solid var(--edge);border-radius:12px;background:var(--paper);font-size:22px;line-height:1;flex:none}
+.intro{margin:6px 0 12px}
+.card{border:2px solid var(--edge);border-radius:14px;padding:10px 14px;margin:0 0 12px;background:var(--paper)}
+.card h3{font-size:18px;margin:0 0 4px}
+.card ul{margin:0;padding-left:1.2em}
+.card li{margin:2px 0}
+.card b{color:var(--blue)}
+.card table{border-collapse:collapse;width:100%;font-size:15px;margin:6px 0}
+.card th,.card td{border:1.5px solid var(--line);padding:3px 6px;text-align:center}
+.card th{background:var(--pick)}
+.trap{border:2px solid var(--bad);background:var(--bad-bg);border-radius:14px;padding:10px 14px;margin:0 0 14px}
+.trap b{color:var(--bad)}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.cta .btn{flex:1 1 180px}
+.exam{margin-top:16px;padding:12px 14px;border:2px dashed var(--edge);border-radius:14px}
+.exam h3{margin:0 0 4px;font-size:18px}
+.exam p{margin:4px 0 10px}
+.exam .hint{font-size:14px;opacity:.85;margin:10px 0 0}
+.mini{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 0}
+.mini button{border:2px solid var(--edge);background:var(--pick);border-radius:10px;padding:2px 10px;font-weight:700;min-height:40px}
+.figw{margin:4px 0 8px;background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:6px}
+.fig{display:block;width:100%;height:auto}
+.fig text{font:500 13px var(--f-body);fill:var(--ink)}
+.fig text.h{font-weight:700;font-size:14px}
+.fig text.m{font-size:12px;fill:var(--muted)}
+.fig text.w{fill:#fff}
+.fig .s{stroke:var(--edge);stroke-width:2;stroke-linejoin:round}
+.tip{border:2px dashed var(--edge);background:color-mix(in srgb,var(--sun) 28%,var(--paper));border-radius:14px;padding:8px 14px;margin:0 0 12px;font-weight:700}
+.qa{border:2px solid var(--edge);border-radius:14px;padding:8px 14px;margin:0 0 12px}
+.qa h3{font-size:18px;margin:0 0 4px}
+.qa details{margin:4px 0}
+.qa summary{cursor:pointer;font-weight:700;min-height:36px;display:flex;align-items:center}
+.qa details p{margin:2px 0 6px;color:var(--good);font-weight:700}
+.btn-sm{min-height:38px;padding:4px 12px;font-size:15px;border-radius:10px;box-shadow:0 3px 0 var(--edge)}
+.animbar{margin:0 0 10px}
+.sdctl{display:flex;align-items:center;gap:10px;padding:2px 6px}
+.sdctl input[type=range]{flex:1;min-width:0;accent-color:var(--blue)}
+.sdctl output{font-weight:700;min-width:3.2em;text-align:right}
+.sd-note{margin:2px 6px 4px;font-size:15px;font-weight:700;color:var(--blue)}
+.ph{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:6px 0 8px}
+.ph figure{margin:0;border:2px solid var(--line);border-radius:10px;overflow:hidden;background:var(--paper)}
+.ph figure.full{grid-column:1/-1}
+.ph img{display:block;width:100%;height:auto;cursor:zoom-in}
+.ph figcaption{font-size:13px;line-height:1.5;padding:3px 8px 5px;color:var(--muted)}
+#lb{position:fixed;inset:0;background:rgba(5,20,30,.92);z-index:30;display:none;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;cursor:zoom-out}
+#lb.on{display:flex}
+#lb img{max-width:100%;max-height:88vh;object-fit:contain;border-radius:8px;background:#fff}
+#lb span{color:#fff;font-size:14px}
+.imgerr{padding:10px;font-size:13px;color:var(--bad);background:var(--bad-bg)}
+.ph .cr{display:block;font-size:11.5px;opacity:.85;margin-top:2px}
+.ph .cr a{color:var(--blue)}
+.credit{font-size:13px;color:var(--muted);margin:0 0 12px}
+@media (max-width:520px){.pin .dot{width:38px;height:38px;font-size:17px}.pin .lbl{font-size:12px;padding:0 5px}.tag{font-size:12px;padding:0 6px}}
+@media (prefers-reduced-motion:no-preference){.pin .dot{transition:transform .12s}}
+</style></head><body>
+<div class="shell">
+  <div class="top">
+    <div><h1>六年級自然學習島</h1><p>先看教學，再去刷題｜內容依評量整理</p></div>
+    <div class="topbtns"><a class="btn" href="home.html#g5">‹ 回選科目</a><a class="btn" href="index.html">刷題小勇者</a></div>
+  </div>
+  <ol class="how"><li><b>1</b> 點地標看教學</li><li><b>2</b> 讀完按「開始刷題」</li><li><b>3</b> 回島上點亮下一站</li></ol>
+  <div class="prog"><span id="pt">已學 0 / 8</span><div class="bar"><i id="pb"></i></div></div>
+  <div class="map" id="map"></div>
+  <p class="legend">綠色打勾＝已經看過教學。進度只存在這台裝置的瀏覽器。</p>
+</div>
+<div id="lb" role="dialog" aria-label="放大圖片"></div>
+<div id="ov" role="dialog" aria-modal="true" aria-labelledby="st"><div class="sheet" id="sheet"></div></div>
+<script>
+(function(){
+var KEY='island-g6-nat-v1';
+var L=[
+{id:'a1',u:1,t:0,name:'熱脹冷縮',unit:'第 1 單元・熱的影響與傳播',x:145,y:205,intro:'物質受熱體積會變大，遇冷體積會變小。氣體、液體、固體都一樣，只是明顯程度不同。',
+ cards:[
+  {h:'三種狀態的實驗',table:{h:['','受熱後','遇冷後'],r:[['氣體（錐形瓶＋氣球）','瓶內空氣體積變大，氣球<b>膨脹</b>','瓶內空氣體積變小，氣球變扁或內凹'],['液體（紅墨水＋玻璃管）','水體積變大，玻璃管<b>水位上升</b>','水體積變小，玻璃管<b>水位下降</b>'],['固體（銅球和銅環）','銅球體積變大，<b>無法通過</b>銅環','銅球（浸冰水）體積變小，<b>可以通過</b>銅環']]},
+   li:['固體受熱後，直接看好像沒變，要用銅球和銅環才看得出來。','紅墨水是為了讓水位容易觀察；玻璃管選較細的，水位變化更清楚。','實驗用熱水要小心，避免燙傷。']},
+  {h:'結論：熱脹冷縮',li:['大部分的氣體、液體和固體，受熱後體積<b>膨脹</b>，遇冷後體積<b>縮小</b>，這種性質稱為<b>熱脹冷縮</b>。','其中<b>氣體</b>的體積變化最明顯，<b>固體</b>較不明顯。']},
+  {h:'生活中的熱脹冷縮',table:{h:['例子','原因'],r:[['舊式鐵軌兩端留有縫隙','防止鐵軌受熱膨脹而變形'],['橋梁接縫預留伸縮空間','避免高溫時橋梁膨脹擠壓變形'],['瓶蓋打不開，泡熱水','瓶蓋受熱膨脹，容易開啟'],['氣溫計的液柱升降','液體受溫度影響，體積變大或變小'],['冬季輪胎胎壓不足','輪胎內空氣遇冷收縮'],['馬路邊鑄鐵水溝蓋和框架間留縫隙','預留熱脹的空間'],['電線預留遇冷收縮的長度','避免電線繃緊斷裂'],['剛煮好的蛋泡冷水，蛋殼容易剝','蛋白和蛋殼遇冷收縮程度不同，產生空隙']]}},
+  {h:'水的特別之處',li:['液態的水在 <b>4°C～100°C</b> 是熱脹冷縮，但在 <b>4°C～0°C</b> 卻是<b>熱縮冷脹</b>。','相同體積的水和冰，冰比較輕，所以<b>冰會浮在水面上</b>。','冬天湖面結冰時，冰面下的水仍保持一定的水溫，讓水中的生物可以過冬。']}],
+ trap:'<b>易錯：</b>冬天輪胎胎壓不足，是因為「遇冷收縮」，不是「受熱收縮」。氣溫計也是「液體的體積變化」，不是固體。'},
+{id:'a2',u:1,t:1,name:'粒子世界',unit:'第 1 單元・熱的影響與傳播',x:320,y:262,intro:'所有物質都是由很小很小的粒子組成。粒子怎麼排、怎麼動，決定了熱脹冷縮的大小。',
+ cards:[
+  {h:'物質是由粒子組成的',li:['物質是由<b>微小的粒子</b>組成；同種物質由相同的粒子組成。','粒子的<b>排列方式</b>和<b>移動程度</b>不同，物質就呈現不同形態（例：水蒸氣和水）。','食鹽加入水中會慢慢變小、看不見，表示食鹽也是由微小粒子組成。','我們能聞到遠處的烤肉香，是因為空氣由許多微小粒子組成，而且粒子可以<b>自由移動</b>。']},
+  {h:'氣體、液體、固體的粒子',table:{h:['','排列方式','移動程度','受熱後體積變化'],r:[['氣體','可在空間中隨意排列，粒子間距離<b>大</b>','可以自由移動','<b>最大</b>'],['液體','排列不像固體整齊，距離通常比固體大','可在流動範圍內移動','中間'],['固體','排列<b>緊密整齊</b>，粒子間距離<b>小</b>','不能任意移動','<b>最小</b>']]}},
+  {h:'為什麼會熱脹冷縮',li:['物質<b>受熱</b>：組成物質的粒子之間的<b>間隔距離變大</b>，物質的體積就膨脹變大。','物質<b>遇冷</b>：粒子之間的間隔距離變小，物質的體積就收縮變小。','熱脹冷縮的程度和粒子組成的特性有關：氣體的粒子間距離大、可自由移動，所以體積變化最大；固體的粒子排列緊密、不能任意移動，所以變化最小。','粒子本身不會變大，變大的是粒子之間的<b>間隔</b>。']}],
+ trap:'<b>易錯：</b>受熱時粒子本身不會變大，是「粒子之間的距離」變大。氣體受熱體積變化最大，不是固體。'},
+{id:'a3',u:1,t:2,name:'熱的傳播',unit:'第 1 單元・熱的影響與傳播',x:160,y:375,intro:'熱會從高溫處跑到低溫處。傳播的方式有三種：傳導、對流、輻射。',
+ cards:[
+  {h:'三種傳播方式',table:{h:['方式','怎麼傳','主要介質','例子'],r:[['<b>傳導</b>','透過<b>接觸</b>，熱從高溫處往低溫處傳','固體','鍋子把熱傳給食物；碗傳到手上'],['<b>對流</b>','熱隨著<b>液體或氣體流動</b>，從高溫處傳到低溫處','液體、氣體','煮茶時水循環翻動；開冷氣；暖爐'],['<b>輻射</b>','太陽的熱<b>不需要借助任何物質</b>來傳播','不需介質','太陽的熱傳到地球；烤火']]}},
+  {h:'傳導的實驗',li:['<b>食鹽</b>（或沙子）放在燒杯裡，插上溫度計；一杯放入熱水（約 70°C）、一杯放入常溫水，每 2 分鐘記錄溫度。','熱水那一組：<b>25 → 27 → 34°C</b>（0、2、4 分鐘）；常溫水那一組：一直是 25°C。','結論：固體傳播熱時，會從<b>高溫處傳到低溫處</b>。','通常<b>金屬</b>傳導熱比紙、塑膠、木頭快：鍋身用金屬、把手用塑膠或木頭；紙杯套、布做的隔熱手套熱傳導慢。']},
+  {h:'對流的實驗',li:['<b>液體</b>：熱水（紅色顏料）會<b>往上移動</b>；冰水（藍色顏料）會<b>往下移動</b>，循環流動。','<b>氣體</b>（廣口瓶＋線香煙霧）：熱空氣上升，冷空氣下降。','結論：液體、氣體主要藉由<b>對流</b>傳熱。','應用：冷氣機裝在<b>高處</b>（冷空氣下降）；暖爐放在<b>低處</b>（熱空氣上升）。']},
+  {h:'輻射',li:['太陽和地球之間幾乎沒有任何物質，太陽的熱仍能傳到地球，這種方式叫<b>輻射</b>。','利用物體擋掉一部分輻射熱，會比直接曬太陽涼快：撐傘、躲在樹蔭下、穿外套。','<b>深色</b>比較容易吸收輻射熱（黑色紙杯溫度比白色高）；<b>會反光</b>的材質不易吸收輻射熱。','不只是太陽，任何物體只要表面溫度高於「絕對零度」（約 −273.15°C）都會發出熱輻射，溫度愈高輻射愈強。']}],
+ trap:'<b>易錯：</b>固體主要靠<b>傳導</b>，液體和氣體主要靠<b>對流</b>，太陽的熱靠<b>輻射</b>；對流和輻射的差別在「有沒有物質流動」。'},
+{id:'a4',u:1,t:3,name:'保溫與散熱',unit:'第 1 單元・熱的影響與傳播',x:340,y:440,intro:'想保溫，就阻隔或減慢熱的傳播；想散熱，就加快熱的傳播。',
+ cards:[
+  {h:'保溫',li:['<b>保溫</b>是讓物體較長時間維持原來的溫度，包含保熱和保冷。','只要阻絕或減少熱的傳播，就能減少熱的散失。'],
+   table:{h:['物品','原理'],r:[['保溫瓶','內層亮面減少<b>輻射</b>；瓶蓋和<b>真空層</b>阻隔<b>傳導和對流</b>'],['保溫袋','鋁箔亮面減少輻射；泡棉夾層降低傳導'],['保溫桶','使用不易傳導熱的材質'],['冰淇淋桶','保麗龍不易傳導熱，外界的熱不易進入'],['羽絨衣','夾層充滿空氣，減少傳導和對流，形成保暖層']]}},
+  {h:'散熱',table:{h:['物品或方式','原理'],r:[['冰敷袋','藉由<b>傳導</b>，加快散熱'],['涼感衣物','纖維與編織設計，加快汗水<b>蒸發</b>'],['冷氣搭配電風扇','增加空氣流動，加快降溫'],['屋頂裝通風球','增加空氣<b>對流</b>來散熱'],['竹製坐墊','藉由傳導散熱，坐起來比較不悶熱'],['屋頂覆蓋綠色草坪','降低熱傳導和太陽輻射'],['高窗通風口','增加空氣對流，幫助室內散熱']]}},
+  {h:'兼顧生活便利與環境永續',li:['<b>雙層屋頂</b>：太陽能光電板和屋頂中間的空隙形成隔熱空氣層，並產生對流帶走熱氣。','<b>透水性鋪面</b>：有孔隙，減少熱傳導，水分滲透、蒸發可帶走地面的熱。','<b>太陽能光電屋頂</b>：把太陽光能轉換成電能，也能阻隔太陽輻射。','<b>採光窗戶和 LED 照明</b>：採光窗戶日間節能；LED 發光時產生的熱較少。','綠建築：消耗最少資源和能源，兼顧生態、節能、減廢、健康（例：臺北市立圖書館北投分館）。']}],
+ trap:'<b>易錯：</b>保溫瓶的「亮面」是減少輻射，「真空層」是阻隔傳導和對流，不要混在一起；羽絨衣不是愈厚愈好，要貼身穿。'},
+{id:'b1',u:2,t:0,name:'水與天氣',unit:'第 2 單元・多變的天氣',x:445,y:622,intro:'雲、霧、雨、雪、露、霜都是水變出來的，水在大自然裡不停循環。',
+ cards:[
+  {h:'水的三種形態',li:['<b>氣態</b>：水蒸氣。<b>液態</b>：雨水、海洋、湖泊、河流、瀑布、地下水。<b>固態</b>：冰、雪、霜。','水會受溫度影響改變形態。']},
+  {h:'雲、霧、雨、雪、露、霜',table:{h:['天氣現象','怎麼形成'],r:[['雲','飄浮在<b>高空</b>中，由液態的小水滴或固態的冰晶形成'],['霧','飄浮在<b>地面附近</b>的大量細微小水滴'],['雨','雲中的小水滴或冰晶聚集變大變重，水滴直接掉落，或冰晶掉落時融化成水'],['雪','冰晶因過重直接落到地面，<b>沒有融化</b>，到達地面仍是固態'],['露','地面附近的水蒸氣接觸到溫度較低的物體或葉片，凝結成水滴'],['霜','寒冷的冬天或高山上，水蒸氣遇冷，在葉面或物體表面形成<b>冰晶</b>']]},
+   li:['水蒸氣凝結成小水滴時，通常要附著在微小的顆粒上，這些顆粒叫<b>凝結核</b>（例：塵埃、煙粒）。','起霧時感覺較冷、能見度降低，視線不良，可能影響交通安全。']},
+  {h:'露和霜的實驗',table:{h:['組別','杯內溫度','杯子外壁'],r:[['A 常溫水','25°C','沒有變化'],['B 水加冰塊','5°C','出現<b>小水滴</b>（露）'],['C 冰塊加食鹽','−5°C','出現白色固態的<b>霜</b>']]},
+   li:['結論：杯壁溫度<b>低於室溫但高於 0°C</b>，水蒸氣凝結成小水滴＝<b>露</b>；溫度<b>低於 0°C</b>，水蒸氣變成冰晶＝<b>霜</b>。','冰塊加食鹽，可以讓溫度低於 0°C。']},
+  {h:'自然界的水循環',table:{h:['名詞','意思'],r:[['蒸發','海洋、湖泊等地表的水受熱後，變成氣態的水蒸氣'],['蒸散','植物體內的水，經由葉片以水蒸氣的形態散發到空氣中'],['凝結','水蒸氣遇冷變成液態的小水滴'],['降水','從天空降落到地面的水，不論液態（雨）或固態（雪、冰雹）'],['匯集','雨水匯集或冰雪融化形成河流'],['滲入','水滲入地下成為地下水']]},
+   li:['循環：地表的水遇熱蒸發或蒸散 → 水蒸氣遇冷形成小水滴或冰晶，產生雲、霧、雨、露、霜 → 水透過降水回到地表。','<b>冰雹</b>是固態降水，春夏季強大的上升氣流把水蒸氣帶到高空，形成冰晶並吸附冰粒或水滴增大，太重就落下。']}],
+ trap:'<b>易錯：</b>雲和霧的差別是「形成的高度」（高空是雲、地面附近是霧）；露是液態小水滴，霜是固態冰晶；雪和冰雹也都是「降水」。'},
+{id:'b2',u:2,t:1,name:'天氣圖',unit:'第 2 單元・多變的天氣',x:595,y:610,intro:'看懂衛星雲圖和地面天氣圖上的符號，就能預測天氣。',
+ cards:[
+  {h:'衛星雲圖',li:['衛星雲圖會顯示<b>時間、地理位置</b>和<b>雲的分布</b>，可以預測當時的天氣。','顏色：<b>藍色＝海洋</b>、<b>綠色＝陸地</b>、<b>白色＝雲層</b>。白色愈多，雲層愈廣；白色愈濃，雲層愈厚。','幾乎沒有雲的地方，水氣較少，降雨機率較低；有密集、厚重雲層的地方，水氣較多，降雨機率較高。','例：2023 年 4 月 19 日，臺灣被一大片雲層籠罩，可能是不穩定的陰雨天；4 月 20 日雲層移往東方海面，臺灣只有薄雲，可能是晴天。']},
+  {h:'地面天氣圖的符號',table:{h:['符號','意思'],r:[['<b>等壓線</b>（單位：百帕）','同一條線經過的地方，<b>氣壓值都相同</b>；等壓線愈<b>密集</b>，氣壓變化愈快，風勢愈強'],['<b>H</b> 高氣壓中心','中心氣壓最高，愈向外愈低；氣流穩定，天空幾乎沒有雲，天氣<b>晴朗</b>'],['<b>L</b> 低氣壓中心','中心氣壓最低，愈向外愈高；雲量較多，容易下雨，常是<b>陰雨天</b>'],['冷鋒','藍色<b>三角形</b>，尖端是冷氣團前進的方向'],['暖鋒','紅色<b>半圓形</b>，凸起是暖氣團前進的方向'],['滯留鋒','三角形和半圓形<b>交錯</b>']]}},
+  {h:'氣象衛星',li:['人造衛星是人類從地面發射到太空的飛行物體；<b>氣象衛星</b>主要觀察地球的氣象和氣候。','衛星從太空拍攝雲層 → 傳到地面接收站 → 電腦處理分析，由氣象專家製作成衛星雲圖 → 做為氣象預報的資料。','雲區像長長的<b>緞帶、葉子或逗點</b>形狀時，大多是鋒面雲帶；熱帶海洋出現<b>漩渦狀</b>雲區，可能有颱風形成。']}],
+ trap:'<b>易錯：</b>等壓線上的數字是<b>氣壓</b>（單位百帕），不是溫度；同一條線經過的地方氣壓一樣，不是氣溫一樣。'},
+{id:'b3',u:2,t:2,name:'氣團與鋒面',unit:'第 2 單元・多變的天氣',x:390,y:745,intro:'冷氣團和暖氣團相遇的地方叫鋒面。誰強誰弱，天氣就不一樣。',
+ cards:[
+  {h:'氣團',li:['一大團空氣停留在廣大、空曠的區域一段時間後，具有該區域的特性（溫度和溼度相似），就叫<b>氣團</b>。','臺灣<b>夏季</b>主要受來自<b>太平洋</b>的<b>暖氣團</b>影響（溫暖、潮溼）。','臺灣<b>冬季</b>主要受來自<b>西伯利亞、蒙古</b>的<b>冷氣團</b>影響（寒冷、乾燥）。','冷氣團影響臺灣時，氣溫會突然下降；降到 <b>10°C 以下</b>就是寒流。']},
+  {h:'三種鋒面',table:{h:['鋒面','怎麼形成','天氣'],r:[['<b>冷鋒</b>','較強的冷氣團前進，迫使暖氣團後退','常出現明顯的雨勢，鋒面通過後<b>氣溫降低</b>；臺灣冬季常受影響'],['<b>暖鋒</b>','較強的暖氣團前進，迫使冷氣團後退','暖鋒通過的地區<b>氣溫升高</b>，且發生降雨；臺灣的地理位置<b>不易出現</b>暖鋒'],['<b>滯留鋒</b>','冷、暖氣團<b>勢力相當</b>，鋒面來回移動或停留不動','天氣不穩定，<b>持續性下雨</b>；臺灣在春、夏交會時容易出現']]},
+   li:['冷氣團和暖氣團相遇時，在交界的地方形成<b>鋒面</b>。在臺灣最常見的是冷鋒和滯留鋒。','鋒面通過時，容易形成下雨的天氣。']},
+  {h:'梅雨',li:['每年<b>五、六月</b>左右，來自西伯利亞和蒙古的冷氣團，遇上來自太平洋的暖氣團，互相抗衡形成<b>滯留鋒</b>，為臺灣帶來連續降雨，進入<b>梅雨季節</b>。','在臺灣，梅雨是<b>僅次於颱風</b>的重要降水來源；梅雨期降水不足，可能造成乾旱。','例：2023 年 4 月 19 日，冷鋒還沒經過臺灣，大部分地區晴朗；4 月 20 日冷鋒經過，各地變成不穩定的陰雨天，氣溫下降。']}],
+ trap:'<b>易錯：</b>梅雨是<b>滯留鋒</b>造成的，不是冷鋒；臺灣冬天受冷鋒影響，夏天受太平洋暖氣團影響，兩件事不同。'},
+{id:'b4',u:2,t:3,name:'颱風與防災',unit:'第 2 單元・多變的天氣',x:580,y:762,intro:'認識颱風怎麼形成、怎麼看、怎麼預防，把損害降到最低。',
+ cards:[
+  {h:'颱風怎麼形成',li:['每年 <b>7 月至 9 月</b>，在溫暖、潮溼的<b>熱帶海洋</b>上，大量的水蒸發，形成強烈的上升氣流，發展成<b>熱帶性低氣壓</b>，容易形成颱風。','衛星雲圖上，颱風是濃密的<b>漩渦狀</b>雲團，中間有一小部分<b>無雲</b>的區域，就是颱風中心，俗稱<b>颱風眼</b>。','地面天氣圖上，颱風四周有一圈圈等壓線，愈往內數值愈低，中心是<b>低氣壓中心</b>；等壓線愈密集，風力愈強。']},
+  {h:'颱風的強度',table:{h:['強度','近中心最大風速（公尺／秒）'],r:[['熱帶性低氣壓（未達颱風）','≦ 17.1'],['輕度颱風','17.2 ～ 32.6'],['中度颱風','32.7 ～ 50.9'],['強烈颱風','≧ 51.0']]},
+   li:['中央氣象署依「近中心最大平均風速」分成輕度、中度、強烈颱風。','颱風通常從熱帶性低氣壓發展而成，吸收海洋水氣後強度愈來愈強。']},
+  {h:'颱風的影響',table:{h:['','內容'],r:[['壞處','風災（招牌掉落、路樹和電線桿倒塌）；水災（海水倒灌、橋梁被沖斷、農作物泡水、淹水）；<b>土石流</b>；停水、停電、菜價上漲'],['益處','增加<b>水庫蓄水量</b>、紓解旱象；平衡不同區域的溫度']]},
+   li:['臺灣各水庫主要的水源之一就是颱風帶來的雨水。']},
+  {h:'防颱準備',table:{h:['時間','該做什麼'],r:[['颱風前','準備防颱民生用品和<b>緊急避難包</b>、清理水溝渠道、放沙包或安裝防水閘門、取下或固定戶外懸掛物、檢查門窗、修剪路樹'],['颱風侵襲時','<b>勿</b>進入山區或靠近海域；<b>勿</b>到海邊觀浪、釣魚；注意颱風動向，必要時配合政府指示撤離'],['颱風過後','外出注意掉落物；整理環境、清除汙物與積水，避免傳染病流行；災害損失通知里鄰長、警察派出所或鄉鎮公所']]},
+   li:['掌握颱風消息：中央氣象署、新聞媒體、廣播、報紙、氣象 APP、網路，或撥打 <b>166、167</b> 氣象服務電話。']},
+  {h:'臺灣的水資源',li:['臺灣主要水源是雨水，降雨期是五、六月的<b>梅雨</b>和夏季的<b>颱風雨</b>。','年平均降雨量是世界陸地平均的 <b>3.5 倍</b>，但降雨時間和空間分布不均：約 60% 流到海裡、20% 蒸發，只剩約 <b>20%</b> 可以利用。','臺灣每人分配到的水資源並不多，是全球排名第 18 名的缺水國家。']}],
+ trap:'<b>易錯：</b>颱風不會造成「乾旱」；颱風侵襲時<b>不可以</b>到海邊觀浪。颱風通常在 7～9 月形成。'},
+{id:'boss',u:35,t:-1,boss:1,name:'期中燈塔',unit:'期中複習・單元一～二',x:600,y:125,intro:'兩個單元都走過了嗎？到燈塔做期中總複習，題目混合熱和天氣兩個單元。',
+ cards:[
+  {h:'出發前快速檢查',li:['想一想：固體、液體、氣體主要用哪一種方式傳熱？','想一想：霜和露差在哪？滯留鋒帶來什麼天氣？','不確定的話，點下面的地標重看教學。']}],
+ jumps:['a1','a2','a3','a4','b1','b2','b3','b4']}
+];
+
+/* ---- figures ---- */
+function SV(h,alt,inner){return '<svg class="fig" viewBox="0 0 360 '+h+'" role="img" aria-label="'+alt+'"><defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ink)"/></marker></defs>'+inner+'</svg>'}
+function tx(x,y,t,o){o=o||{};return '<text x="'+x+'" y="'+y+'"'+(o.a?' text-anchor="'+o.a+'"':'')+(o.c?' class="'+o.c+'"':'')+'>'+t+'</text>'}
+function rc(x,y,w,h,f,r){return '<rect class="s" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+(r==null?8:r)+'" fill="'+f+'"/>'}
+function ln(x1,y1,x2,y2,o){o=o||{};return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+(o.s||'var(--ink)')+'" stroke-width="'+(o.w||2)+'"'+(o.d?' stroke-dasharray="'+o.d+'"':'')+(o.m?' marker-end="url(#ar)"':'')+' stroke-linecap="round"/>'}
+function ci(x,y,r,f){return '<circle class="s" cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+f+'"/>'}
+function arw(x1,y1,x2,y2,c,w){var a=Math.atan2(y2-y1,x2-x1),L=w*2.2,hx=x2-Math.cos(a)*L,hy=y2-Math.sin(a)*L,px=Math.sin(a)*w*1.4,py=-Math.cos(a)*w*1.4;return '<line x1="'+x1+'" y1="'+y1+'" x2="'+hx+'" y2="'+hy+'" stroke="'+c+'" stroke-width="'+w+'" stroke-linecap="round"/><path d="M'+x2+' '+y2+'L'+(hx+px)+' '+(hy+py)+'L'+(hx-px)+' '+(hy-py)+'Z" fill="'+c+'"/>'}
+function box(x,y,w,h,f,lines,o){o=o||{};var s=rc(x,y,w,h,f,8),n=lines.length,y0=y+h/2-(n-1)*8.5+4.5;lines.forEach(function(t,i){s+=tx(x+w/2,y0+i*17,t,{a:'middle',c:i===0?'h':(o.m?'m':'')})});return s}
+function OP(vals,dur,kt){return '<animate attributeName="opacity" values="'+vals+'"'+(kt?' keyTimes="'+kt+'"':'')+' dur="'+dur+'s" repeatCount="indefinite"/>'}
+var INK='var(--ink)';
+function parts(x,y,w,h,n,seed,jit){var s='',i,r=seed;for(i=0;i<n;i++){r=(r*9301+49297)%233280;var a=r/233280;r=(r*9301+49297)%233280;var b=r/233280;var cx=x+10+a*(w-20),cy=y+10+b*(h-20);
+  s+='<circle class="s" cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="4.5" fill="'+(jit?'var(--warm)':'var(--cool)')+'">'+(jit?'<animateTransform attributeName="transform" type="translate" values="0 0;'+((a-.5)*14).toFixed(1)+' '+((b-.5)*14).toFixed(1)+';0 0" dur="'+(1.2+a).toFixed(2)+'s" repeatCount="indefinite"/>':'')+'</circle>'}return s}
+var FIG={
+expand:function(){
+  var s='';
+  s+=tx(60,16,'氣體',{a:'middle',c:'h'})+tx(180,16,'液體',{a:'middle',c:'h'})+tx(300,16,'固體',{a:'middle',c:'h'});
+  s+='<rect class="s" x="30" y="70" width="60" height="70" rx="6" fill="var(--water)" fill-opacity=".4"/><ellipse class="s" cx="60" cy="52" rx="14" ry="0" fill="var(--warm)"><animate attributeName="ry" values="4;22;4" dur="3s" repeatCount="indefinite"/><animate attributeName="cy" values="64;48;64" dur="3s" repeatCount="indefinite"/></ellipse>'+tx(60,160,'氣球受熱變大',{a:'middle'});
+  s+='<rect class="s" x="150" y="76" width="60" height="64" rx="6" fill="#F08A8A" fill-opacity=".6"/><rect x="176" y="22" width="8" height="54" fill="var(--paper)" stroke="var(--edge)" stroke-width="2"/><rect x="177.5" y="40" width="5" height="36" fill="#E24B4A"><animate attributeName="y" values="58;34;58" dur="3s" repeatCount="indefinite"/><animate attributeName="height" values="18;42;18" dur="3s" repeatCount="indefinite"/></rect>'+tx(180,160,'水位上升',{a:'middle'});
+  s+='<circle class="s" cx="276" cy="86" r="13" fill="#C98F5A"><animate attributeName="r" values="11;17;11" dur="3s" repeatCount="indefinite"/></circle><ellipse cx="300" cy="86" rx="8" ry="22" fill="none" stroke="'+INK+'" stroke-width="3"/><rect x="262" y="120" width="76" height="4" fill="'+INK+'"/>'+tx(300,160,'銅球變大，過不了環',{a:'middle'});
+  s+=tx(180,190,'受熱：氣體、液體、固體的體積都變大（氣體最明顯）',{a:'middle',c:'h'});
+  return SV(204,'受熱後，氣體、液體、固體的體積都會變大',s);
+},
+particles:function(){
+  var s='';
+  s+=rc(6,24,112,120,'var(--paper)',8)+parts(6,24,112,120,8,11,true)+tx(62,16,'氣體',{a:'middle',c:'h'})+tx(62,160,'距離大、自由移動',{a:'middle',c:'m'});
+  s+=rc(124,24,112,120,'var(--paper)',8)+parts(124,24,112,120,16,23,true)+tx(180,16,'液體',{a:'middle',c:'h'})+tx(180,160,'在範圍內流動',{a:'middle',c:'m'});
+  var g='',i,j;for(i=0;i<5;i++)for(j=0;j<5;j++)g+='<circle class="s" cx="'+(142+i*21)+'" cy="'+(40+j*21)+'" r="4.5" fill="var(--cool)"/>';
+  s+=rc(242,24,112,120,'var(--paper)',8)+g.replace(/cx="(\d+)"/g,function(m,v){return 'cx="'+(+v+118)+'"'})+tx(298,16,'固體',{a:'middle',c:'h'})+tx(298,160,'排列緊密整齊',{a:'middle',c:'m'});
+  return SV(184,'氣體、液體、固體的粒子排列',s+tx(180,178,'受熱：粒子之間的間隔距離變大',{a:'middle',c:'h'}));
+},
+transfer:function(){
+  var s='',i;
+  s+=tx(60,16,'傳導',{a:'middle',c:'h'})+tx(180,16,'對流',{a:'middle',c:'h'})+tx(300,16,'輻射',{a:'middle',c:'h'});
+  s+=rc(14,40,92,22,'#B9B9B9',4)+'<rect class="s" x="14" y="40" width="92" height="22" rx="4" fill="url(#heatg)"/>';
+  s='<defs><linearGradient id="heatg" x1="0" x2="1"><stop offset="0" stop-color="#E8643A"/><stop offset="1" stop-color="#CFE0F0"/></linearGradient></defs>'+s;
+  for(i=0;i<5;i++)s+='<circle cx="'+(26+i*17)+'" cy="51" r="4" fill="#fff" stroke="'+INK+'"><animate attributeName="cy" values="51;47;51" dur="'+(.8+i*.15)+'s" begin="'+(i*.2)+'s" repeatCount="indefinite"/></circle>';
+  s+=arw(18,84,100,84,'var(--warm)',4)+tx(60,106,'熱沿著固體傳',{a:'middle',c:'m'})+tx(60,124,'高溫 → 低溫',{a:'middle',c:'m'});
+  s+='<path class="s" d="M140 70h80v70a6 6 0 0 1 -6 6h-68a6 6 0 0 1 -6 -6z" fill="var(--water)" fill-opacity=".45"/><rect x="144" y="144" width="72" height="8" fill="var(--warm)"/>';
+  s+='<path d="M158 140V84Q158 76 166 76" fill="none" stroke="var(--warm)" stroke-width="3" stroke-dasharray="5 4"><animate attributeName="stroke-dashoffset" values="0;-18" dur="1s" repeatCount="indefinite"/></path><path d="M202 76Q210 76 202 84V138" fill="none" stroke="var(--cool)" stroke-width="3" stroke-dasharray="5 4"><animate attributeName="stroke-dashoffset" values="0;-18" dur="1s" repeatCount="indefinite"/></path>'+tx(180,168,'熱水上升、冷水下降',{a:'middle',c:'m'});
+  s+=ci(300,60,16,'var(--sunc)')+'<path class="s" d="M268 160q32 -40 64 0z" fill="var(--leafc)"/>';
+  for(i=0;i<3;i++)s+=arw(290+i*10,86,282+i*14,134,'var(--warm)',2.5).replace(/<line/,'<line stroke-dasharray="4 3"');
+  s+=tx(300,178,'不需要介質',{a:'middle',c:'m'});
+  return SV(188,'傳導、對流、輻射',s);
+},
+thermos:function(){
+  var s='';
+  s+='<path class="s" d="M70 30h100v10l12 10v136q0 8 -8 8h-108q-8 0 -8 -8v-136l12 -10z" fill="var(--paper)"/>';
+  s+='<path d="M90 56h60v130h-60z" fill="var(--water)" fill-opacity=".55" stroke="'+INK+'" stroke-width="2"/><rect x="85" y="50" width="70" height="8" fill="#C0C0C0" stroke="'+INK+'" stroke-width="2"/>';
+  s+='<rect x="78" y="22" width="84" height="14" rx="4" fill="var(--sunc)" stroke="'+INK+'" stroke-width="2"/>';
+  s+='<path d="M86 62v120M154 62v120" stroke="#fff" stroke-width="3" stroke-dasharray="3 5" opacity=".9"/>';
+  s+=ln(164,29,196,29,{w:1.5})+tx(200,33,'瓶蓋：減少傳導、對流')+ln(160,98,196,78,{w:1.5})+tx(200,82,'真空層：阻隔傳導、對流')+ln(154,130,196,130,{w:1.5})+tx(200,134,'內層亮面：減少輻射')+ln(170,170,196,170,{w:1.5})+tx(200,174,'厚實多層外殼');
+  s+='<circle cx="120" cy="100" r="6" fill="var(--warm)"><animate attributeName="cx" values="120;96" dur="2.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="2.4s" repeatCount="indefinite"/></circle>';
+  return SV(206,'保溫瓶的構造',s);
+},
+cycle:function(){
+  var s='<rect x="0" y="0" width="360" height="226" fill="var(--sky)"/><rect x="0" y="150" width="140" height="76" fill="var(--water)"/><path class="s" d="M130 226V140L190 120L240 60L290 110L330 96L360 120V226z" fill="var(--leafc)"/>'+ci(40,34,16,'var(--sunc)');
+  s+='<ellipse class="s" cx="200" cy="40" rx="42" ry="16" fill="#fff"/><ellipse class="s" cx="226" cy="34" rx="26" ry="12" fill="#fff"/>';
+  s+='<path d="M250 160Q250 190 330 200" fill="none" stroke="var(--cool)" stroke-width="3"/>';
+  s+=tx(60,190,'海洋',{a:'middle',c:'h'})+tx(200,16,'凝結成雲',{a:'middle',c:'h'})+tx(292,184,'地表水（河）',{a:'middle',c:'w'})+tx(250,216,'地下水',{a:'middle',c:'w'});
+  s+=mdot('M70 150Q100 100 190 60',3.6,'#fff',0,5)+mdot('M70 150Q100 100 190 60',3.6,'#fff',1.8,5)+mdot('M270 100Q310 70 215 52',4,'#fff',.8,5);
+  s+=mdot('M210 60L230 130L250 160',2.6,'#8CCBEA',0,4)+mdot('M220 60L240 120L280 160',2.6,'#8CCBEA',1.3,4)+mdot('M250 160Q250 190 330 200',3,'var(--cool)',.5,4);
+  s+=tx(104,106,'蒸發',{c:'h'})+tx(258,112,'降水',{c:'h'});
+  return SV(226,'水循環：蒸發、凝結、降水、匯集、滲入',s);
+},
+dewfrost:function(){
+  var s='';
+  s+=rc(6,8,70,40,'var(--paper)',8)+tx(41,33,'25°C',{a:'middle',c:'h'})+box(84,8,270,40,'var(--paper)',['A　常溫水：杯壁沒有變化']);
+  s+=rc(6,58,70,40,'var(--water)',8)+tx(41,83,'5°C',{a:'middle',c:'h'})+box(84,58,270,40,'var(--water)',['B　水加冰塊：出現小水滴','低於室溫、高於 0°C → 露']);
+  s+='<line x1="6" y1="108" x2="354" y2="108" stroke="var(--bad)" stroke-width="2.5" stroke-dasharray="6 4"/>'+tx(180,124,'0°C',{a:'middle',c:'h'});
+  s+=rc(6,132,70,40,'#EAF3FB',8)+tx(41,157,'−5°C',{a:'middle',c:'h'})+box(84,132,270,40,'#EAF3FB',['C　冰塊加食鹽：出現白色固態的霜','低於 0°C → 霜']);
+  s+='<circle cx="330" cy="62" r="4" fill="var(--cool)"><animate attributeName="cy" values="62;92" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="2s" repeatCount="indefinite"/></circle>';
+  return SV(182,'露和霜的實驗結果',s);
+},
+sattl:function(){
+  var s=rc(10,10,170,110,'#2F5FA8',6)+'<path class="s" d="M10 70Q60 56 100 80Q140 100 180 90V120H10z" fill="#5E9E5A"/><ellipse cx="90" cy="48" rx="46" ry="18" fill="#fff" fill-opacity=".92"><animate attributeName="cx" values="60;120;60" dur="6s" repeatCount="indefinite"/></ellipse><ellipse cx="130" cy="30" rx="26" ry="10" fill="#fff" fill-opacity=".8"/>';
+  s+=box(196,10,152,34,'#2F5FA8',['藍色＝海洋']).replace(/class="h"/g,'class="h w"');
+  s+=box(196,50,152,34,'#5E9E5A',['綠色＝陸地']);
+  s+=box(196,90,152,34,'#FFFFFF',['白色＝雲層']);
+  s+=tx(180,150,'白色愈多：雲層愈廣；白色愈濃：雲層愈厚',{a:'middle',c:'h'})+tx(180,170,'沒有雲：水氣少，降雨機率低；厚雲層：降雨機率高',{a:'middle',c:'m'});
+  return SV(184,'衛星雲圖的顏色',s);
+},
+symbols:function(){
+  var s='',tri=function(x,y,n,c){var g='',i;for(i=0;i<n;i++)g+='<path d="M'+(x+i*18)+' '+y+'l9 14l9 -14z" fill="'+c+'" stroke="'+INK+'" stroke-width="1.2"/>';return g},semi=function(x,y,n,c){var g='',i;for(i=0;i<n;i++)g+='<path d="M'+(x+i*18)+' '+y+'a9 11 0 0 1 18 0z" fill="'+c+'" stroke="'+INK+'" stroke-width="1.2"/>';return g};
+  var r=function(i){return 26+i*40};
+  s+=rc(6,6,348,36,'var(--paper)',6)+'<ellipse cx="40" cy="24" rx="24" ry="12" fill="none" stroke="'+INK+'" stroke-width="2"/><ellipse cx="40" cy="24" rx="14" ry="6" fill="none" stroke="'+INK+'" stroke-width="2"/>'+tx(76,20,'等壓線',{c:'h'})+tx(76,36,'同線氣壓相同；愈密集風愈強',{c:'m'});
+  s+=rc(6,46,348,36,'var(--paper)',6)+tx(34,72,'H',{a:'middle',c:'h'}).replace('<text','<text style="font-size:26px;fill:#2B50C8"')+tx(76,60,'高氣壓：中心氣壓最高',{c:'h'})+tx(76,76,'氣流穩定，天空幾乎沒有雲，晴朗',{c:'m'});
+  s+=rc(6,86,348,36,'var(--paper)',6)+tx(34,112,'L',{a:'middle',c:'h'}).replace('<text','<text style="font-size:26px;fill:#C23B38"')+tx(76,100,'低氣壓：中心氣壓最低',{c:'h'})+tx(76,116,'雲量較多，容易下雨，常是陰雨天',{c:'m'});
+  s+=rc(6,126,348,36,'var(--paper)',6)+tri(18,134,3,'#2F62E6')+tx(88,142,'冷鋒：三角形尖端＝冷氣團前進方向',{c:'h'})+tx(88,156,'陰雨、氣溫下降',{c:'m'});
+  s+=rc(6,166,348,36,'var(--paper)',6)+semi(18,184,3,'#E0443E')+tx(88,180,'暖鋒：半圓形凸起＝暖氣團前進方向',{c:'h'})+tx(88,196,'氣溫上升、降雨',{c:'m'});
+  s+=rc(6,206,348,36,'var(--paper)',6)+tri(18,214,2,'#2F62E6')+semi(54,232,2,'#E0443E')+tx(100,224,'滯留鋒：冷暖氣團勢力相當',{c:'h'})+tx(100,238,'持續性降雨（梅雨）',{c:'m'});
+  return SV(250,'地面天氣圖上的符號',s);
+},
+fronts:function(){
+  var s='<rect x="0" y="0" width="360" height="236" fill="var(--sky)"/>';
+  s+=box(10,10,110,50,'#B8D6F4',['冷氣團（較強）'])+box(240,10,110,50,'#F4C0B5',['暖氣團（較弱）']);
+  s+='<g><animateTransform attributeName="transform" type="translate" values="0 0;22 0;0 0" dur="2.4s" repeatCount="indefinite"/>'+arw(124,35,170,35,'#2F62E6',6)+'</g>';
+  s+='<path d="M178 18l9 14l9 -14zM178 38l9 14l9 -14z" fill="#2F62E6" stroke="'+INK+'" stroke-width="1.2"/>';
+  s+=tx(180,84,'冷鋒：冷氣團前進、暖氣團後退',{a:'middle',c:'h'})+tx(180,102,'明顯雨勢，通過後氣溫降低',{a:'middle',c:'m'});
+  s+='<line x1="10" y1="114" x2="350" y2="114" stroke="var(--line)" stroke-width="2"/>';
+  s+=box(10,126,110,50,'#B8D6F4',['冷氣團'])+box(240,126,110,50,'#F4C0B5',['暖氣團']);
+  s+='<g><animateTransform attributeName="transform" type="translate" values="-8 0;8 0;-8 0" dur="2s" repeatCount="indefinite"/>'+arw(124,142,170,142,'#2F62E6',4)+arw(236,162,190,162,'#E0443E',4)+'</g>';
+  s+=tx(180,198,'滯留鋒：勢力相當，來回移動',{a:'middle',c:'h'})+tx(180,216,'天氣不穩定，持續性下雨（梅雨）',{a:'middle',c:'m'});
+  return SV(236,'冷鋒和滯留鋒的形成',s);
+},
+tylevel:function(){
+  var lv=[['熱帶性低氣壓','≦ 17.1','var(--sky)'],['輕度颱風','17.2～32.6','#BFE3A6'],['中度颱風','32.7～50.9','#F6D77B'],['強烈颱風','≧ 51.0','#F09595']],s='',i;
+  s+=tx(180,16,'近中心最大風速（公尺／秒）',{a:'middle',c:'m'});
+  for(i=0;i<4;i++){var x=8+i*88;s+=rc(x,26,82,100,lv[i][2],8)+tx(x+41,70,lv[i][0],{a:'middle',c:'h'}).replace(/<text/,'<text style="font-size:12px"')+tx(x+41,96,lv[i][1],{a:'middle'})+tx(x+41,150,['未達颱風','颱風','颱風','颱風'][i],{a:'middle',c:'m'})}
+  s+='<g transform="translate(300 180)"><g><animateTransform attributeName="transform" type="rotate" values="0;360" dur="3s" repeatCount="indefinite"/><path d="M0 0m-20 0a20 20 0 0 1 20 -20M0 0m20 0a20 20 0 0 1 -20 20M0 0m-12 0a12 12 0 0 1 12 -12M0 0m12 0a12 12 0 0 1 -12 12" fill="none" stroke="var(--cool)" stroke-width="4" stroke-linecap="round"/></g><circle r="3" fill="var(--paper)" stroke="'+INK+'"/></g>'+tx(8,190,'風速愈大，颱風強度愈強',{c:'h'});
+  return SV(212,'颱風的強度分級',s);
+},
+prep:function(){
+  var cols=[['颱風前','準備避難包、清水溝、固定懸掛物','var(--sky)'],['侵襲時','勿到山區海邊、勿觀浪，注意動向','#F4C0B5'],['過後','注意掉落物、清除積水','var(--land-b)']],s='',i;
+  for(i=0;i<3;i++){var x=6+i*118;s+=rc(x,6,110,118,cols[i][2],8)+tx(x+55,28,cols[i][0],{a:'middle',c:'h'});cols[i][1].split('、').forEach(function(t,k){s+=tx(x+55,56+k*22,t,{a:'middle',c:'m'})});if(i<2)s+=arw(x+112,64,x+118,64,INK,2.5)}
+  s+=tx(180,146,'166、167 氣象服務電話可查颱風消息',{a:'middle',c:'h'});
+  return SV(158,'防颱三階段',s);
+}
+};
+var FIGMAP={'三種狀態的實驗':['expand'],'氣體、液體、固體的粒子':['particles'],'三種傳播方式':['transfer'],'保溫':['thermos'],'自然界的水循環':['cycle'],'露和霜的實驗':['dewfrost'],'衛星雲圖':['sattl'],'地面天氣圖的符號':['symbols'],'三種鋒面':['fronts'],'颱風的強度':['tylevel'],'防颱準備':['prep']};
+var TIPS={a1:'氣體受熱最明顯；冬天胎壓不足＝遇冷收縮',a2:'粒子本身不變，變的是粒子之間的間隔',a3:'固傳導、液氣對流、太陽輻射',a4:'保溫＝阻隔傳播；散熱＝加快傳播',b1:'雲高霧低；露 > 0°C 液態，霜 < 0°C 固態',b2:'藍海洋、綠陸地、白雲層；H 晴、L 雨',b3:'冷鋒降溫、暖鋒升溫、滯留鋒持續雨（梅雨）',b4:'7～9 月；勿觀浪；颱風增加水庫水量'};
+var QA={a1:[['冬天輪胎容易胎壓不足，原因是什麼？','輪胎內空氣遇冷體積收縮。'],['哪一種狀態的物質，熱脹冷縮最明顯？','氣體（固體最不明顯）。']],
+ a2:[['物質受熱時，變大的是粒子本身還是粒子之間的間隔？','粒子之間的間隔距離變大。'],['為什麼氣體受熱後體積變化最大？','氣體粒子間距離大、可以自由移動。']],
+ a3:[['固體、液體、氣體主要用哪一種方式傳熱？','固體：傳導；液體、氣體：對流。'],['太陽的熱怎麼傳到地球？','輻射（不需要藉助任何物質）。']],
+ a4:[['保溫瓶的內層亮面主要減少哪一種傳播？','輻射。'],['冷氣機為什麼裝在高處、暖爐為什麼放在低處？','冷空氣下降、熱空氣上升，利用對流讓室內變涼或變暖。']],
+ b1:[['雲和霧有什麼不同？','形成的高度不同：高空是雲，地面附近是霧。'],['杯壁溫度 5°C 和 −5°C，各出現什麼？','5°C 出現小水滴（露）；−5°C 出現霜。']],
+ b2:[['衛星雲圖上，藍色、綠色、白色各代表什麼？','藍色海洋、綠色陸地、白色雲層。'],['地面天氣圖上的 H 和 L 各代表什麼？','H 高氣壓中心（晴朗）；L 低氣壓中心（陰雨）。']],
+ b3:[['臺灣夏季和冬季，各受哪一個氣團影響？','夏季：太平洋暖氣團；冬季：西伯利亞、蒙古冷氣團。'],['梅雨是哪一種鋒面造成的？','滯留鋒。']],
+ b4:[['颱風通常在什麼時候、什麼地方形成？','每年 7～9 月，在溫暖潮溼的熱帶海洋上。'],['颱風來襲時可以到海邊觀浪嗎？','不可以，很危險。']]};
+
+/* ---- animation overlays ---- */
+function AN(base,extra){return function(){return base().replace(/<\/svg>$/,extra()+'</svg>')}}
+function mdot(path,dur,fill,begin,r,o){o=o||{};var vis=o.vis||'0;1;1;0',kt=o.kt||'0;.1;.85;1';
+  return '<circle r="'+(r||5)+'" fill="'+fill+'" stroke="var(--edge)" stroke-width="1.5" opacity="0"><animateMotion dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite" path="'+path+'"/><animate attributeName="opacity" values="'+vis+'" keyTimes="'+kt+'" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/></circle>'}
+function pulse(cx,cy,r1,r2,dur,stroke,begin){return '<circle cx="'+cx+'" cy="'+cy+'" r="'+r1+'" fill="none" stroke="'+stroke+'" stroke-width="3" opacity="0"><animate attributeName="r" values="'+r1+';'+r2+'" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;0" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/></circle>'}
+var FIGBASE={};Object.keys(FIG).forEach(function(k){FIGBASE[k]=FIG[k]});
+var ANIM={on:true,raf:0};
+function initShadow(root){
+  var el=root.querySelector('.sdui');if(!el)return;
+  var sun=el.querySelector('.sd-sun'),ray=el.querySelector('.sd-ray'),sh=el.querySelector('.sd-shadow'),rg=el.querySelector('.sd-range'),tm=el.querySelector('.sd-time'),nt=el.querySelector('.sd-note'),pb=el.querySelector('.sd-play'),out=el.querySelector('.sd-out');
+  var t=9,last=0,R=105,h=40,G=165;
+  function bins(t){return t<8?['東方','西方']:t<11?['東偏南','西偏北']:t<13?['南方','北方']:t<16?['西偏南','東偏北']:['西方','東方']}
+  function draw(){
+    var f=Math.min(Math.max(Math.PI*(t-6)/12,.1),Math.PI-.1),c=Math.cos(f),s=Math.sin(f);
+    var tip=Math.min(Math.max(180+h*c/s,12),348),sx=180-R*c,sy=G-h-R*s;
+    sun.setAttribute('cx',sx);sun.setAttribute('cy',sy);
+    ray.setAttribute('x1',tip);ray.setAttribute('y1',G);ray.setAttribute('x2',sx);ray.setAttribute('y2',sy);
+    sh.setAttribute('x2',tip);
+    var L=Math.abs(tip-180),b=bins(t),hh=Math.floor(t),mm=Math.round((t-hh)*60);if(mm===60){hh++;mm=0}
+    var txt=hh+':'+(mm<10?'0':'')+mm;tm.textContent=txt;out.textContent=txt;
+    rg.value=t;
+    nt.textContent='太陽約在'+b[0]+'，影子在'+b[1]+'，影子'+(L<20?'最短':L<70?'較短':'較長')+'。'+(t>=11&&t<13?'（中午，太陽最高）':'');
+  }
+  function tick(ts){
+    if(!el.isConnected){ANIM.raf=0;return}
+    if(ANIM.on&&last){t+=(ts-last)/1000*1.4;if(t>18)t=6;draw()}
+    last=ts;ANIM.raf=requestAnimationFrame(tick);
+  }
+  rg.oninput=function(){t=+rg.value;draw();ANIM.on=false;pb.textContent='播放';syncAnim()};
+  pb.onclick=function(){ANIM.on=!ANIM.on;pb.textContent=ANIM.on?'暫停':'播放';syncAnim()};
+  draw();pb.textContent=ANIM.on?'暫停':'播放';
+  cancelAnimationFrame(ANIM.raf);ANIM.raf=requestAnimationFrame(tick);
+}
+function syncAnim(){
+  var sh=document.getElementById('sheet');if(!sh)return;
+  sh.querySelectorAll('svg.fig').forEach(function(sv){try{ANIM.on?sv.unpauseAnimations():sv.pauseAnimations()}catch(e){}});
+  var b=document.getElementById('animbtn');if(b)b.textContent=ANIM.on?'暫停動畫':'播放動畫';
+  var p=sh.querySelector('.sd-play');if(p)p.textContent=ANIM.on?'暫停':'播放';
+}
+
+ANIM.on=!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+var PHOTOS={};
+var CREDIT={};
+function phHtml(c){
+  var a=PHOTOS[c.h];if(!a)return'';
+  return '<div class="ph">'+a.map(function(x){return'<figure class="'+(x[2]?'full':'')+'"><img src="img/nat6/'+x[0]+'.jpg" alt="'+x[1]+'" data-zoom="1" onerror="imgFail(this)"><figcaption>'+x[1]+(CREDIT[x[0]]?'<small class="cr">'+esc(CREDIT[x[0]][0])+'・'+esc(CREDIT[x[0]][1])+'・<a href="'+CREDIT[x[0]][2]+'" target="_blank" rel="noopener">來源</a></small>':'')+'</figcaption></figure>'}).join('')+'</div>';
+}
+function imgFail(im){var d=document.createElement('div');d.className='imgerr';d.textContent='圖片載入失敗：請確認 img/nat6 資料夾和 island-g6-nat.html 放在一起，並用網址（不是預覽窗）開啟';im.replaceWith(d)}
+function zoom(src,alt){var lb=document.getElementById('lb');lb.innerHTML='<img src="'+src+'" alt="'+alt+'"><span>點一下關閉</span>';lb.classList.add('on')}
+
+var byId={};L.forEach(function(p){byId[p.id]=p});
+var done={};try{done=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}}
+
+function bg(){
+  var KY=1.35,s='<svg viewBox="0 0 720 '+Math.round(860*KY)+'" aria-hidden="true">';
+  s+='<g fill="none" stroke="var(--line)" stroke-width="2" opacity=".8"><circle cx="720" cy="0" r="120"/><circle cx="720" cy="0" r="170"/><circle cx="720" cy="0" r="220"/><circle cx="0" cy="1161" r="120"/><circle cx="0" cy="1161" r="170"/></g>';
+  function T(cy,g){return '<g transform="translate(0,'+(cy*(KY-1))+')">'+g+'</g>'}
+  s+='<g transform="scale(1 '+KY+')" stroke="var(--edge)" stroke-width="4">';
+  s+='<path vector-effect="non-scaling-stroke" d="M60 200C50 130 140 100 230 110C330 105 420 150 425 240C432 330 400 420 330 470C250 510 140 500 90 430C45 370 70 280 60 200Z" fill="var(--land-a)"/>';
+  s+='<path vector-effect="non-scaling-stroke" d="M300 640C290 570 380 540 470 548C570 540 670 580 680 670C690 760 640 815 540 822C440 830 330 810 305 740C295 705 303 670 300 640Z" fill="var(--land-b)"/>';
+  s+='<path vector-effect="non-scaling-stroke" d="M520 110C520 70 590 50 640 62C690 75 700 130 670 170C640 205 560 200 530 165C512 145 518 128 520 110Z" fill="var(--land-c)"/>';
+  s+='<path vector-effect="non-scaling-stroke" d="M350 470C370 510 380 530 395 552" fill="none" stroke-width="16" stroke-linecap="round"/><path vector-effect="non-scaling-stroke" d="M350 470C370 510 380 530 395 552" fill="none" stroke="var(--land-a)" stroke-width="9" stroke-linecap="round" stroke-dasharray="3 12"/>';
+  s+='<path vector-effect="non-scaling-stroke" d="M145 205L320 262L160 375L340 440L445 622L595 610L390 745L580 762" fill="none" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" opacity=".55"/>';
+  s+='</g>';
+  s+=T(150,'<g stroke="var(--edge)" stroke-width="3"><circle cx="90" cy="150" r="22" fill="var(--sun)"/></g><g stroke="var(--edge)" stroke-width="3" stroke-linecap="round"><path d="M90 112v-10M90 188v10M52 150h-10M128 150h10M63 123l-7-7M117 177l7 7M63 177l-7 7M117 123l7-7"/></g>');
+  s+=T(330,'<g stroke="var(--edge)" stroke-width="3" stroke-linejoin="round"><circle cx="260" cy="330" r="12" fill="var(--paper)"/><path d="M272 330l30 14-4 6z" fill="var(--pick)"/></g>');
+  s+=T(420,'<g stroke="var(--edge)" stroke-width="3" stroke-linejoin="round"><path d="M110 440l20-34 20 34z" fill="var(--land-b)"/></g>');
+  [[340,690],[515,700],[640,700],[430,790],[520,790]].forEach(function(p){s+=T(p[1],'<g stroke="var(--edge)" stroke-width="3" stroke-linejoin="round"><rect x="'+(p[0]-4)+'" y="'+p[1]+'" width="8" height="18" fill="var(--trunk)"/><circle cx="'+p[0]+'" cy="'+(p[1]-6)+'" r="16" fill="var(--grass)"/></g>')});
+  s+=T(160,'<g stroke="var(--edge)" stroke-width="3" stroke-linejoin="round"><path d="M545 185l8-50h20l8 50z" fill="var(--paper)"/><path d="M549 155h28M547 170h32" fill="none"/><path d="M553 135l10-14 10 14z" fill="var(--bad)"/></g>');
+  [[470,300],[100,640],[200,740],[640,330]].forEach(function(p){s+=T(p[1],'<path d="M'+p[0]+' '+p[1]+'q12 -10 24 0t24 0" fill="none" stroke="var(--blue)" stroke-width="3" stroke-linecap="round" opacity=".7"/>')});
+  s+='</svg>';
+  return s;
+}
+function pinHtml(p){
+  var i=L.indexOf(p),n=p.boss?'★':(i+1);
+  return '<button class="pin'+(p.boss?' boss':'')+(done[p.id]?' done':'')+'" data-id="'+p.id+'" style="left:'+(p.x/7.2)+'%;top:'+(p.y/8.6)+'%" aria-label="'+p.name+(done[p.id]?'（已學）':'')+'"><span class="dot">'+n+'</span><span class="lbl">'+p.name+'</span></button>';
+}
+function tags(){
+  return '<span class="tag" style="left:23%;top:12%">第 1 單元　熱的影響與傳播</span><span class="tag" style="left:60%;top:92%">第 2 單元　多變的天氣</span>';
+}
+function updateProg(){
+  var T=L.filter(function(p){return !p.boss}),n=T.filter(function(p){return done[p.id]}).length;
+  document.getElementById('pt').textContent='已學 '+n+' / '+T.length;
+  document.getElementById('pb').style.width=(n/T.length*100)+'%';
+}
+function draw(){
+  var m=document.getElementById('map');
+  m.innerHTML=bg()+tags()+L.map(pinHtml).join('');
+  m.querySelectorAll('.pin').forEach(function(b){b.onclick=function(){open(b.dataset.id)}});
+  updateProg();
+}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function cardHtml(c){
+  var s='<div class="card"><h3>'+c.h+'</h3>'+(FIGMAP[c.h]||[]).map(function(n){return'<div class="figw">'+FIG[n]()+'</div>'}).join('')+phHtml(c);
+  if(c.table){s+='<table><thead><tr>'+c.table.h.map(function(x){return'<th>'+x+'</th>'}).join('')+'</tr></thead><tbody>'+c.table.r.map(function(r){return'<tr>'+r.map(function(x,k){return'<td'+(k===0?' style="font-weight:700"':'')+'>'+x+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table>'}
+  if(c.li)s+='<ul>'+c.li.map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul>';
+  return s+'</div>';
+}
+var EXAM={20:['kt-g5-nat-u1','第 1 單元　熱的影響與傳播'],21:['kt-g5-nat-u2','第 2 單元　多變的天氣'],22:['kt-g5-nat-mid','期中複習（第 1～2 單元）']};
+function examHtml(p){var e=EXAM[p.u];if(!e)return'';var b='pdf/'+e[0];
+  return '<div class="exam"><h3>刷完題，做考卷</h3><p>'+e[1]+'・A、B 兩卷各 100 分（PDF）</p><div class="cta"><a class="btn" target="_blank" rel="noopener" href="'+b+'-exam.pdf">開啟試卷（A、B）</a><a class="btn" target="_blank" rel="noopener" href="'+b+'-ans.pdf">答案與詳解</a></div><p class="hint">iPad：開啟後點一下試卷，再點右上角「標記」（鉛筆圖示），就能用 Apple Pencil 或手指直接寫在試卷上，不用下載。寫完再看答案卷。</p></div>'}
+var last=null;
+function open(id){
+  var p=byId[id];last=document.activeElement;
+  var href='index.html?u='+p.u+(p.t>=0?'&t='+p.t:'');
+  var h='<div class="sh-top"><div><div class="u">'+p.unit+'</div><h2 id="st">'+p.name+'</h2></div><button class="x" id="cx" aria-label="關閉">×</button></div>'
+   +'<p class="intro">'+p.intro+'</p>'+(p.boss?'':'<div class="animbar"><button type="button" class="btn btn-sm" id="animbtn">暫停動畫</button></div>')+p.cards.map(cardHtml).join('')+(TIPS[p.id]?'<div class="tip">記憶口訣：'+TIPS[p.id]+'</div>':'')+(p.trap?'<div class="trap">'+p.trap+'</div>':'');
+  if(QA[p.id])h+='<div class="qa"><h3>想一想</h3>'+QA[p.id].map(function(x){return'<details><summary>'+x[0]+'</summary><p>'+x[1]+'</p></details>'}).join('')+'</div>';
+  if(p.jumps)h+='<div class="mini">'+p.jumps.map(function(j){return'<button data-j="'+j+'">'+byId[j].name+'</button>'}).join('')+'</div><div style="height:12px"></div>';
+  h+='<p class="credit">照片來自 Wikimedia Commons（自由授權或公有領域，標有作者與授權）；點圖可放大。動畫與示意圖為自製，內容依評量（康軒版六年級上學期自然）整理。</p>';
+  h+='<div class="cta"><a class="btn btn-primary" id="go" href="'+href+'">'+(p.boss?'開始期中總複習':'我看完了，開始刷題')+'</a><button class="btn" id="ok">'+(done[p.id]?'回到地圖':'標記為已學，回地圖')+'</button></div>';
+  h+=examHtml(p);
+  var sh=document.getElementById('sheet');sh.innerHTML=h;sh.scrollTop=0;
+  document.getElementById('ov').classList.add('on');document.body.style.overflow='hidden';
+  document.getElementById('cx').focus();
+  document.getElementById('cx').onclick=close;
+  document.getElementById('ok').onclick=function(){if(!p.boss){done[p.id]=1;save()}close();draw()};
+  document.getElementById('go').onclick=function(){if(!p.boss){done[p.id]=1;save()}};
+  var ab=document.getElementById('animbtn');if(ab)ab.onclick=function(){ANIM.on=!ANIM.on;syncAnim()};
+  initShadow(sh);syncAnim();
+  sh.querySelectorAll('[data-j]').forEach(function(b){b.onclick=function(){open(b.dataset.j)}});
+}
+function close(){document.getElementById('ov').classList.remove('on');document.body.style.overflow='';if(last&&last.focus)try{last.focus()}catch(e){}}
+document.getElementById('lb').onclick=function(){this.classList.remove('on')};
+document.getElementById('sheet').addEventListener('click',function(e){var t=e.target;if(t.dataset&&t.dataset.zoom)zoom(t.src,t.alt)});
+document.getElementById('ov').onclick=function(e){if(e.target===this)close()};
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){var lb=document.getElementById('lb');if(lb.classList.contains('on'))lb.classList.remove('on');else close()}});
+if(location.hash==="#gallery"){document.querySelector(".shell").innerHTML=L.map(function(p){return p.cards.filter(function(c){return FIGMAP[c.h]}).map(function(c){return "<h3>"+p.id+" "+c.h+"</h3>"+FIGMAP[c.h].map(function(n){return "<div class=figw style=max-width:520px>"+FIG[n]()+"</div>"}).join("")}).join("")}).join("")}else draw();
+})();
+</script>
+</body></html>
