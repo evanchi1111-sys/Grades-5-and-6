@@ -74,6 +74,7 @@ h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.3;text-wrap:balance
 .trap b{color:var(--bad)}
 .cta{display:flex;gap:10px;flex-wrap:wrap}
 .cta .btn{flex:1 1 180px}
+.topbtns{display:flex;gap:10px;flex-wrap:wrap}
 .exam{margin-top:16px;padding:12px 14px;border:2px dashed var(--edge);border-radius:14px}
 .exam h3{margin:0 0 4px;font-size:18px}
 .exam p{margin:4px 0 10px}
@@ -127,7 +128,7 @@ body.mat .pin.boss .dot{background:var(--bad)}
 <div class="shell">
   <div class="top">
     <div><h1>五年級數學學習島</h1><p>先看教學，再去刷題｜內容依評量整理</p></div>
-    <a class="btn" href="index.html">刷題小勇者</a>
+    <div class="topbtns"><a class="btn" href="home.html#g5">‹ 回選科目</a><a class="btn" href="index.html">刷題小勇者</a></div>
   </div>
   <ol class="how"><li><b>1</b> 點地標看教學</li><li><b>2</b> 讀完按「開始刷題」</li><li><b>3</b> 回島上點亮下一站</li></ol>
   <div class="prog"><span id="pt">已學 0 / 8</span><div class="bar"><i id="pb"></i></div></div>
@@ -424,7 +425,7 @@ function cardHtml(c){
   if(c.li)s+='<ul>'+c.li.map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul>';
   return s+'</div>';
 }
-var EXAM={20:['kt-g5-nat-u1','第 1 單元　太陽的祕密'],21:['kt-g5-nat-u2','第 2 單元　千變萬化的植物'],22:['kt-g5-nat-mid','期中複習（第 1～2 單元）']};
+var EXAM={25:['kt-g5-math-u1','單元 1　折線圖'],26:['kt-g5-math-u2','單元 2　因數和倍數'],27:['kt-g5-math-u3','單元 3　多邊形'],28:['kt-g5-math-u4','單元 4　擴分、約分和通分'],29:['kt-g5-math-u5','單元 5　線對稱圖形'],32:['kt-g5-math-mid','期中總複習（單元 1～5）']};
 function examHtml(p){var e=EXAM[p.u];if(!e)return'';var b='pdf/'+e[0];
   return '<div class="exam"><h3>刷完題，做考卷</h3><p>'+e[1]+'・A、B 兩卷各 100 分（PDF）</p><div class="cta"><a class="btn" target="_blank" rel="noopener" href="'+b+'-exam.pdf">開啟試卷（A、B）</a><a class="btn" target="_blank" rel="noopener" href="'+b+'-ans.pdf">答案與詳解</a></div><p class="hint">iPad：開啟後點一下試卷，再點右上角「標記」（鉛筆圖示），就能用 Apple Pencil 或手指直接寫在試卷上，不用下載。寫完再看答案卷。</p></div>'}
 var last=null;
