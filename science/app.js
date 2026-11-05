@@ -9,11 +9,15 @@ import { mountLab } from './components/experiment.js';
 import { mountDemo } from './components/explanation.js';
 import { runQuiz, pickQuestions } from './components/quiz.js';
 import { starsOf, evaluateBadges, isUnitComplete } from './components/achievement.js';
+import { buildIndex } from './tutor/knowledge.js';
+import { createTutor } from './tutor/service.js';
+import { createTutorPanel } from './tutor/tutor-ui.js';
+import tutorConfig from './tutor/config.js';
 
 const params = new URLSearchParams(location.search);
 const id = params.get('id') || 'g5-u1';
 const main = document.getElementById('main'), stepper = document.getElementById('stepper'), titleEl = document.getElementById('unit-title'), warn = document.getElementById('warn');
-let unit, rec, current = 'scenario', cleanup = null;
+let unit, rec, current = 'scenario', cleanup = null, tutor = null;
 
 function setUrl(step, extra) {
   const q = { id, step }; Object.entries(extra || {}).forEach(([k, v]) => { if (v) q[k] = v; });
@@ -22,6 +26,7 @@ function setUrl(step, extra) {
 function go(step, extra) {
   if (cleanup) { cleanup(); cleanup = null; }
   current = step; setUrl(step, extra); renderStepper(stepper, step, rec, (s) => go(s));
+  if (tutor) { tutor.unlock(); tutor.setContext(null); }
   clear(main); window.scrollTo(0, 0);
   const fn = { scenario, lesson, lab, demo, practice, test, result }[step]; (fn || scenario)(extra || {});
   main.focus({ preventScroll: true });
@@ -94,13 +99,13 @@ function practice(extra) {
   function start(lv) {
     const qs = pickQuestions(unit.questions, { level: lv, count: 6 });
     arena.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    runQuiz(arena, qs, { mode: 'practice', title: ['', '基礎', '進階', '精熟'][lv] + '關', onAnswer: (q, ok) => R.addAttempt(id, { qid: q.id, tag: q.tag, level: q.level, ok, mode: 'practice' }),
+    runQuiz(arena, qs, { mode: 'practice', title: ['', '基礎', '進階', '精熟'][lv] + '關', onAsk: (ctx) => tutor && tutor.open(ctx), onState: (ctx) => tutor && tutor.setContext(ctx), onAnswer: (q, ok) => R.addAttempt(id, { qid: q.id, tag: q.tag, level: q.level, ok, mode: 'practice' }),
       onDone: (res) => {
         const ok = res.filter((x) => x.ok).length; R.addPracticeRun(id, lv, ok, res.length); rec = R.unit(id);
         if ([1, 2, 3].every((k) => rec.practice['L' + k])) done('practice');
         clear(arena);
         arena.append(h('div', { class: 'qcard' }, h('h3', { text: `這一關答對 ${ok} / ${res.length} 題` }), h('p', { text: ok === res.length ? '全部答對，太厲害了！' : '看看答錯的題目，再挑戰一次吧。' }),
-          ...res.filter((x) => !x.ok).map((x) => h('p', { class: 'explain' }, h('b', { text: x.q.q }), h('br'), '解析：' + x.q.explain)),
+          ...res.filter((x) => !x.ok).map((x) => h('p', { class: 'explain' }, h('b', { text: x.q.q }), h('br'), '解析：' + x.q.explain, ' ', h('button', { type: 'button', class: 'btn tutor-ask', onclick: () => tutor && tutor.open({ question: x.q, answered: true, picked: x.picked }) }, '💬 問小幫手'))),
           h('div', { class: 'row' }, h('button', { type: 'button', class: 'btn', onclick: () => start(lv) }, '再玩一次'), h('button', { type: 'button', class: 'btn', onclick: () => go('practice') }, '回到選關'))));
         badgeCheck();
       } });
@@ -116,6 +121,7 @@ function test() {
   box.append(h('p', { class: 'note', text: `共 ${unit.test.total} 題，作答時不顯示對錯，交卷後才看成績和解析。` + (prev ? `（上次：${prev.score}/${prev.total}，${prev.percent}%）` : '') }), arena); main.append(box);
   const startBtn = h('button', { type: 'button', class: 'btn btn-primary', onclick: begin }, '開始測驗'); arena.append(startBtn);
   function begin() {
+    tutor && tutor.lock('測驗進行中，小幫手先休息一下。交卷後再問我！');
     const qs = pickQuestions(unit.questions, { perLevel: unit.test.perLevel });
     runQuiz(arena, qs, { mode: 'test', title: '單元測驗', onAnswer: (q, ok) => R.addAttempt(id, { qid: q.id, tag: q.tag, level: q.level, ok, mode: 'test' }),
       onDone: (res) => finishTest(res) });
@@ -124,7 +130,7 @@ function test() {
     const score = res.filter((x) => x.ok).length, total = res.length, percent = Math.round((score / total) * 100);
     const wrong = res.filter((x) => !x.ok);
     R.addTest(id, { score, total, percent, wrongIds: wrong.map((x) => x.q.id), wrongTags: [...new Set(wrong.map((x) => x.q.tag))] });
-    rec = R.unit(id); done('test'); badgeCheck();
+    rec = R.unit(id); done('test'); badgeCheck(); tutor && tutor.unlock();
     clear(arena); arena.append(renderTestResult(res, score, total, percent));
   }
 }
@@ -139,7 +145,7 @@ function renderTestResult(res, score, total, percent) {
     h('h4', { text: '各知識點表現' }),
     h('ul', { class: 'taglist' }, ...Object.keys(tagStat).map((t) => h('li', { class: tagStat[t].ok === tagStat[t].n ? 'good' : 'weak' }, `${TAGS[t].name}：${tagStat[t].ok}/${tagStat[t].n}`))));
   if (wrong.length) {
-    box.append(h('h4', { text: '答錯的題目與解析' }), ...wrong.map((x) => h('div', { class: 'wrongq' }, h('p', {}, h('b', { text: x.q.q })), h('p', { class: 'bad', text: '你選：' + x.q.opts[x.picked] }), h('p', { class: 'ok', text: '正確：' + x.q.opts[x.q.answer] }), h('p', { class: 'explain', text: '解析：' + x.q.explain }), h('p', { class: 'note', text: '知識點：' + TAGS[x.q.tag].name + '・來源：' + x.q.source }))));
+    box.append(h('h4', { text: '答錯的題目與解析' }), ...wrong.map((x) => h('div', { class: 'wrongq' }, h('p', {}, h('b', { text: x.q.q })), h('p', { class: 'bad', text: '你選：' + x.q.opts[x.picked] }), h('p', { class: 'ok', text: '正確：' + x.q.opts[x.q.answer] }), h('p', { class: 'explain', text: '解析：' + x.q.explain }), h('p', { class: 'note', text: '知識點：' + TAGS[x.q.tag].name + '・來源：' + x.q.source }), h('button', { type: 'button', class: 'btn tutor-ask', onclick: () => tutor && tutor.open({ question: x.q, answered: true, picked: x.picked }) }, '💬 問小幫手'))));
     box.append(h('h4', { text: '建議重新學習' }), ...weak.map((t) => suggestion(t)));
   }
   box.append(h('div', { class: 'row' }, h('button', { type: 'button', class: 'btn', onclick: () => go('test') }, '再測一次'), h('button', { type: 'button', class: 'btn btn-primary', onclick: () => go('result') }, '看學習成果 →')));
@@ -182,6 +188,7 @@ function result() {
   main.append(box);
 }
 
+function navigateTo(href) { const u = new URL(href, location.href); const p = u.searchParams; if (p.get('id') !== id) { location.href = u.href; return; } go(p.get('step') || 'scenario', { act: p.get('act'), node: p.get('node') }); }
 function badgeCheck() { const e = evaluateBadges(rec, unit); e.forEach((b) => R.awardBadge(id, b)); rec = R.unit(id); }
 
 /* 啟動 */
@@ -193,6 +200,7 @@ function badgeCheck() { const e = evaluateBadges(rec, unit); e.forEach((b) => R.
   try { (await loadOriginal(unit.source.page)).forEach((p) => { NODE_NAMES[p.id] = p.name; }); } catch (e) { /* 讀不到就顯示節點代號 */ }
   if (!R.nickname()) R.setNickname('小勇者');
   R.touchStart(id); rec = R.unit(id);
+  try { const index = await buildIndex(unit); tutor = createTutorPanel({ unit, service: createTutor(unit, index, tutorConfig), onUse: (k) => R.addTutor(id, k), navigate: navigateTo }); } catch (e) { console.warn('小幫手載入失敗', e); }
   if (!R.isPersistent()) warn.hidden = false;
   setInterval(() => { if (document.visibilityState === 'visible') { R.addTime(id, 15); } }, 15000);
   const step = STEPS.some((s) => s.id === params.get('step')) ? params.get('step') : 'scenario';

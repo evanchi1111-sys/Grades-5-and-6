@@ -7,7 +7,7 @@ export function pickQuestions(all, { level, count, perLevel }) {
   return shuffle(all.filter((q) => q.level === level)).slice(0, count);
 }
 
-export function runQuiz(root, questions, { mode, title, onAnswer, onDone }) {
+export function runQuiz(root, questions, { mode, title, onAnswer, onDone, onAsk, onState }) {
   clear(root);
   const results = []; let i = 0;
   const card = h('div', { class: 'qcard' });
@@ -22,12 +22,16 @@ export function runQuiz(root, questions, { mode, title, onAnswer, onDone }) {
       h('p', { class: 'qtext', text: q.q }));
     const list = h('div', { class: 'opts', role: 'group', 'aria-label': '選項' });
     const fb = h('div', { class: 'feedback', 'aria-live': 'polite' });
+    const qs = { answered: false, picked: null };
+    onState && onState({ question: q, answered: false, picked: null });
+    const askBtn = onAsk && mode === 'practice' ? h('button', { type: 'button', class: 'btn tutor-ask', onclick: () => onAsk({ question: q, answered: qs.answered, picked: qs.picked }) }, '💬 問小幫手') : null;
     const nextBtn = h('button', { type: 'button', class: 'btn btn-primary', hidden: true }, i + 1 < questions.length ? '下一題 →' : (mode === 'test' ? '交卷，看成績' : '看結果'));
     nextBtn.addEventListener('click', () => { i++; i < questions.length ? ask() : finish(); });
     order.forEach((it, n) => {
       const b = h('button', { type: 'button', class: 'opt' }, h('span', { class: 'k', text: String.fromCharCode(65 + n) }), it.o);
       b.addEventListener('click', () => {
         const ok = it.k === q.answer;
+        qs.answered = true; qs.picked = it.k; onState && onState({ question: q, answered: true, picked: it.k });
         results.push({ q, ok, picked: it.k });
         onAnswer && onAnswer(q, ok);
         [...list.children].forEach((c, idx) => { c.disabled = true; if (mode === 'practice') { if (order[idx].k === q.answer) c.classList.add('right'); else if (idx === n) c.classList.add('wrong'); } else if (idx === n) c.classList.add('picked'); });
@@ -38,7 +42,7 @@ export function runQuiz(root, questions, { mode, title, onAnswer, onDone }) {
       });
       list.append(b);
     });
-    card.append(list, fb, nextBtn);
+    card.append(list, fb, ...(askBtn ? [askBtn] : []), nextBtn);
   }
   function finish() { onDone && onDone(results); }
   ask();

@@ -87,3 +87,13 @@ export function peekSummary(id) {
     return { completed: !!u.completedAt, badges: u.badges || [], steps: Object.keys(u.steps || {}).length };
   } catch (e) { return null; }
 }
+
+/* ---- Phase E 新增（只增加欄位與讀取函式，不改變既有資料格式；schemaVersion 仍為 1） ---- */
+export function profileNames() { load(); return Object.keys(db.profiles); }
+export function selectProfile(name) { load(); if (db.profiles[name]) { db.current = name; commit(); return true; } return false; }
+/* 取得某個暱稱的單元紀錄（唯讀，不會建立資料） */
+export function peekUnit(name, id) { load(); const p = db.profiles[name]; return p && p.units[id] ? p.units[id] : null; }
+/* 小幫手使用次數（kind：hint／explain／similar／search／reveal） */
+export function addTutor(id, kind) { const u = unit(id); if (!u.tutor) u.tutor = { total: 0, byKind: {} }; u.tutor.total++; u.tutor.byKind[kind] = (u.tutor.byKind[kind] || 0) + 1; commit(); }
+/* 匯出整份紀錄（家長／老師匯出用；只讀） */
+export function exportAll() { load(); return JSON.parse(JSON.stringify(db)); }

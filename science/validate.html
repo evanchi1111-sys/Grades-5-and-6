@@ -50,6 +50,17 @@ for (const meta of CATALOG.filter((c) => LOADERS[c.id])) {
   totalBad += probs.length;
   summary.push(`<h2>${u.id}　${u.title}　<span class="${probs.length ? 'bad' : 'ok'}">${probs.length ? '✘ ' + probs.length + ' 個問題' : '✔ 通過'}</span></h2><p>${notes.join('')}</p>` + (probs.length ? '<ul>' + probs.map((p) => '<li class="bad">' + p.replace(/</g, '&lt;') + '</li>').join('') + '</ul>' : ''));
 }
+// 小幫手：未作答時，所有回應都不能含有正確答案；找不到教材要老實說
+{ const { buildIndex } = await import('./tutor/knowledge.js'); const { LocalTutor } = await import('./tutor/service.js'); const probs = []; let n = 0;
+  for (const meta of CATALOG.filter((c) => LOADERS[c.id])) { const u = (await LOADERS[meta.id]()).default; const T = new LocalTutor(u, await buildIndex(u));
+    for (const q of u.questions) { const ans = String(q.opts[q.answer]);
+      for (const r of [{ kind: 'hint', level: 1 }, { kind: 'hint', level: 2 }, { kind: 'hint', level: 3 }, { kind: 'explain' }, { kind: 'simple' }, { kind: 'concept', tag: q.tag }, { kind: 'search', text: q.q }]) {
+        const out = await T.ask({ ...r, question: q, answered: false }); n++;
+        const txt = out.blocks.map((b) => (b.text || '') + (b.source || '') + (b.label || '') + (b.title || '')).join(' ');
+        if (ans.length >= 2 && txt.includes(ans)) probs.push(`${u.id} ${q.id} ${r.kind}${r.level || ''} 洩漏答案「${ans}」`);
+        if (ans.length < 2 && r.kind !== 'explain' && out.blocks.some((b) => b.t === 'quote')) probs.push(`${u.id} ${q.id} ${r.kind} 單字答案卻引用了句子`); } } }
+  const u0 = (await LOADERS['g5-u1']()).default; const T0 = new LocalTutor(u0, await buildIndex(u0)); const nf = await T0.ask({ kind: 'search', text: '恐龍滅絕的原因' }); if (nf.grounded) probs.push('找不到教材時沒有老實說不確定');
+  totalBad += probs.length; summary.push(`<h2>小幫手防洩漏檢查　<span class="${probs.length ? 'bad' : 'ok'}">${probs.length ? '✘ ' + probs.length + ' 個問題' : '✔ 通過'}</span></h2><p>共 ${n} 次模擬提問（每題 7 種）。</p>` + (probs.length ? '<ul>' + probs.slice(0, 30).map((p) => '<li class="bad">' + p + '</li>').join('') + '</ul>' : '')); }
 // 全域：標籤名稱不可重複、未使用的標籤
 const names = Object.values(TAGS).map((t) => t.name); if (new Set(names).size !== names.length) { totalBad++; summary.push('<p class="bad">✘ 有重複的標籤名稱</p>'); }
 out.innerHTML = `<p class="${totalBad ? 'bad' : 'ok'}" id="verdict">${totalBad ? '共 ' + totalBad + ' 個問題' : '全部通過'}</p>` + summary.join('');
