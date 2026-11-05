@@ -47,7 +47,7 @@ export const GRADES = [
       subject({ id: 'nat', name: '自然', building: 'lab', buildingName: '科學實驗室', color: '#6cc56a',
         desc: '單元一、二：太陽的祕密、千變萬化的植物',
         teach: 'island.html', u: 20, midU: 22, kaoguU: 43, mid: 'kt-g5-nat-mid', kaogu: 'kaogu-g5-sci',
-        lab: { unit: 'g5-u1', label: '太陽的祕密（互動教材）', url: 'science/unit.html?id=g5-u1', more: 'science/index.html' } }),
+        labs: [{ unit: 'g5-u1', label: '太陽的祕密（互動教材）', url: 'science/unit.html?id=g5-u1' }, { unit: 'g5-u2', label: '千變萬化的植物（互動教材）', url: 'science/unit.html?id=g5-u2' }], more: 'science/index.html' }),
     ],
   },
   {
@@ -64,7 +64,7 @@ export const GRADES = [
       subject({ id: 'nat', name: '自然', building: 'lab', buildingName: '科學實驗室', color: '#6cc56a',
         desc: '單元一、二：熱的影響與傳播、多變的天氣',
         teach: 'island-g6-nat.html', u: 1, midU: 35, kaoguU: 39, mid: 'kt-g6-nat-mid', kaogu: 'kaogu-g6-sci',
-        lab: { unit: 'g6-u1', label: '熱的影響與傳播（互動教材）', url: 'science/unit.html?id=g6-u1', more: 'science/index.html' } }),
+        labs: [{ unit: 'g6-u1', label: '熱的影響與傳播（互動教材）', url: 'science/unit.html?id=g6-u1' }, { unit: 'g6-u2', label: '多變的天氣（互動教材）', url: 'science/unit.html?id=g6-u2' }], more: 'science/index.html' }),
     ],
   },
 ];

@@ -48,7 +48,7 @@ input[type=range]{width:100%;accent-color:#ff8fb1;min-height:32px}
 
 /* 模擬器 */
 .sim-views{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.sim-svg{width:100%;height:auto;border:3px solid var(--edge);border-radius:16px;background:#fff;display:block}.sim-svg.wide{max-width:100%}.sim-views .sim-svg{max-height:320px}
+.sim-svg{width:100%;height:auto;border:3px solid var(--edge);border-radius:16px;background:#fff;display:block}.sim-svg.wide{max-width:540px;margin-left:auto;margin-right:auto}.sim-views .sim-svg{max-height:320px}
 .readout{background:#fff4d6;border:2px solid var(--edge);border-radius:12px;padding:8px 12px;margin:10px 0;font-weight:500}
 .sim-warn{background:#fff0c9;border:2px solid #e0a23a;border-radius:12px;padding:8px 12px;margin:10px 0;font-size:14px}
 .static-alt,.model-note,.lab-info{background:#fff;border:2px solid var(--edge);border-radius:12px;padding:6px 12px;margin:10px 0}.static-alt summary,.model-note summary,.lab-info summary{cursor:pointer;font-weight:700}

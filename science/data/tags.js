@@ -37,4 +37,33 @@ export const TAGS = {
   'insulation-basic':    { name: '保溫的意思',               unit: 'g6-u1', remedy: { step: 'lesson', node: 'a4' }, status: '待審核' },
   'insulation-apply':    { name: '保溫的原理與應用',         unit: 'g6-u1', remedy: { step: 'lesson', node: 'a4' }, status: '待審核' },
   'cooling':             { name: '散熱的方法',               unit: 'g6-u1', remedy: { step: 'lesson', node: 'a4' }, status: '待審核' },
+
+  // ===== 五年級自然 第 2 單元：千變萬化的植物（草稿，待審核） =====
+  'adapt-roots': { name: '特別的根（氣生根、板根、呼吸根）', unit: 'g5-u2', remedy: { step: 'lab', act: 'plant-env' }, status: '待審核' },
+  'adapt-sea': { name: '海邊植物的適應', unit: 'g5-u2', remedy: { step: 'lab', act: 'plant-env' }, status: '待審核' },
+  'adapt-mountain': { name: '高山植物的適應', unit: 'g5-u2', remedy: { step: 'lab', act: 'plant-env' }, status: '待審核' },
+  'adapt-water': { name: '水生植物為什麼能漂浮', unit: 'g5-u2', remedy: { step: 'lab', act: 'plant-env' }, status: '待審核' },
+  'photosynthesis': { name: '光合作用', unit: 'g5-u2', remedy: { step: 'lesson', node: 'b2' }, status: '待審核' },
+  'water-path': { name: '水在植物體內的路線', unit: 'g5-u2', remedy: { step: 'lab', act: 'plant-parts' }, status: '待審核' },
+  'parts-function': { name: '根、莖、葉的功能', unit: 'g5-u2', remedy: { step: 'lab', act: 'plant-parts' }, status: '待審核' },
+  'flower-seed': { name: '花、授粉與果實種子', unit: 'g5-u2', remedy: { step: 'lesson', node: 'b3' }, status: '待審核' },
+  'seed-dispersal': { name: '種子的傳播方式', unit: 'g5-u2', remedy: { step: 'lab', act: 'seed-travel' }, status: '待審核' },
+  'repro-parts': { name: '不只用種子的繁殖方式', unit: 'g5-u2', remedy: { step: 'lab', act: 'seed-travel' }, status: '待審核' },
+  'classify-standard': { name: '分類的標準', unit: 'g5-u2', remedy: { step: 'lab', act: 'plant-classify' }, status: '待審核' },
+  'classify-dichotomy': { name: '二分法', unit: 'g5-u2', remedy: { step: 'lab', act: 'plant-classify' }, status: '待審核' },
+
+  // ===== 六年級自然 第 2 單元：多變的天氣（草稿，待審核） =====
+  'water-forms': { name: '水的三種形態', unit: 'g6-u2', remedy: { step: 'lesson', node: 'b1' }, status: '待審核' },
+  'cloud-fog': { name: '雲、霧、雨、雪的分別', unit: 'g6-u2', remedy: { step: 'lesson', node: 'b1' }, status: '待審核' },
+  'dew-frost': { name: '露與霜', unit: 'g6-u2', remedy: { step: 'lab', act: 'water-cycle' }, status: '待審核' },
+  'water-cycle-terms': { name: '水循環的名詞', unit: 'g6-u2', remedy: { step: 'lab', act: 'water-cycle' }, status: '待審核' },
+  'satellite': { name: '衛星雲圖', unit: 'g6-u2', remedy: { step: 'lab', act: 'weather-map' }, status: '待審核' },
+  'ground-map': { name: '地面天氣圖符號', unit: 'g6-u2', remedy: { step: 'lab', act: 'weather-map' }, status: '待審核' },
+  'air-mass': { name: '氣團', unit: 'g6-u2', remedy: { step: 'lesson', node: 'b3' }, status: '待審核' },
+  'fronts-types': { name: '冷鋒、暖鋒、滯留鋒', unit: 'g6-u2', remedy: { step: 'lab', act: 'fronts' }, status: '待審核' },
+  'meiyu': { name: '梅雨', unit: 'g6-u2', remedy: { step: 'lesson', node: 'b3' }, status: '待審核' },
+  'typhoon-form': { name: '颱風怎麼形成', unit: 'g6-u2', remedy: { step: 'lesson', node: 'b4' }, status: '待審核' },
+  'typhoon-level': { name: '颱風強度分級', unit: 'g6-u2', remedy: { step: 'lab', act: 'typhoon' }, status: '待審核' },
+  'typhoon-prep': { name: '防颱準備與颱風影響', unit: 'g6-u2', remedy: { step: 'lab', act: 'typhoon' }, status: '待審核' },
+  'water-resource': { name: '臺灣的水資源', unit: 'g6-u2', remedy: { step: 'lesson', node: 'b4' }, status: '待審核' },
 };
