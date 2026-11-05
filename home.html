@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>學習島總入口</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#E4F0EA; --paper:#FBFEFC; --ink:#0A2B3D; --muted:#4D6A78; --line:#BFD6CD; --edge:#0A2B3D;
+  --blue:#0E8F8F; --sun:#FFC83D; --sun-ink:#2B1F00; --soon:#E9EEEC;
+  --c-chi:#C8553D; --c-nat:#2E9A6B; --c-soc:#B8862F; --c-math:#6A5ACD;
+  --f-display:'LXGW WenKai TC','PingFang TC','Microsoft JhengHei',serif;
+  --f-body:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#071C29; --paper:#0F2D40; --ink:#E6F3EE; --muted:#9BB6BF; --line:#24495C; --edge:#02121B; --blue:#35C4C0; --soon:#12303F;
+    --c-chi:#FF8A6E; --c-nat:#4FD39A; --c-soc:#E8B65A; --c-math:#A99BFF; color-scheme:dark}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.7 var(--f-body);
+  padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
+a,button{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px;box-shadow:0 0 0 5px var(--ink)}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.3;text-wrap:balance}
+.shell{max-width:720px;margin:0 auto;padding:18px 0 48px}
+.top h1{font-size:28px}
+.top p{margin:4px 0 14px;color:var(--muted);font-size:15px}
+.crumb{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 14px;font-size:15px;color:var(--muted)}
+.crumb button{border:0;background:none;padding:0;text-decoration:underline;color:var(--blue);font-weight:700}
+.btn{border:2px solid var(--edge);background:var(--paper);border-radius:12px;box-shadow:0 4px 0 var(--edge);padding:8px 14px;min-height:46px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;text-align:center}
+.btn:active{transform:translateY(4px);box-shadow:0 0 0 var(--edge)}
+.btn-primary{background:var(--blue);color:#fff}
+@media (prefers-color-scheme: dark){.btn-primary{color:#032123}}
+.btn[aria-disabled=true]{background:var(--soon);color:var(--muted);box-shadow:none;border-style:dashed;cursor:not-allowed;font-weight:500}
+.grades{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:430px){.grades{grid-template-columns:1fr}}
+.grade{display:block;text-decoration:none;border:2px solid var(--edge);border-radius:18px;background:var(--paper);box-shadow:0 5px 0 var(--edge);padding:20px 18px;text-align:left}
+.grade:active{transform:translateY(5px);box-shadow:0 0 0 var(--edge)}
+.grade .big{font:700 40px/1.1 var(--f-display);display:block}
+.grade .sm{color:var(--muted);font-size:15px}
+.subs{display:grid;gap:14px}
+.sub{border:2px solid var(--edge);border-top-width:10px;border-radius:16px;background:var(--paper);padding:14px 16px;box-shadow:0 4px 0 var(--edge)}
+.sub h2{font-size:22px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.chip{font:700 13px/1 var(--f-body);padding:4px 8px;border-radius:99px;border:2px solid var(--edge);background:var(--soon);color:var(--muted)}
+.chip.on{background:var(--sun);color:var(--sun-ink)}
+.sub p{margin:2px 0 10px;color:var(--muted);font-size:15px}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.sub.chi{border-top-color:var(--c-chi)}.sub.nat{border-top-color:var(--c-nat)}.sub.soc{border-top-color:var(--c-soc)}.sub.math{border-top-color:var(--c-math)}
+.foot{margin-top:22px;color:var(--muted);font-size:14px}
+.hint{margin:14px 0 0;padding:10px 12px;border:2px dashed var(--edge);border-radius:12px;font-size:15px}
+</style></head><body>
+<div class="shell">
+  <header class="top"><h1>學習島總入口</h1><p id="sub">選年級，再選科目：先看教學，再刷題，最後做考卷。</p></header>
+  <nav class="crumb" id="crumb" hidden></nav>
+  <main id="main"></main>
+  <p class="foot">學習進度存在這台裝置的瀏覽器裡，不會上傳。刷題遊戲首頁：<a href="index.html">刷題小勇者</a></p>
+</div>
+<script>
+(function(){
+var SUBJ=[['chi','國語'],['math','數學'],['soc','社會'],['nat','自然']];
+/* island:學習島網址（null＝準備中）；game:直接刷題的單元；mid:期中總複習試卷檔名前綴；final:期末（之後補） */
+var DATA={
+ g5:{name:'五年級',sub:'上學期',s:{
+  chi:{island:'island-g5-chi.html',game:14,mid:'kt-g5-chi-mid',desc:'第 1～6 課：課文、字詞、修辭、句型'},
+  math:{island:null,game:25,mid:'kt-g5-math-mid',desc:'單元 1～5：折線圖、因數倍數、多邊形、分數、線對稱'},
+  soc:{island:'island-g5-soc.html',game:23,mid:'kt-g5-soc-mid',desc:'單元一、二：臺灣的位置、規範與法律、地形與氣候'},
+  nat:{island:'island.html',game:20,mid:'kt-g5-nat-mid',desc:'單元一、二：太陽的祕密、千變萬化的植物'}}},
+ g6:{name:'六年級',sub:'上學期',s:{
+  chi:{island:null,game:5,mid:'kt-g6-chi-mid',desc:'第 1～6 課'},
+  math:{island:null,game:8,mid:'kt-g6-math-mid',desc:'單元一～四：公因數公倍數、分數與小數除法、比與比值'},
+  soc:{island:null,game:3,mid:'kt-g6-soc-mid',desc:'單元一、二：消費與理財、戰後經濟與建設'},
+  nat:{island:null,game:1,mid:'kt-g6-nat-mid',desc:'單元一、二：熱的影響與傳播、多變的天氣'}}}
+};
+var main=document.getElementById('main'),crumb=document.getElementById('crumb'),subEl=document.getElementById('sub');
+function btn(label,href,cls,ext){
+  if(!href)return '<span class="btn" aria-disabled="true">'+label+'（準備中）</span>';
+  return '<a class="btn '+(cls||'')+'" href="'+href+'"'+(ext?' target="_blank" rel="noopener"':'')+'>'+label+'</a>';
+}
+function grades(){
+  crumb.hidden=true;subEl.textContent='選年級，再選科目：先看教學，再刷題，最後做考卷。';
+  main.innerHTML='<div class="grades">'+Object.keys(DATA).map(function(k){
+    var g=DATA[k];return '<a class="grade" href="#'+k+'"><span class="big">'+g.name+'</span><span class="sm">'+g.sub+'・國語、數學、社會、自然</span></a>'}).join('')+'</div>';
+}
+function subjects(k){
+  var g=DATA[k];if(!g)return grades();
+  crumb.hidden=false;crumb.innerHTML='<button type="button" id="back">首頁</button><span>›</span><span>'+g.name+'學習島</span>';
+  document.getElementById('back').onclick=function(){location.hash=''};
+  subEl.textContent=g.name+g.sub+'：選一個科目。';
+  var h='<div class="subs">';
+  SUBJ.forEach(function(x){
+    var d=g.s[x[0]],has=!!d.island;
+    h+='<section class="sub '+x[0]+'"><h2>'+x[1]+'<span class="chip'+(has?' on':'')+'">'+(has?'學習島已開放':'學習島準備中')+'</span></h2><p>'+d.desc+'</p><div class="row">'
+     +btn('進入學習島',d.island,'btn-primary')
+     +btn('直接刷題','index.html?u='+d.game)
+     +btn('第一次段考總複習（PDF）','pdf/'+d.mid+'-exam.pdf','',1)
+     +btn('第二次段考總複習',null)
+     +'</div></section>';
+  });
+  main.innerHTML=h+'</div><p class="hint">「第一次段考」＝上學期期中考，「第二次段考」＝上學期期末考。PDF 試卷用 iPad 打開後，點一下再點右上角「標記」就能直接手寫。</p>';
+}
+function route(){var k=location.hash.replace('#','');k&&DATA[k]?subjects(k):grades();window.scrollTo(0,0)}
+window.addEventListener('hashchange',route);route();
+})();
+</script>
+</body></html>
