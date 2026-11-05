@@ -46,7 +46,8 @@ export const GRADES = [
         teach: 'island-g5-soc.html', u: 23, midU: 31, kaoguU: 42, mid: 'kt-g5-soc-mid', kaogu: 'kaogu-g5-soc' }),
       subject({ id: 'nat', name: '自然', building: 'lab', buildingName: '科學實驗室', color: '#6cc56a',
         desc: '單元一、二：太陽的祕密、千變萬化的植物',
-        teach: 'island.html', u: 20, midU: 22, kaoguU: 43, mid: 'kt-g5-nat-mid', kaogu: 'kaogu-g5-sci' }),
+        teach: 'island.html', u: 20, midU: 22, kaoguU: 43, mid: 'kt-g5-nat-mid', kaogu: 'kaogu-g5-sci',
+        lab: { unit: 'g5-u1', label: '太陽的祕密（互動教材）', url: 'science/unit.html?id=g5-u1', more: 'science/index.html' } }),
     ],
   },
   {

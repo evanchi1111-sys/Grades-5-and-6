@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>自然科互動教材</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="styles/science.css">
+</head>
+<body>
+<header class="top">
+  <a class="back" href="../home.html">← 冒險島</a>
+  <h1>自然科互動教材</h1>
+  <span></span>
+</header>
+<div class="status-bar">示範版：目前完成「五年級・太陽的祕密」。新增內容皆標示<b>待審核</b>；原教材、題庫、考卷完全保留。</div>
+<main id="main" tabindex="-1">
+  <section class="panel">
+    <h2>你好！先取一個暱稱</h2>
+    <p class="note">暱稱只用來在這台裝置分開紀錄，不會上傳。</p>
+    <div class="row"><input id="nick" type="text" maxlength="12" placeholder="小勇者" aria-label="暱稱"><button id="save" type="button" class="btn btn-primary">儲存</button></div>
+    <p id="nick-msg" class="note" aria-live="polite"></p>
+  </section>
+  <section class="panel"><h2>選一個單元</h2><div id="cards" class="cards"></div></section>
+  <section class="panel"><h2>原本的學習資源（仍然可用）</h2>
+    <div class="row"><a class="btn" href="../island.html">五年級自然教材</a><a class="btn" href="../island-g6-nat.html">六年級自然教材</a><a class="btn" href="../index.html">刷題小勇者</a><a class="btn" href="../overview.html">考卷總覽</a></div></section>
+</main>
+<script type="module">
+import { CATALOG } from './data/index.js';
+import * as R from './store/records.js';
+import { h } from './components/dom.js';
+const cards = document.getElementById('cards'), nick = document.getElementById('nick'), msg = document.getElementById('nick-msg');
+R.load(); nick.value = R.nickname() || '';
+document.getElementById('save').addEventListener('click', () => { const n = R.setNickname(nick.value); nick.value = n; msg.textContent = R.isPersistent() ? '已儲存：' + n : '已設定為「' + n + '」，但這個瀏覽器無法儲存紀錄（可能是無痕模式）。'; draw(); });
+function draw() {
+  cards.textContent = '';
+  CATALOG.forEach((c) => {
+    const s = c.ready ? R.peekSummary(c.id) : null;
+    const body = h('div', { class: 'ucard' + (c.ready ? '' : ' soon') },
+      h('span', { class: 'tag-kind', text: (c.grade === 5 ? '五' : '六') + '年級・第 ' + c.no + ' 單元' }), h('h3', { text: c.title }),
+      h('p', { class: 'note', text: c.ready ? (s ? (s.completed ? '★ 已通關' : '學習中（完成 ' + s.steps + ' 個步驟）') : '還沒開始') : '互動版準備中' }),
+      c.ready ? h('a', { class: 'btn btn-primary', href: 'unit.html?id=' + c.id, text: s ? '繼續學習' : '開始學習' }) : h('span', { class: 'btn disabled', text: '準備中' }),
+      h('div', { class: 'row' }, h('a', { class: 'btn', href: '../' + c.original.page, text: '原教材' }), h('a', { class: 'btn', href: '../' + c.original.quiz, text: '原刷題' })));
+    cards.append(body);
+  });
+}
+draw();
+</script>
+</body>
+</html>

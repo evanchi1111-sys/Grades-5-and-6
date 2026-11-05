@@ -20,6 +20,15 @@ function linkBtn(label, url, cls, ext) {
   return el('a', { class: 'btn ' + (cls || ''), href: url, target: ext ? '_blank' : null, rel: ext ? 'noopener' : null }, label);
 }
 
+/* 唯讀：讀取互動教材的學習狀態（不寫入、不建立任何資料） */
+function labStatus(unitId) {
+  try {
+    const o = JSON.parse(localStorage.getItem('adv-sci-v1') || 'null'); const u = o && o.current && o.profiles[o.current] && o.profiles[o.current].units[unitId];
+    if (!u) return '還沒開始。';
+    return u.completedAt ? '★ 已通關，地標已點亮。' : '學習中（已完成 ' + Object.keys(u.steps || {}).length + ' 個步驟）。';
+  } catch (e) { return ''; }
+}
+
 export function createUI(h) {
   const root = document.getElementById('ui');
   root.textContent = '';
@@ -97,6 +106,9 @@ export function createUI(h) {
       el('p', { class: 'desc', text: s.desc }),
       el('section', {}, el('h3', { text: '教材' }),
         el('div', { class: 'row' }, linkBtn('進入教材', s.teach, 'btn-primary'))),
+      s.lab ? el('section', {}, el('h3', { text: '互動教材（新）' }),
+        el('div', { class: 'row' }, linkBtn(s.lab.label, s.lab.url, 'btn-primary'), linkBtn('全部互動單元', s.lab.more)),
+        el('p', { class: 'note', text: labStatus(s.lab.unit) + '新增內容標示「待審核」；原教材與題庫完全保留。' })) : null,
       el('section', {}, el('h3', { text: '開始刷題' }),
         el('div', { class: 'row' }, s.quizzes.map((q, i) => linkBtn(q.label, q.url, i === 0 ? 'btn-accent' : '')))),
       el('section', {}, el('h3', { text: '考卷／測驗' }),
