@@ -119,7 +119,7 @@ h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.3;text-wrap:balance
 <div class="shell">
   <div class="top">
     <div><h1>六年級自然學習島</h1><p>先看教學，再去刷題｜內容依評量整理</p></div>
-    <div class="topbtns"><a class="btn" href="home.html#g5">‹ 回選科目</a><a class="btn" href="index.html">刷題小勇者</a></div>
+    <div class="topbtns"><a class="btn" href="home.html#g6">‹ 回選科目</a><a class="btn" href="index.html">刷題小勇者</a></div>
   </div>
   <ol class="how"><li><b>1</b> 點地標看教學</li><li><b>2</b> 讀完按「開始刷題」</li><li><b>3</b> 回島上點亮下一站</li></ol>
   <div class="prog"><span id="pt">已學 0 / 8</span><div class="bar"><i id="pb"></i></div></div>
@@ -430,7 +430,7 @@ function cardHtml(c){
   if(c.li)s+='<ul>'+c.li.map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul>';
   return s+'</div>';
 }
-var EXAM={20:['kt-g5-nat-u1','第 1 單元　熱的影響與傳播'],21:['kt-g5-nat-u2','第 2 單元　多變的天氣'],22:['kt-g5-nat-mid','期中複習（第 1～2 單元）']};
+var EXAM={1:['kt-g6-nat-u1','第 1 單元　熱的影響與傳播'],2:['kt-g6-nat-u2','第 2 單元　多變的天氣'],35:['kt-g6-nat-mid','期中總複習（第 1～2 單元）']};
 function examHtml(p){var e=EXAM[p.u];if(!e)return'';var b='pdf/'+e[0];
   return '<div class="exam"><h3>刷完題，做考卷</h3><p>'+e[1]+'・A、B 兩卷各 100 分（PDF）</p><div class="cta"><a class="btn" target="_blank" rel="noopener" href="'+b+'-exam.pdf">開啟試卷（A、B）</a><a class="btn" target="_blank" rel="noopener" href="'+b+'-ans.pdf">答案與詳解</a></div><p class="hint">iPad：開啟後點一下試卷，再點右上角「標記」（鉛筆圖示），就能用 Apple Pencil 或手指直接寫在試卷上，不用下載。寫完再看答案卷。</p></div>'}
 var last=null;
