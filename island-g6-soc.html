@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>六年級社會學習島</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#E4F0EA; --paper:#FBFEFC; --ink:#0A2B3D; --muted:#4D6A78; --line:#BFD6CD; --edge:#0A2B3D;
+  --sea:#CFE8F0; --land-a:#F6E7A8; --land-b:#BFE3A6; --land-c:#F2C9B8; --grass:#6FB36B; --trunk:#9B6B43;
+  --blue:#0E8F8F; --sun:#FFC83D; --sun-ink:#2B1F00; --good:#17835A; --bad:#C23B38; --bad-bg:#FBE0DD; --pick:#CDEFE8;
+  --sunc:#FFC83D; --sky:#CFE9F7; --night:#1D3B5A; --water:#8CCBEA; --leafc:#6FB36B; --leafd:#3E8A50; --soil:#B98A5E; --warm:#E8643A; --cool:#2F7FD8; --warmbg:#FBD9C9; --shade:rgba(10,43,61,.55);
+  --f-display:'LXGW WenKai TC','PingFang TC','Microsoft JhengHei',serif;
+  --f-body:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#071C29; --paper:#0F2D40; --ink:#E6F3EE; --muted:#9BB6BF; --line:#24495C; --edge:#02121B;
+    --sea:#0B2A3B; --land-a:#6B5B26; --land-b:#2F5B3A; --land-c:#6E4636; --grass:#3E8A50; --trunk:#B58559;
+    --blue:#35C4C0; --pick:#17485A; --bad:#FF8A82; --bad-bg:#46201F; --good:#4FD39A;
+    --sky:#173B52; --water:#1F5C7A; --warmbg:#5A3326; --shade:rgba(0,0,0,.6); --soil:#7B5636; --leafd:#4FB06A; --cool:#58B4F5; --warm:#FF7A55; --land-b:#2F5B3A;
+    color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.7 var(--f-body);
+  padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
+button,a{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px;box-shadow:0 0 0 5px var(--ink)}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.3;text-wrap:balance}
+.shell{max-width:720px;margin:0 auto;padding:14px 0 40px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.top h1{font-size:26px}
+.top p{margin:0;color:var(--muted);font-size:15px}
+.topbtns{display:flex;gap:10px;flex-wrap:wrap}
+.btn{border:2px solid var(--edge);background:var(--paper);border-radius:12px;box-shadow:0 4px 0 var(--edge);padding:8px 16px;min-height:46px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none}
+.btn:active{transform:translateY(4px);box-shadow:0 0 0 var(--edge)}
+.btn-primary{background:var(--blue);color:#fff}
+@media (prefers-color-scheme: dark){.btn-primary{color:#032123}}
+.btn-sun{background:var(--sun);color:var(--sun-ink)}
+.prog{display:flex;align-items:center;gap:10px;margin:6px 0 12px;font-size:15px;color:var(--muted)}
+.bar{flex:1;height:12px;border:2px solid var(--edge);border-radius:8px;background:var(--paper);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--blue);width:0}
+.how{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;padding:0;list-style:none;font-size:15px}
+.how li{background:var(--paper);border:2px solid var(--line);border-radius:10px;padding:4px 10px}
+.how b{color:var(--blue)}
+.map{position:relative;border:3px solid var(--edge);border-radius:16px;overflow:hidden;background:var(--sea);aspect-ratio:720/1161;box-shadow:0 5px 0 var(--edge)}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;padding:0;min-width:48px}
+.pin .dot{width:44px;height:44px;border-radius:50%;border:3px solid var(--edge);background:var(--sun);color:var(--sun-ink);font:700 20px/1 var(--f-display);display:grid;place-items:center;box-shadow:0 3px 0 var(--edge);position:relative}
+.pin:hover .dot{transform:translateY(-2px)}
+.pin .lbl{background:var(--paper);border:2px solid var(--edge);border-radius:8px;padding:0 8px;font-size:13px;font-weight:700;line-height:1.6;white-space:nowrap}
+.pin.done .dot{background:var(--good);color:#fff}
+.pin.done .dot::after{content:"✓";position:absolute;right:-8px;top:-8px;width:20px;height:20px;border-radius:50%;background:var(--paper);color:var(--good);border:2px solid var(--edge);font:700 13px/16px var(--f-body);text-align:center}
+.pin.boss .dot{background:var(--bad);color:#fff}
+.tag{position:absolute;background:var(--paper);border:2px solid var(--edge);border-radius:8px;padding:1px 10px;font:700 14px/1.6 var(--f-display);transform:translate(-50%,-50%);pointer-events:none}
+.legend{margin:12px 0 0;font-size:14px;color:var(--muted)}
+
+#ov{position:fixed;inset:0;background:rgba(5,20,30,.55);display:none;align-items:flex-end;justify-content:center;z-index:10}
+#ov.on{display:flex}
+.sheet{background:var(--paper);width:100%;max-width:720px;max-height:92vh;overflow:auto;border:3px solid var(--edge);border-bottom:0;border-radius:20px 20px 0 0;padding:16px 16px 28px}
+.sh-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.sh-top .u{font-size:14px;color:var(--muted)}
+.sh-top h2{font-size:24px}
+.x{width:44px;height:44px;border:2px solid var(--edge);border-radius:12px;background:var(--paper);font-size:22px;line-height:1;flex:none}
+.intro{margin:6px 0 12px}
+.card{border:2px solid var(--edge);border-radius:14px;padding:10px 14px;margin:0 0 12px;background:var(--paper)}
+.card h3{font-size:18px;margin:0 0 4px}
+.card ul{margin:0;padding-left:1.2em}
+.card li{margin:2px 0}
+.card b{color:var(--blue)}
+.card table{border-collapse:collapse;width:100%;font-size:15px;margin:6px 0}
+.card th,.card td{border:1.5px solid var(--line);padding:3px 6px;text-align:center}
+.card th{background:var(--pick)}
+.trap{border:2px solid var(--bad);background:var(--bad-bg);border-radius:14px;padding:10px 14px;margin:0 0 14px}
+.trap b{color:var(--bad)}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.cta .btn{flex:1 1 180px}
+.exam{margin-top:16px;padding:12px 14px;border:2px dashed var(--edge);border-radius:14px}
+.exam h3{margin:0 0 4px;font-size:18px}
+.exam p{margin:4px 0 10px}
+.exam .hint{font-size:14px;opacity:.85;margin:10px 0 0}
+.mini{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 0}
+.mini button{border:2px solid var(--edge);background:var(--pick);border-radius:10px;padding:2px 10px;font-weight:700;min-height:40px}
+.figw{margin:4px 0 8px;background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:6px}
+.fig{display:block;width:100%;height:auto}
+.fig text{font:500 13px var(--f-body);fill:var(--ink)}
+.fig text.h{font-weight:700;font-size:14px}
+.fig text.m{font-size:12px;fill:var(--muted)}
+.fig text.w{fill:#fff}
+.fig .s{stroke:var(--edge);stroke-width:2;stroke-linejoin:round}
+.tip{border:2px dashed var(--edge);background:color-mix(in srgb,var(--sun) 28%,var(--paper));border-radius:14px;padding:8px 14px;margin:0 0 12px;font-weight:700}
+.qa{border:2px solid var(--edge);border-radius:14px;padding:8px 14px;margin:0 0 12px}
+.qa h3{font-size:18px;margin:0 0 4px}
+.qa details{margin:4px 0}
+.qa summary{cursor:pointer;font-weight:700;min-height:36px;display:flex;align-items:center}
+.qa details p{margin:2px 0 6px;color:var(--good);font-weight:700}
+.btn-sm{min-height:38px;padding:4px 12px;font-size:15px;border-radius:10px;box-shadow:0 3px 0 var(--edge)}
+.animbar{margin:0 0 10px}
+.sdctl{display:flex;align-items:center;gap:10px;padding:2px 6px}
+.sdctl input[type=range]{flex:1;min-width:0;accent-color:var(--blue)}
+.sdctl output{font-weight:700;min-width:3.2em;text-align:right}
+.sd-note{margin:2px 6px 4px;font-size:15px;font-weight:700;color:var(--blue)}
+.ph{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:6px 0 8px}
+.ph figure{margin:0;border:2px solid var(--line);border-radius:10px;overflow:hidden;background:var(--paper)}
+.ph figure.full{grid-column:1/-1}
+.ph img{display:block;width:100%;height:auto;cursor:zoom-in}
+.ph figcaption{font-size:13px;line-height:1.5;padding:3px 8px 5px;color:var(--muted)}
+#lb{position:fixed;inset:0;background:rgba(5,20,30,.92);z-index:30;display:none;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;cursor:zoom-out}
+#lb.on{display:flex}
+#lb img{max-width:100%;max-height:88vh;object-fit:contain;border-radius:8px;background:#fff}
+#lb span{color:#fff;font-size:14px}
+.imgerr{padding:10px;font-size:13px;color:var(--bad);background:var(--bad-bg)}
+.ph .cr{display:block;font-size:11.5px;opacity:.85;margin-top:2px}
+.ph .cr a{color:var(--blue)}
+.credit{font-size:13px;color:var(--muted);margin:0 0 12px}
+@media (max-width:520px){.pin .dot{width:38px;height:38px;font-size:17px}.pin .lbl{font-size:12px;padding:0 5px}.tag{font-size:12px;padding:0 6px}}
+@media (prefers-reduced-motion:no-preference){.pin .dot{transition:transform .12s}}
+body.soc{--bg:#EFE2C2;--paper:#FBF3DC;--sea:#BCD8DA;--line:#C8B98E;--land-b:#CFE0A5;--land-a:#E7C98A;--pick:#F4DFA8;--blue:#B25A24;--sun:#F2B33D;--muted:#6A5A3C}
+body.soc .map{border:4px double var(--edge);background:var(--sea);box-shadow:0 5px 0 var(--edge),inset 0 0 0 6px var(--paper)}
+body.soc .pin .dot{background:var(--bad);color:#fff;border-radius:50% 50% 50% 8px;transform:rotate(-45deg);font-size:0}
+body.soc .pin .dot::before{content:attr(data-n);transform:rotate(45deg);font:700 20px/1 var(--f-display);display:block}
+body.soc .pin .lbl{border-style:dashed;background:var(--paper)}
+body.soc .pin.done .dot{background:var(--good)}
+body.soc .pin.boss .dot{background:var(--blue)}
+body.soc .pin .dot::after{transform:rotate(45deg)}
+@media (max-width:520px){body.soc .pin .dot::before{font-size:17px}}
+@media (prefers-color-scheme: dark){body.soc{--bg:#2A2314;--paper:#3A311C;--sea:#17323A;--line:#4C4326;--land-b:#4C5E34;--land-a:#7A6330;--pick:#5A4A22;--blue:#E39A5F;--muted:#C9B88C}}
+</style></head><body class="soc">
+<div class="shell">
+  <div class="top">
+    <div><h1>六年級社會學習島</h1><p>先看教學，再去刷題｜內容依評量整理</p></div>
+    <div class="topbtns"><a class="btn" href="home.html#g5">‹ 回選科目</a><a class="btn" href="index.html">刷題小勇者</a></div>
+  </div>
+  <ol class="how"><li><b>1</b> 點地標看教學</li><li><b>2</b> 讀完按「開始刷題」</li><li><b>3</b> 回島上點亮下一站</li></ol>
+  <div class="prog"><span id="pt">已學 0 / 9</span><div class="bar"><i id="pb"></i></div></div>
+  <div class="map" id="map"></div>
+  <p class="legend">綠色打勾＝已經看過教學。進度只存在這台裝置的瀏覽器。</p>
+</div>
+<div id="lb" role="dialog" aria-label="放大圖片"></div>
+<div id="ov" role="dialog" aria-modal="true" aria-labelledby="st"><div class="sheet" id="sheet"></div></div>
+<script>
+(function(){
+var KEY='island-g6-soc-v1';
+var L=[
+{id:'a1',u:3,t:0,ch:'1',name:'貨幣與支付',unit:'單元一・消費選擇與理財規劃',x:190,y:110,intro:'從以物易物到手機付款，人們的交易方式一直在改變。出國時，還要把錢換成當地的貨幣。',
+ cards:[
+  {h:'交易方式的演變',li:['<b>貨幣出現前</b>：人們以<b>以物易物</b>來取得生活所需。','<b>貨幣出現後</b>：人們使用貨幣交易，衡量商品價值。','近年出現<b>電子票證、信用卡、行動支付</b>等多元支付方式。']},
+  {h:'貨幣兌換和匯率',table:{h:['國家','使用的貨幣'],r:[['臺灣','新臺幣'],['日本','日圓'],['美國','美元']]},li:['到國外旅遊，要把手上的貨幣換成當地的貨幣。','例：<b>1 美元約可換 30 元新臺幣</b>，這個兌換比例叫作<b>匯率</b>。','匯率常常變動，出國前可以先查詢<b>當日匯率</b>，再兌換。']},
+  {h:'多元支付的好處和提醒',table:{h:['好處','要小心的地方'],r:[['出門不必攜帶大量現金','可能因<b>一時衝動</b>而購物'],['讓消費更便利','不小心<b>超出預算</b>']]},li:['電子票證可以先儲值。使用時先想一想「是不是需要再消費」，培養自我管理的習慣。']}],
+ trap:'<b>易錯：</b>匯率會變動，不是固定不變；用多元支付時要留意自己的花費，不要不知不覺花太多錢。'},
+{id:'a2',u:3,t:1,ch:'2',name:'消費與生產',unit:'單元一・消費選擇與理財規劃',x:540,y:210,intro:'消費者想要什麼，生產者就會跟著調整。買東西時，要考慮價格、品質和自己的需求。',
+ cards:[
+  {h:'影響消費選擇的因素',li:['影響消費者選擇的因素包含：<b>價格、品質、個人需求</b>。','例：商品 A 超低價但品質劣、需求低；商品 C 打九折、品質良好、需求最高，就最值得買。']},
+  {h:'消費需求帶動生產改變',li:['生產者會用這些方法，讓商品更符合消費者的期待：','① <b>持續改良商品</b>。','② <b>行銷</b>：透過廣告看板、電視或網路平臺傳遞資訊（優惠價格、品質保證、創新功能、貼心服務）。','③ <b>調整生產過程</b>：<b>控制成本</b>（選用合適且價格較低的原料）；<b>提升品質與效率</b>（引進新技術或自動化設備）。','④ 透過<b>問卷、網路評價、客服回饋</b>蒐集意見，了解市場需求，提升競爭力。'],
+   table:{h:['影響生產的因素','例子'],r:[['生產成本','雞蛋漲價了，媽媽只能調整原料或提高售價'],['生產技術','添購自動炸物機，又快又穩定'],['市場需求','很多人想吃早午餐，早餐店延長營業時間']]}}],
+ trap:'<b>易錯：</b>「控制成本」是想辦法讓花費變少；「提升品質與效率」是用新技術、自動化；兩者不一樣。'},
+{id:'a3',u:3,t:2,ch:'3',name:'消費安全與環境',unit:'單元一・消費選擇與理財規劃',x:190,y:310,intro:'買東西要保護自己，也要想到地球：確認商品、留好憑證，還要減少過度消費。',
+ cards:[
+  {h:'維護消費安全和權益',li:['網路購物很方便，但有風險。消費前要<b>確認商品內容</b>、查看<b>賣家評價與信用</b>，或撥打 <b>165 反詐騙諮詢專線</b>求證。','買到有問題的商品，可憑<b>發票、保證書或購買證明</b>，在期限內向賣家要求<b>退費或換貨</b>。','如果賣家拒絕，可以撥打<b>全國消費者服務專線 1950</b>求助。']},
+  {h:'過度消費和大量生產',li:['<b>原因</b>：企業為了搶占市場，快速、大量生產價格低、款式新穎的商品，吸引大家大量購買（例如快時尚）。','<b>影響</b>：消費者買下不太需要的東西；賣不掉的商品或丟棄的物品進到垃圾掩埋場，難以分解，染劑和添加物還可能滲入<b>土壤與水源</b>，造成汙染。']},
+  {h:'怎麼做才友善環境',table:{h:['對象','做法'],r:[['企業','推動更<b>永續</b>的生產：改用<b>天然或再生材料</b>，減少使用對環境有害的化學物質'],['消費者','優先購買<b>友善環境</b>的商品；養成<b>減量與再利用</b>的習慣']]},
+   li:['愛惜物品、延長使用年限；善用二手平臺捐贈衣物；把舊衣物改造再利用。','「不買」也是一種選擇：克制購物的衝動，可以把錢存起來，也是保護地球的行動。','環保吸管：不同材質各有優缺點，消費者可依自己的需求選擇。']}],
+ trap:'<b>易錯：</b>165 是「反詐騙」專線；1950 是「消費者服務」專線，買到問題商品被拒絕換貨時打 1950。'},
+{id:'a4',u:3,t:3,ch:'4',name:'理財與風險',unit:'單元一・消費選擇與理財規劃',x:540,y:410,intro:'家庭怎麼分配金錢？存款、保險、股票各有什麼用？有賺也可能賠，要先評估風險。',
+ cards:[
+  {h:'家庭理財',li:['透過<b>全家討論</b>，比較價格與需求，學習衡量事項的先後順序。','理財是做出合適的財務<b>分配與選擇</b>。','家庭的收入與支出金額通常<b>高於</b>個人金錢運用，所以理財方式也更多元。','理財前要先蒐集資料：閱讀報章雜誌、收看財經報導、查詢網路資料、諮詢專業理財人員。']},
+  {h:'常見的理財工具',table:{h:['工具','特色'],r:[['<b>活期存款</b>','可<b>隨時</b>存取，適合日常支出和緊急預備金（例：颱風後修房子）'],['<b>定期存款</b>','短期用不到的錢，存滿一定時間後，可領取比活期存款<b>更高</b>的利息'],['<b>保險</b>','遇到意外或疾病時，減輕醫療費用對家庭的衝擊'],['<b>股票</b>','若仍有餘裕可考慮；價格上漲時賣出可以<b>獲利</b>']]},
+   li:['存款、保險、股票三者可以<b>相互搭配</b>，讓家庭理財規劃更有彈性。']},
+  {h:'理財風險',li:['理財可能帶來<b>獲利</b>，也可能出現<b>虧損</b>。','<b>銀行存款</b>：風險較低，但利息通常較少。<b>股票</b>：價格波動大，可能獲得高利益，也可能虧損。','例（數字僅供參考）：存入 100 萬元，一年後獲得利息 15,000 元，總額 1,015,000 元；買股票賺 20 萬元，總額 120 萬元；賠 20 萬元，總額 80 萬元。','理財前要<b>先了解內容與費用</b>、<b>不輕信來路不明的消息</b>、<b>評估自己能承擔的風險</b>。']},
+  {h:'小學生怎麼理財',li:['① 先<b>設定目標</b>並做好規劃。','② 養成<b>記帳</b>習慣，記下收入和支出，定期檢視，逐步建立理財能力。','③ 也可以<b>投資自己</b>：努力學習知識，增進能力與經驗。']}],
+ trap:'<b>易錯：</b>風險愈高，不代表一定獲利愈高；股票可能賺也可能賠。定期存款利息比活期高，但不能隨時領。'},
+{id:'b1',u:4,t:0,ch:'5',name:'土地改革',unit:'單元二・戰後經濟轉型與生活轉變',x:190,y:510,intro:'戰後初期，臺灣物價飛漲、糧食不足。政府先從改善農民生活開始，穩定社會。',
+ cards:[
+  {h:'戰後初期的困難',li:['第二次世界大戰後，中華民國政府來到臺灣，面臨：許多建設受戰火波及、<b>物價飛漲</b>、<b>糧食不足</b>、人民生活艱困。','政府的目標：<b>穩定社會</b>與發展經濟、<b>恢復糧食生產</b>，讓農民安心耕作、擁有穩定收入。','所以政府先從改善<b>農民</b>生活著手：推動<b>土地改革</b>。']},
+  {h:'三七五減租和耕者有其田',table:{h:['政策','做法','影響'],r:[['<b>三七五減租</b>（民國 38 年）','降低農民要繳給地主的<b>租金</b>','農民可把大部分收成留下，生活改善；地主收入<b>減少</b>'],['<b>耕者有其田</b>','政府向地主<b>收購</b>土地，再<b>轉賣</b>給實際耕作的農民','農民擁有土地，生活逐漸穩定；地主獲得<b>補償金</b>，部分轉而投入<b>工商業</b>，間接促進工商業發展']]},
+   li:['今日臺灣有國際化城市、便利交通和各國商品；但先天限制是資源有限、土地面積不大。']}],
+ trap:'<b>易錯：</b>三七五減租是「降低農民的租金」，不是增加；耕者有其田是政府「收購」地主土地再「轉賣」給農民。'},
+{id:'b2',u:4,t:1,ch:'6',name:'美援與加工出口',unit:'單元二・戰後經濟轉型與生活轉變',x:540,y:610,intro:'美國為什麼援助臺灣？援助怎麼改變飲食和建設？加工出口區又讓社會有什麼不一樣？',
+ cards:[
+  {h:'美國援助',li:['時間：民國 <b>40～50 年代</b>。','原因：美國擔心共產勢力擴張，希望臺灣成為<b>反共防線</b>，因此對臺灣進行經濟援助。','方式：提供<b>物資與貸款</b>，並透過貸款與<b>技術支援</b>協助推動基礎建設。','影響：協助臺灣度過困難、改善生活，奠定美國與臺灣<b>長期合作</b>的基礎。']},
+  {h:'美援對生活的影響',li:['當時提供<b>麵粉與奶粉</b>：民眾把麵粉做成饅頭、麵條；奶粉沖泡成牛奶，是孩童補充營養的來源之一，使<b>麵食與乳製品</b>在臺灣逐漸普及。','物資缺乏時，裝麵粉的袋子也被拿來當布料，做成家常服。'],
+   table:{h:['基礎建設','特色'],r:[['<b>石門水庫</b>','提供北部地區民生與工業用水，兼具發電；臺灣<b>第一座多功能水庫</b>（灌溉、發電、給水、防洪、觀光）'],['<b>西螺大橋</b>','日治時期規劃，後由美援協助完工；連接<b>彰化縣與雲林縣</b>，促進人力與貨物流通']]}},
+  {h:'民生工業和加工出口區',li:['<b>民國 40 年代</b>：民生物資短缺，政府一邊接受美援，一邊推動<b>紡織、塑膠、食品</b>等民生工業。','<b>民國 50 年代</b>：在<b>高雄</b>設立第一個<b>加工出口區</b>，因為鄰近<b>港口</b>，方便進口原料和出口產品。','模式：吸引外國公司來臺設廠，進口原料，在臺灣加工、組裝後，透過海運外銷，開啟「<b>Made in Taiwan</b>」（MIT）。']},
+  {h:'加工出口區帶來的改變',table:{h:['改變','內容'],r:[['家電','民眾開始買得起便宜家電；大同電扇是當時代表性的國產家電之一'],['人口移動','吸引<b>農村青年</b>到園區工作，帶動住宅興建、道路鐵路等交通建設'],['女性地位','過去多留在家中做家務或農事的女性進入工廠，成為重要<b>勞動力</b>，改善家庭經濟，提升在家庭與社會的地位']]}}],
+ trap:'<b>易錯：</b>石門水庫是臺灣「第一座多功能水庫」；第一個加工出口區在「高雄」，因為鄰近港口。'},
+{id:'b3',u:4,t:2,ch:'7',name:'十大建設與交通',unit:'單元二・戰後經濟轉型與生活轉變',x:190,y:710,intro:'民國 60 年代，政府推動大規模公共建設。交通變方便了，土地的用途也跟著改變。',
+ cards:[
+  {h:'公共建設的好處和缺點',li:['現今便利的公共建設（高速公路、機場）讓上課、上班、旅遊更方便，也帶動<b>經濟發展</b>。','缺點：建造時需要大量<b>金錢與時間</b>；若後續營運不善，可能成為政府的<b>財政負擔</b>。']},
+  {h:'為什麼要推動十大建設',li:['時間：民國 <b>60 年代</b>。','背景：生活與生產活動擴大，出現<b>用電需求增加、鐵路運量受限、工業原料不足</b>；國際上發生<b>能源危機</b>（西亞戰爭，產油國限制石油出口，油價大漲），臺灣也受影響。','政府推動一系列公共工程，目的：提升<b>國家競爭力</b>、改善<b>交通運輸</b>、強化<b>能源供應</b>、提升<b>重工業</b>發展能力。','影響：建設與產業集中在少數地區，人口與資源向<b>都市聚集</b>，擴大城鄉差距，形成<b>區域發展不均</b>。'],
+   table:{h:['目的','十大建設的例子'],r:[['改善交通運輸','中山高速公路、北迴鐵路、鐵路電氣化、桃園國際機場、蘇澳港、臺中港'],['強化能源供應','核能發電廠'],['提升重工業','大煉鋼廠、造船廠、石油化學工業']]},
+   },
+  {h:'交通建設改變土地利用',li:['臺灣地形<b>南北狹長</b>，為了貨物運送與人員往來，政府興建<b>中山高速公路</b>（今國道 1 號），從<b>基隆到高雄</b>，大幅縮短運輸時間。','後續增建國道 3 號、西部<b>高速鐵路</b>等，<b>南北一日生活圈</b>逐漸形成。','工廠看中交通便利，在公路周邊設廠，<b>農田</b>變成<b>工業區或住宅區</b>，商店也增加，提供工作機會。','新問題：車流增加造成<b>交通壅塞</b>；<b>噪音與空氣汙染</b>影響居民。例：興建中山高速公路後，臺中市原先農田變為工業區，人口增加。']}],
+ trap:'<b>易錯：</b>重工業是製造大型原料或設備的工業（如鋼鐵、石化、造船），不是生產文具、零食的民生工業；十大建設後，城鄉差距沒有消失。'},
+{id:'b4',u:4,t:3,ch:'8',name:'高雄重工業',unit:'單元二・戰後經濟轉型與生活轉變',x:540,y:810,intro:'高雄為什麼會成為重工業城市？後來又怎麼改善汙染、轉型成港灣都市？',
+ cards:[
+  {h:'為什麼選在高雄',li:['發展重工業需要大量鋼鐵和石油；完全依賴進口，成本高，也容易受<b>國際情勢</b>影響，所以政府想自己發展。','高雄的條件：<b>日治時期</b>已發展煉鋼業、擁有良好<b>港口</b>與交通、具備擴大工業聚集的空間。','政府在這裡興建<b>鋼鐵廠、石化工廠、造船廠</b>，形成以<b>鋼鐵、石化、造船</b>為主的重工業中心。']},
+  {h:'帶來的影響',li:['工廠提供大量工作機會，吸引人口移入，帶動<b>住宅、商業與交通</b>建設，高雄成為人口密集的都市。','工廠增加造成<b>空氣與河川汙染</b>，部分居民曾透過陳情、集會表達訴求。']},
+  {h:'改善環境、轉型發展',table:{h:['改善環境問題','轉型發展'],r:[['推動<b>空氣汙染管制</b>與<b>廢水處理</b>；增設<b>公園綠地</b>（例：把工業區旁廢棄的垃圾場規劃為高雄都會公園）','產業往<b>環保</b>與<b>科技</b>發展；發展<b>海洋觀光</b>與<b>藝文</b>活動；轉變為兼具<b>觀光與文化</b>的國際港灣都市']]},
+   li:['例：今日造船廠也積極發展觀光遊艇產業；高雄市政府結合在地宗教文化與海洋，辦理媽祖海巡活動（林園鳳芸宮的海上巡香）。']}],
+ trap:'<b>易錯：</b>高雄的重工業是「鋼鐵、石化、造船」；政府改善汙染的做法是「管制空氣汙染、處理廢水、增設公園」，不是讓工廠全部停工。'},
+{id:'b5',u:4,t:4,ch:'9',name:'科學園區與晶圓',unit:'單元二・戰後經濟轉型與生活轉變',x:190,y:910,intro:'低廉勞動力的優勢不再，臺灣轉向高科技。新竹科學園區和晶圓製造，是這個轉變的關鍵。',
+ cards:[
+  {h:'為什麼要發展高科技',li:['隨著交通建設和工業持續發展，人口集中在都市；商業與服務業需求增加；生活水準提高，薪資上漲。','原本的<b>低廉勞動力</b>優勢不再，加上<b>環保意識抬頭</b>，又面對國外低價產品的競爭，臺灣轉向發展<b>高科技產業</b>維持競爭力。']},
+  {h:'科學園區',li:['<b>民國 69 年</b>，政府在<b>新竹</b>設立第一座科學園區。','做法：引進科技設備與新技術；鼓勵企業與<b>大學</b>合作，培育人才；吸引國內外企業進駐。','後續：發展<b>電腦與資訊電子產業</b>，政府陸續在各地設立科學園區。','<b>正面</b>：帶動產業升級、提供大量就業機會、促進周邊教育商業等發展。<b>負面</b>：人口快速成長，<b>交通</b>等面臨新挑戰（例：臺北市內湖區交通壅塞）。']},
+  {h:'臺灣高科技的成就',li:['發展<b>人工智慧（AI）</b>與各類科技產品的關鍵零件（手機、電腦、汽車自動駕駛）；製作過程需要極高的技術。','臺灣建立完整的<b>產業分工與合作</b>，在全球<b>晶圓製造</b>占有領先地位：民國 114 年，臺灣生產晶圓的市占率約占世界 <b>76%</b>。','<b>台積電</b>：民國 76 年由<b>張忠謀</b>先生創立，提出「<b>專業晶圓製造</b>」模式，專心製造；輝達、蘋果等公司專心研發設計，再由台積電製造成實體晶片。','吸引跨國科技企業來臺設立據點與研發中心（例：輝達、Google）。']},
+  {h:'高科技的省思',li:['<b>成就</b>：戰後經濟快速成長，讓臺灣獲得「經濟奇蹟」的稱號；從農業走向工商業與高科技產業，改變區域樣貌，也影響人們的工作、居住與生活。','<b>挑戰</b>：提高對<b>土地、水資源、電力</b>的需求；帶來土地開發問題（例：科學園區擴建可能排擠居民和農地）；從業人員可能面臨<b>工時過長</b>。','要共同思考：如何兼顧<b>產業升級、區域均衡發展</b>與環境永續；讓每個區域都有發展機會。']}],
+ trap:'<b>易錯：</b>第一座科學園區在「新竹」（民國 69 年）；台積電的特色是「專業晶圓製造」，專心製造、不做品牌設計。'},
+{id:'boss',u:34,t:-1,boss:1,ch:'考',name:'期中燈塔',unit:'期中複習・單元一～二',x:540,y:1040,intro:'兩個單元都走過了嗎？到燈塔做期中總複習，題目混合消費理財和戰後經濟。',
+ cards:[
+  {h:'出發前快速檢查',li:['想一想：165 和 1950 差在哪？活期存款和定期存款差在哪？','想一想：三七五減租對誰有利？第一個加工出口區在哪？第一座科學園區在哪？','不確定的話，點下面的地標重看教學。']}],
+ jumps:['a1','a2','a3','a4','b1','b2','b3','b4','b5']}
+];
+
+/* ---- figures ---- */
+function SV(h,alt,inner){return '<svg class="fig" viewBox="0 0 360 '+h+'" role="img" aria-label="'+alt+'"><defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ink)"/></marker></defs>'+inner+'</svg>'}
+function tx(x,y,t,o){o=o||{};return '<text x="'+x+'" y="'+y+'"'+(o.a?' text-anchor="'+o.a+'"':'')+(o.c?' class="'+o.c+'"':'')+'>'+t+'</text>'}
+function rc(x,y,w,h,f,r){return '<rect class="s" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+(r==null?8:r)+'" fill="'+f+'"/>'}
+function ln(x1,y1,x2,y2,o){o=o||{};return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+(o.s||'var(--ink)')+'" stroke-width="'+(o.w||2)+'"'+(o.d?' stroke-dasharray="'+o.d+'"':'')+(o.m?' marker-end="url(#ar)"':'')+' stroke-linecap="round"/>'}
+function ci(x,y,r,f){return '<circle class="s" cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+f+'"/>'}
+var TWP='M30 2C36 4 40 8 41 14C44 26 44 40 42 52C40 66 36 78 31 90C29 95 27 99 25 98C22 92 20 86 16 78C10 66 6 52 7 40C8 28 14 16 22 7C25 4 27 2 30 2Z';
+function arw(x1,y1,x2,y2,c,w){var a=Math.atan2(y2-y1,x2-x1),L=w*2.2,hx=x2-Math.cos(a)*L,hy=y2-Math.sin(a)*L,px=Math.sin(a)*w*1.4,py=-Math.cos(a)*w*1.4;return '<line x1="'+x1+'" y1="'+y1+'" x2="'+hx+'" y2="'+hy+'" stroke="'+c+'" stroke-width="'+w+'" stroke-linecap="round"/><path d="M'+x2+' '+y2+'L'+(hx+px)+' '+(hy+py)+'L'+(hx-px)+' '+(hy-py)+'Z" fill="'+c+'"/>'}
+function box(x,y,w,h,f,lines,o){o=o||{};var s=rc(x,y,w,h,f,8),n=lines.length,y0=y+h/2-(n-1)*8.5+4.5;lines.forEach(function(t,i){s+=tx(x+w/2,y0+i*17,t,{a:'middle',c:i===0?'h':(o.m?'m':'')})});return s}
+function OP(vals,dur,kt){return '<animate attributeName="opacity" values="'+vals+'"'+(kt?' keyTimes="'+kt+'"':'')+' dur="'+dur+'s" repeatCount="indefinite"/>'}
+var INK='var(--ink)',C1='#E8643A',C2='#2F7FD8',C3='#5BAA6A',C4='#E0A93B';
+var TWPTS=[[121.55,25.30],[122.0,25.0],[121.9,24.7],[121.85,24.45],[121.6,23.9],[121.5,23.4],[121.3,23.0],[121.0,22.5],[120.85,21.9],[120.7,22.1],[120.6,22.4],[120.3,22.6],[120.1,23.0],[120.1,23.5],[120.4,24.1],[120.6,24.5],[120.9,24.85],[121.2,25.1]];
+function MP(lo,la){return [Math.round((lo-119.9)*80*10)/10,Math.round((25.5-la)*80*10)/10]}
+function twpoly(f){return '<path class="s" d="M'+TWPTS.map(function(q){return MP(q[0],q[1]).join(' ')}).join('L')+'Z" fill="'+f+'"/>'}
+function chip(x,y,w,t,f){return rc(x,y,w,28,f,14)+tx(x+w/2,y+19,t,{a:'middle',c:'h'})}
+var FIG={
+pay:function(){
+  var it=[['以物易物','貨幣出現前','var(--land-a)'],['貨幣交易','衡量商品價值','var(--sky)'],['多元支付','電子票證、信用卡、行動支付','var(--warmbg)']],s='',i;
+  for(i=0;i<3;i++){var x=6+i*120;s+=rc(x,20,108,92,it[i][2],10)+tx(x+54,48,it[i][0],{a:'middle',c:'h'})+tx(x+54,70,it[i][1].slice(0,6),{a:'middle',c:'m'})+(it[i][1].length>6?tx(x+54,88,it[i][1].slice(6),{a:'middle',c:'m'}):'');if(i<2)s+=arw(x+110,66,x+118,66,INK,3)}
+  s+='<g><animateTransform attributeName="transform" type="translate" values="0 0;230 0" dur="4s" repeatCount="indefinite"/><circle cx="56" cy="130" r="8" fill="var(--bad)" stroke="'+INK+'" stroke-width="1.5"/></g><line x1="56" y1="130" x2="286" y2="130" stroke="var(--line)" stroke-width="2" stroke-dasharray="4 4"/>';
+  return SV(158,'交易方式的演變',s+tx(180,152,'交易方式隨時代不斷改變',{a:'middle',c:'h'}));
+},
+rate:function(){
+  var s=rc(10,16,140,90,'var(--sky)',12)+tx(80,48,'1 美元',{a:'middle',c:'h'})+tx(80,76,'（美國）',{a:'middle',c:'m'})+rc(210,16,140,90,'var(--warmbg)',12)+tx(280,48,'約 30 元',{a:'middle',c:'h'})+tx(280,76,'新臺幣',{a:'middle',c:'m'});
+  s+='<g>'+OP('1;.2;1','2.4')+arw(156,50,204,50,INK,4)+arw(204,76,156,76,INK,4)+'</g>';
+  s+=tx(180,12,'匯率',{a:'middle',c:'h'})+tx(180,130,'匯率常常變動，出國前先查「當日匯率」',{a:'middle',c:'h'});
+  return SV(144,'匯率：不同貨幣的兌換比例',s);
+},
+factor:function(){
+  var s='<circle class="s" cx="120" cy="86" r="62" fill="'+C2+'" fill-opacity=".35"/><circle class="s" cx="200" cy="86" r="62" fill="'+C4+'" fill-opacity=".4"/><circle class="s" cx="160" cy="140" r="62" fill="'+C3+'" fill-opacity=".4"/>';
+  s+=tx(98,70,'價格',{a:'middle',c:'h'})+tx(222,70,'品質',{a:'middle',c:'h'})+tx(160,170,'個人需求',{a:'middle',c:'h'})+tx(160,112,'最值得買',{a:'middle',c:'h'});
+  s+='<circle cx="160" cy="108" r="22" fill="none" stroke="var(--bad)" stroke-width="3"><animate attributeName="r" values="20;30;20" dur="2s" repeatCount="indefinite"/></circle>';
+  s+=box(268,40,86,96,'var(--paper)',['商品 C','打九折','品質良好','需求最高'],{m:1});
+  return SV(214,'價格、品質、個人需求都會影響選擇',s);
+},
+loop:function(){
+  var s=box(110,6,140,42,'var(--sky)',['消費者需求','（愈來愈多樣）'])+box(110,160,140,42,'var(--warmbg)',['生產者調整','行銷、生產、意見']);
+  s+=box(8,84,100,42,'var(--paper)',['改良商品'])+box(252,84,100,42,'var(--paper)',['更符合期待']);
+  s+=arw(110,30,58,82,INK,3)+arw(58,128,112,170,INK,3)+arw(250,180,304,128,INK,3)+arw(304,82,250,34,INK,3);
+  s+='<circle r="6" fill="var(--bad)" stroke="'+INK+'"><animateMotion dur="5s" repeatCount="indefinite" path="M110 30L58 84L58 126L112 170L250 180L304 126L304 84L250 30Z"/></circle>';
+  return SV(210,'消費需求帶動生產改變',s);
+},
+help:function(){
+  var s=box(6,10,106,46,'#F4C0B5',['買到問題商品'])+arw(114,33,138,33,INK,3)+box(140,10,106,46,'var(--sky)',['憑發票、保證書','購買證明'])+arw(248,33,268,33,INK,3)+box(270,10,84,46,'var(--paper)',['要求退費','或換貨']);
+  s+=box(6,82,106,46,'#F4C0B5',['賣家拒絕'])+arw(114,105,138,105,INK,3)+box(140,82,214,46,'var(--warmbg)',['撥打 1950 全國消費者服務專線']);
+  s+=box(6,150,106,46,'#E7D8F4',['網購、可疑電話'])+arw(114,173,138,173,INK,3)+box(140,150,214,46,'#E7D8F4',['先查證：撥打 165 反詐騙諮詢專線']);
+  s+='<g>'+OP('1;.3;1','2')+'<rect x="139" y="81" width="216" height="48" rx="8" fill="none" stroke="var(--bad)" stroke-width="3"/></g>';
+  return SV(206,'買到問題商品怎麼辦：1950；防詐騙：165',s);
+},
+waste:function(){
+  var s=box(4,10,76,48,'var(--warmbg)',['快速大量','生產'],{m:0})+arw(82,34,94,34,INK,2.5)+box(96,10,76,48,'var(--sky)',['大量購買','買太多'])+arw(174,34,186,34,INK,2.5)+box(188,10,76,48,'#D9C2A5',['丟棄、','堆進掩埋場'])+arw(266,34,278,34,INK,2.5)+box(280,10,76,48,'#C9B1B1',['汙染土壤','和水源']);
+  s+='<line x1="10" y1="76" x2="350" y2="76" stroke="var(--line)" stroke-width="2"/>'+tx(180,98,'解決方法',{a:'middle',c:'h'});
+  s+=box(10,108,166,70,'var(--land-b)',['企業：更永續生產','天然或再生材料','減少有害化學物質'],{m:1})+box(184,108,166,70,'var(--land-b)',['消費者：友善環境','減量與再利用','二手、捐贈、改造'],{m:1});
+  s+='<g>'+OP('1;.3;1','2.4')+'<rect x="280" y="10" width="76" height="48" rx="8" fill="none" stroke="var(--bad)" stroke-width="3"/></g>';
+  return SV(192,'過度消費的影響和解決方法',s);
+},
+tools:function(){
+  var rows=[['活期存款','隨時存取，風險低；利息少','#BFE3A6',1],['定期存款','存滿一定時間，利息比活期高','#D7E8A5',2],['保險','遇意外、疾病，減輕醫療費用衝擊','#BCD8DA',2],['股票','價格波動大，可能獲利也可能虧損','#F4C0B5',3]],s='',i;
+  s+=tx(8,14,'風險愈高 →',{c:'h'});
+  for(i=0;i<4;i++){var y=24+i*50,w=70+rows[i][3]*62;s+=rc(8,y,w,30,rows[i][2],6)+tx(14,y+20,rows[i][0],{c:'h'})+tx(10,y+46,rows[i][1],{c:'m'})}
+  return SV(254,'常見的理財工具',s+tx(180,248,'可以搭配使用，讓規劃更有彈性',{a:'middle',c:'h'}));
+},
+risk:function(){
+  var s=tx(180,14,'投入 100 萬元，一年後的總額（數字僅供參考）',{a:'middle',c:'m'});
+  s+='<line x1="30" y1="150" x2="350" y2="150" stroke="'+INK+'" stroke-width="2"/><line x1="30" y1="86" x2="350" y2="86" stroke="var(--bad)" stroke-width="1.5" stroke-dasharray="5 4"/>'+tx(350,82,'100 萬（本金）',{a:'end',c:'m'});
+  var bars=[['存銀行',101.5,C3],['股票賺',120,C2],['股票賠',80,'#C23B38']];
+  bars.forEach(function(b,i){var h=(b[1]-60)*1.6,x=50+i*100;s+='<rect class="s" x="'+x+'" y="'+(150-h)+'" width="70" height="'+h+'" fill="'+b[2]+'"><animate attributeName="height" from="0" to="'+h+'" dur="1.2s" fill="freeze"/><animate attributeName="y" from="150" to="'+(150-h)+'" dur="1.2s" fill="freeze"/></rect>'+tx(x+35,168,b[0],{a:'middle'})+tx(x+35,150-h-6,b[1]+' 萬',{a:'middle',c:'h'})});
+  return SV(184,'存款和股票：獲利與虧損的例子',s);
+},
+reform:function(){
+  var s=box(6,10,168,50,'var(--land-a)',['地主','土地多、收租金'])+box(186,10,168,50,'var(--land-b)',['農民','耕作的人']);
+  s+=box(6,84,168,58,'var(--sky)',['三七五減租','降低農民的租金'])+box(186,84,168,58,'var(--warmbg)',['耕者有其田','政府收購 → 轉賣給農民']);
+  s+=arw(180,60,180,80,INK,2)+tx(180,164,'農民生活穩定 → 恢復糧食生產 → 穩定社會',{a:'middle',c:'h'});
+  s+='<g>'+OP('1;.3;1','2.4')+'<rect x="4" y="82" width="172" height="62" rx="8" fill="none" stroke="var(--bad)" stroke-width="3"/></g>';
+  return SV(176,'土地改革：改善農民生活',s);
+},
+aid:function(){
+  var P=function(lo,la){var q=MP(lo,la);return [q[0]+8,q[1]]};
+  var s='<rect x="0" y="0" width="360" height="280" fill="var(--water)"/>'+'<g transform="translate(150 4)">'+twpoly('var(--sunc)')+'</g>';
+  var pts=[['石門水庫',121.24,24.81],['西螺大橋',120.46,23.8],['高雄加工出口區',120.3,22.62]];
+  pts.forEach(function(p,i){var q=MP(p[1],p[2]);var x=q[0]+150,y=q[1]+4;s+=ci(x,y,6,'var(--bad)')+'<circle cx="'+x+'" cy="'+y+'" r="6" fill="none" stroke="var(--bad)" stroke-width="2"><animate attributeName="r" values="6;16" dur="2.2s" begin="'+(i*.5)+'s" repeatCount="indefinite"/><animate attributeName="opacity" values=".9;0" dur="2.2s" begin="'+(i*.5)+'s" repeatCount="indefinite"/></circle>'});
+  s+=tx(8,34,'石門水庫',{c:'h'})+tx(8,52,'北部用水、發電',{c:'m'})+tx(8,128,'西螺大橋',{c:'h'})+tx(8,146,'連接彰化與雲林',{c:'m'})+tx(8,226,'高雄',{c:'h'})+tx(8,244,'第一個加工出口區',{c:'m'});
+  var q1=MP(121.24,24.81),q2=MP(120.46,23.8),q3=MP(120.3,22.62);s+=ln(112,38,q1[0]+144,q1[1]+4,{w:1.2,d:'3 3'})+ln(112,132,q2[0]+144,q2[1]+4,{w:1.2,d:'3 3'})+ln(112,230,q3[0]+144,q3[1]+4,{w:1.2,d:'3 3'});return SV(280,'美援與加工出口區的位置',s);
+},
+epz:function(){
+  var s=box(6,40,86,56,'var(--sky)',['進口原料'])+arw(94,68,118,68,INK,3)+box(120,40,120,56,'var(--warmbg)',['在臺灣加工、','組裝'])+arw(242,68,266,68,INK,3)+box(268,40,86,56,'var(--land-b)',['海運外銷','MIT']);
+  s+='<path d="M20 124q20 -8 40 0t40 0t40 0t40 0t40 0t40 0t40 0" fill="none" stroke="var(--cool)" stroke-width="3"/>';
+  s+='<g><animateTransform attributeName="transform" type="translate" values="0 0;260 0" dur="5s" repeatCount="indefinite"/><path d="M14 112h34l-6 12h-22z" fill="#888" stroke="'+INK+'" stroke-width="1.5"/><rect x="22" y="100" width="14" height="12" fill="var(--bad)" stroke="'+INK+'" stroke-width="1.5"/></g>';
+  s+=tx(180,20,'民國 50 年代：高雄設立第一個加工出口區（鄰近港口）',{a:'middle',c:'h'})+tx(180,156,'農村青年和女性進入工廠，成為重要勞動力',{a:'middle',c:'h'});
+  return SV(170,'加工出口區的運作方式',s);
+},
+ten:function(){
+  var G=[['改善交通運輸','中山高速公路','北迴鐵路、鐵路電氣化','桃園機場、蘇澳港、臺中港','var(--sky)'],['強化能源供應','核能發電廠','','','#F6D77B'],['提升重工業','大煉鋼廠、造船廠','石油化學工業','','#F4C0B5']],s='',i;
+  for(i=0;i<3;i++){var x=4+i*119;s+=rc(x,6,113,118,G[i][4],8)+tx(x+56,28,G[i][0],{a:'middle',c:'h'});[1,2,3].forEach(function(k){if(G[i][k])s+=tx(x+56,52+(k-1)*22,G[i][k],{a:'middle',c:'m'}).replace('<text','<text style="font-size:10.5px"')})}
+  s+=tx(180,146,'民國 60 年代，為了因應用電、運輸、原料不足和能源危機',{a:'middle',c:'h'});
+  return SV(158,'十大建設分成三類',s);
+},
+freeway:function(){
+  var s='<rect x="0" y="0" width="360" height="280" fill="var(--water)"/>'+'<g transform="translate(150 4)">'+twpoly('var(--land-b)')+'</g>';
+  var a=MP(121.74,25.13),b=MP(120.3,22.62),ax=a[0]+150,ay=a[1]+4,bx=b[0]+150,by=b[1]+4;
+  s+='<path d="M'+ax+' '+ay+'L'+(ax-14)+' '+(ay+46)+'L'+(ax-30)+' '+(ay+96)+'L'+(bx-8)+' '+(by-40)+'L'+bx+' '+by+'" fill="none" stroke="var(--bad)" stroke-width="4" stroke-dasharray="6 5"/>';
+  s+=ci(ax,ay,6,'var(--sunc)')+ci(bx,by,6,'var(--sunc)')+tx(ax+10,ay+4,'基隆',{c:'h'})+tx(bx+10,by+14,'高雄',{c:'h'});
+  s+='<circle r="7" fill="var(--bad)" stroke="'+INK+'"><animateMotion dur="5s" repeatCount="indefinite" path="M'+ax+' '+ay+'L'+(ax-14)+' '+(ay+46)+'L'+(ax-30)+' '+(ay+96)+'L'+(bx-8)+' '+(by-40)+'L'+bx+' '+by+'"/></circle>';
+  s+=tx(4,24,'中山高速公路',{c:'h'})+tx(4,42,'（今國道 1 號）',{c:'m'})+tx(4,60,'基隆 → 高雄',{c:'m'})+tx(4,260,'南北一日生活圈',{c:'h'});
+  return SV(280,'中山高速公路從基隆到高雄',s);
+},
+landuse:function(){
+  var cols=[['農田','var(--land-b)'],['工廠設立','#C9C9C9'],['工業區、住宅區','#F4C0B5']],s='',i;
+  for(i=0;i<3;i++){var x=6+i*120;s+=rc(x,16,108,100,cols[i][1],10)+tx(x+54,70,cols[i][0],{a:'middle',c:'h'});if(i<2)s+=arw(x+110,66,x+118,66,INK,3)}
+  s+=tx(180,10,'交通建設完善，公路周邊的土地用途改變',{a:'middle',c:'h'})+tx(180,140,'新問題：交通壅塞、噪音、空氣汙染',{a:'middle',c:'h'});
+  s+='<g><animateTransform attributeName="transform" type="translate" values="0 0;228 0" dur="4s" repeatCount="indefinite"/><circle cx="56" cy="96" r="6" fill="var(--bad)" stroke="'+INK+'"/></g>';
+  return SV(158,'交通建設改變土地利用',s);
+},
+kaoh:function(){
+  var st=[['重工業聚集','鋼鐵、石化、造船','#C9C9C9'],['汙染問題','空氣與河川','#C9B1B1'],['改善環境','管制、處理、公園','var(--land-b)'],['轉型','觀光與文化港灣','var(--sky)']],s='',i;
+  for(i=0;i<4;i++){var x=4+i*90;s+=rc(x,14,84,96,st[i][2],8)+tx(x+42,44,st[i][0],{a:'middle',c:'h'}).replace('<text','<text style="font-size:12px"')+tx(x+42,72,st[i][1].slice(0,5),{a:'middle',c:'m'}).replace('<text','<text style="font-size:11px"')+(st[i][1].length>5?tx(x+42,90,st[i][1].slice(5),{a:'middle',c:'m'}).replace('<text','<text style="font-size:11px"'):'');if(i<3)s+=arw(x+86,62,x+92,62,INK,2.5)}
+  s+='<line x1="20" y1="124" x2="340" y2="124" stroke="var(--line)" stroke-width="2" stroke-dasharray="4 4"/><circle r="6" fill="var(--bad)" stroke="'+INK+'"><animateMotion dur="6s" repeatCount="indefinite" path="M20 124L340 124"/></circle>';
+  return SV(166,'高雄的轉變',s+tx(180,156,'由重工業中心轉型為國際港灣都市',{a:'middle',c:'h'}));
+},
+chip:function(){
+  var s='<circle cx="100" cy="100" r="70" fill="var(--paper)" stroke="'+INK+'" stroke-width="2"/>';
+  var R=70,p=0.76,a0=-Math.PI/2,a1=a0+p*2*Math.PI,x1=100+R*Math.cos(a1),y1=100+R*Math.sin(a1);
+  s+='<path d="M100 100L100 30A70 70 0 1 1 '+x1.toFixed(1)+' '+y1.toFixed(1)+'Z" fill="'+C2+'" stroke="'+INK+'" stroke-width="2"><animate attributeName="opacity" values=".5;1;.5" dur="3s" repeatCount="indefinite"/></path>';
+  s+=tx(100,106,'76%',{a:'middle',c:'h'}).replace('<text','<text style="font-size:26px;fill:#fff"')+tx(100,190,'臺灣',{a:'middle',c:'h'});
+  s+=box(190,20,160,64,'var(--sky)',['晶圓製造','臺灣市占率約世界 76%','（民國 114 年）'],{m:1})+box(190,100,160,64,'var(--paper)',['台積電：專業晶圓製造','輝達、蘋果：專心研發設計'],{m:1});
+  return SV(206,'臺灣的晶圓製造',s);
+},
+sci:function(){
+  var s=box(6,10,108,60,'var(--sky)',['民國 69 年','新竹科學園區'])+arw(116,40,134,40,INK,3)+box(136,10,108,60,'var(--land-b)',['企業 ＋ 大學','培育人才'])+arw(246,40,264,40,INK,3)+box(266,10,88,60,'#F6D77B',['高科技','產業發展']);
+  s+=box(6,92,170,64,'var(--land-b)',['正面','產業升級、就業機會','教育商業發展'],{m:1})+box(184,92,170,64,'#F4C0B5',['負面／挑戰','交通壅塞、用水用電','土地、工時'],{m:1});
+  s+='<circle r="6" fill="var(--bad)" stroke="'+INK+'"><animateMotion dur="4s" repeatCount="indefinite" path="M60 80L300 80"/></circle>';
+  return SV(166,'科學園區帶來的影響',s);
+}
+};
+var FIGMAP={'交易方式的演變':['pay'],'貨幣兌換和匯率':['rate'],'影響消費選擇的因素':['factor'],'消費需求帶動生產改變':['loop'],'維護消費安全和權益':['help'],'過度消費和大量生產':['waste'],'常見的理財工具':['tools'],'理財風險':['risk'],'三七五減租和耕者有其田':['reform'],'美援對生活的影響':['aid'],'民生工業和加工出口區':['epz'],'為什麼要推動十大建設':['ten'],'交通建設改變土地利用':['freeway','landuse'],'改善環境、轉型發展':['kaoh'],'臺灣高科技的成就':['chip'],'科學園區':['sci']};
+var TIPS={a1:'以物易物 → 貨幣 → 多元支付；匯率會變',a2:'價格、品質、需求；生產者跟著消費者改變',a3:'165 防詐騙、1950 消費服務；減量與再利用',a4:'活期隨時、定期較高；有賺也可能賠',b1:'三七五減租降租金；耕者有其田收購轉賣',b2:'民國 40～50 年代美援；高雄加工出口區；麵粉奶粉',b3:'民國 60 年代十大建設；農田變工業區；城鄉差距',b4:'高雄：鋼鐵、石化、造船 → 管制汙染、公園 → 觀光港灣',b5:'民國 69 年新竹科學園區；晶圓 76%；台積電專業製造'};
+var QA={a1:[['1 美元約可換多少元新臺幣？這個比例叫什麼？','約 30 元；叫匯率，而且會變動。'],['多元支付的好處和要小心的地方各是什麼？','好處：不必帶大量現金、更便利；小心：一時衝動購物、超出預算。']],
+ a2:[['影響消費者選擇的三個因素是什麼？','價格、品質、個人需求。'],['自動炸物機是屬於哪一種生產調整？','提升品質與效率（引進新技術或自動化設備）。']],
+ a3:[['買到問題商品被賣家拒絕，可以打哪支專線？','全國消費者服務專線 1950。'],['遇到可疑的網購或電話，可以打哪支專線？','165 反詐騙諮詢專線。']],
+ a4:[['活期存款和定期存款有什麼不同？','活期可隨時存取；定期存滿一定時間，利息比活期高。'],['買股票一定會賺錢嗎？','不一定，可能獲利，也可能虧損。']],
+ b1:[['三七五減租對農民和地主各有什麼影響？','農民租金降低、收成留下較多；地主收入減少。'],['耕者有其田是怎麼做的？','政府向地主收購土地，再轉賣給實際耕作的農民。']],
+ b2:[['美國為什麼援助臺灣？','擔心共產勢力擴張，希望臺灣成為反共防線。'],['第一個加工出口區設在哪裡？為什麼？','高雄；鄰近港口，方便進口原料和出口產品。']],
+ b3:[['十大建設是在民國幾年代？','民國 60 年代。'],['興建高速公路後，土地使用有什麼改變？','農田變成工業區或住宅區，也帶來交通壅塞和汙染。']],
+ b4:[['高雄的重工業以哪三種為主？','鋼鐵、石化、造船。'],['政府怎麼改善高雄的環境問題？','空氣汙染管制、廢水處理、增設公園綠地。']],
+ b5:[['臺灣第一座科學園區在哪裡？民國幾年設立？','新竹；民國 69 年。'],['台積電提出什麼生產模式？','專業晶圓製造。']]};
+
+/* ---- animation overlays ---- */
+function AN(base,extra){return function(){return base().replace(/<\/svg>$/,extra()+'</svg>')}}
+function mdot(path,dur,fill,begin,r,o){o=o||{};var vis=o.vis||'0;1;1;0',kt=o.kt||'0;.1;.85;1';
+  return '<circle r="'+(r||5)+'" fill="'+fill+'" stroke="var(--edge)" stroke-width="1.5" opacity="0"><animateMotion dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite" path="'+path+'"/><animate attributeName="opacity" values="'+vis+'" keyTimes="'+kt+'" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/></circle>'}
+function pulse(cx,cy,r1,r2,dur,stroke,begin){return '<circle cx="'+cx+'" cy="'+cy+'" r="'+r1+'" fill="none" stroke="'+stroke+'" stroke-width="3" opacity="0"><animate attributeName="r" values="'+r1+';'+r2+'" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;0" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/></circle>'}
+var FIGBASE={};Object.keys(FIG).forEach(function(k){FIGBASE[k]=FIG[k]});
+var ANIM={on:true,raf:0};
+function initShadow(root){
+  var el=root.querySelector('.sdui');if(!el)return;
+  var sun=el.querySelector('.sd-sun'),ray=el.querySelector('.sd-ray'),sh=el.querySelector('.sd-shadow'),rg=el.querySelector('.sd-range'),tm=el.querySelector('.sd-time'),nt=el.querySelector('.sd-note'),pb=el.querySelector('.sd-play'),out=el.querySelector('.sd-out');
+  var t=9,last=0,R=105,h=40,G=165;
+  function bins(t){return t<8?['東方','西方']:t<11?['東偏南','西偏北']:t<13?['南方','北方']:t<16?['西偏南','東偏北']:['西方','東方']}
+  function draw(){
+    var f=Math.min(Math.max(Math.PI*(t-6)/12,.1),Math.PI-.1),c=Math.cos(f),s=Math.sin(f);
+    var tip=Math.min(Math.max(180+h*c/s,12),348),sx=180-R*c,sy=G-h-R*s;
+    sun.setAttribute('cx',sx);sun.setAttribute('cy',sy);
+    ray.setAttribute('x1',tip);ray.setAttribute('y1',G);ray.setAttribute('x2',sx);ray.setAttribute('y2',sy);
+    sh.setAttribute('x2',tip);
+    var L=Math.abs(tip-180),b=bins(t),hh=Math.floor(t),mm=Math.round((t-hh)*60);if(mm===60){hh++;mm=0}
+    var txt=hh+':'+(mm<10?'0':'')+mm;tm.textContent=txt;out.textContent=txt;
+    rg.value=t;
+    nt.textContent='太陽約在'+b[0]+'，影子在'+b[1]+'，影子'+(L<20?'最短':L<70?'較短':'較長')+'。'+(t>=11&&t<13?'（中午，太陽最高）':'');
+  }
+  function tick(ts){
+    if(!el.isConnected){ANIM.raf=0;return}
+    if(ANIM.on&&last){t+=(ts-last)/1000*1.4;if(t>18)t=6;draw()}
+    last=ts;ANIM.raf=requestAnimationFrame(tick);
+  }
+  rg.oninput=function(){t=+rg.value;draw();ANIM.on=false;pb.textContent='播放';syncAnim()};
+  pb.onclick=function(){ANIM.on=!ANIM.on;pb.textContent=ANIM.on?'暫停':'播放';syncAnim()};
+  draw();pb.textContent=ANIM.on?'暫停':'播放';
+  cancelAnimationFrame(ANIM.raf);ANIM.raf=requestAnimationFrame(tick);
+}
+function syncAnim(){
+  var sh=document.getElementById('sheet');if(!sh)return;
+  sh.querySelectorAll('svg.fig').forEach(function(sv){try{ANIM.on?sv.unpauseAnimations():sv.pauseAnimations()}catch(e){}});
+  var b=document.getElementById('animbtn');if(b)b.textContent=ANIM.on?'暫停動畫':'播放動畫';
+  var p=sh.querySelector('.sd-play');if(p)p.textContent=ANIM.on?'暫停':'播放';
+}
+
+ANIM.on=!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+var PHOTOS={};
+var CREDIT={};
+function phHtml(c){
+  var a=PHOTOS[c.h];if(!a)return'';
+  return '<div class="ph">'+a.map(function(x){return'<figure class="'+(x[2]?'full':'')+'"><img src="img/soc6/'+x[0]+'.jpg" alt="'+x[1]+'" data-zoom="1" onerror="imgFail(this)"><figcaption>'+x[1]+(CREDIT[x[0]]?'<small class="cr">'+esc(CREDIT[x[0]][0])+'・'+esc(CREDIT[x[0]][1])+'・<a href="'+CREDIT[x[0]][2]+'" target="_blank" rel="noopener">來源</a></small>':'')+'</figcaption></figure>'}).join('')+'</div>';
+}
+function imgFail(im){var d=document.createElement('div');d.className='imgerr';d.textContent='圖片載入失敗：請確認 img/soc6 資料夾和 island-g6-soc.html 放在一起，並用網址（不是預覽窗）開啟';im.replaceWith(d)}
+function zoom(src,alt){var lb=document.getElementById('lb');lb.innerHTML='<img src="'+src+'" alt="'+alt+'"><span>點一下關閉</span>';lb.classList.add('on')}
+
+var byId={};L.forEach(function(p){byId[p.id]=p});
+var done={};try{done=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}}
+
+function bg(){
+  var s='<svg viewBox="0 0 720 1161" aria-hidden="true">';
+  s+='<g stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 6" opacity=".9">';
+  for(var i=1;i<6;i++)s+='<line x1="'+(i*120)+'" y1="0" x2="'+(i*120)+'" y2="1161"/>';
+  for(var j=1;j<10;j++)s+='<line x1="0" y1="'+(j*116)+'" x2="720" y2="'+(j*116)+'"/>';
+  s+='</g>';
+  s+='<g fill="none" stroke="var(--blue)" stroke-width="3" stroke-linecap="round" opacity=".55">';
+  [[40,160],[560,420],[110,880],[610,610],[60,1050],[520,980],[640,330]].forEach(function(p){s+='<path d="M'+p[0]+' '+p[1]+'q12 -10 24 0t24 0t24 0"/>'});
+  s+='</g>';
+  s+='<g transform="translate(200 160) scale(8.5)"><path vector-effect="non-scaling-stroke" d="'+TWP+'" fill="var(--land-b)" stroke="var(--edge)" stroke-width="4"/></g>';
+  s+='<g stroke="var(--edge)" stroke-width="2.5" stroke-linejoin="round" fill="var(--land-a)">';
+  [[404,300],[392,380],[400,460],[388,540],[396,620],[384,700],[392,780],[380,860]].forEach(function(p){s+='<path d="M'+(p[0]-16)+' '+(p[1]+12)+'L'+p[0]+' '+(p[1]-14)+'L'+(p[0]+16)+' '+(p[1]+12)+'Z"/>'});
+  s+='</g>';
+  var isl=[[130,614,'澎湖'],[44,394,'金門'],[90,70,'馬祖'],[655,70,'釣魚臺'],[548,300,'龜山島'],[598,810,'綠島'],[652,958,'蘭嶼'],[300,885,'小琉球']];
+  isl.forEach(function(p){s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="9" fill="var(--land-b)" stroke="var(--edge)" stroke-width="2.5"/><text x="'+p[0]+'" y="'+(p[1]-15)+'" text-anchor="middle" style="font:700 13px var(--f-body);fill:var(--ink)">'+p[2]+'</text>'});
+  [['東海',480,62],['太平洋',620,500],['臺灣海峽',112,410],['巴士海峽',190,1090]].forEach(function(t){s+='<text x="'+t[1]+'" y="'+t[2]+'" text-anchor="middle" style="font:italic 700 17px var(--f-display);fill:var(--muted);letter-spacing:4px">'+t[0]+'</text>'});
+  s+='<g transform="translate(628 1080)" stroke="var(--edge)" stroke-width="2.5" stroke-linejoin="round"><circle r="40" fill="var(--paper)"/><path d="M0 -38L8 -8L38 0L8 8L0 38L-8 8L-38 0L-8 -8Z" fill="var(--sun)"/><path d="M0 -38L8 -8L-8 -8Z" fill="var(--bad)"/><text y="-46" text-anchor="middle" style="font:700 14px var(--f-display);fill:var(--ink);stroke:none">北</text></g>';
+  s+='<g transform="translate(40 1120)"><line x1="0" y1="0" x2="120" y2="0" stroke="var(--ink)" stroke-width="3"/><line x1="0" y1="-6" x2="0" y2="6" stroke="var(--ink)" stroke-width="3"/><line x1="120" y1="-6" x2="120" y2="6" stroke="var(--ink)" stroke-width="3"/><text x="60" y="-10" text-anchor="middle" style="font:500 12px var(--f-body);fill:var(--muted)">約 100 公里</text></g>';
+  var P=[[190,110],[540,210],[190,310],[540,410],[190,510],[540,610],[190,710],[540,810],[190,910],[540,1040]];
+  s+='<polyline points="'+P.map(function(p){return p.join(',')}).join(' ')+'" fill="none" stroke="var(--bad)" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" opacity=".75"/>';
+  s+='</svg>';
+  return s;
+}
+function pinHtml(p){
+  var i=L.indexOf(p),n=p.ch;
+  return '<button class="pin'+(p.boss?' boss':'')+(done[p.id]?' done':'')+'" data-id="'+p.id+'" style="left:'+(p.x/7.2)+'%;top:'+(p.y/11.61)+'%" aria-label="'+p.name+(done[p.id]?'（已學）':'')+'"><span class="dot" data-n="'+n+'"></span><span class="lbl">'+p.name+'</span></button>';
+}
+function tags(){return ''}
+function updateProg(){
+  var T=L.filter(function(p){return !p.boss}),n=T.filter(function(p){return done[p.id]}).length;
+  document.getElementById('pt').textContent='已學 '+n+' / '+T.length;
+  document.getElementById('pb').style.width=(n/T.length*100)+'%';
+}
+function draw(){
+  var m=document.getElementById('map');
+  m.innerHTML=bg()+tags()+L.map(pinHtml).join('');
+  m.querySelectorAll('.pin').forEach(function(b){b.onclick=function(){open(b.dataset.id)}});
+  updateProg();
+}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function cardHtml(c){
+  var s='<div class="card"><h3>'+c.h+'</h3>'+(FIGMAP[c.h]||[]).map(function(n){return'<div class="figw">'+FIG[n]()+'</div>'}).join('')+phHtml(c);
+  if(c.table){s+='<table><thead><tr>'+c.table.h.map(function(x){return'<th>'+x+'</th>'}).join('')+'</tr></thead><tbody>'+c.table.r.map(function(r){return'<tr>'+r.map(function(x,k){return'<td'+(k===0?' style="font-weight:700"':'')+'>'+x+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table>'}
+  if(c.li)s+='<ul>'+c.li.map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul>';
+  return s+'</div>';
+}
+var EXAM={20:['kt-g5-nat-u1','第 1 單元　太陽的祕密'],21:['kt-g5-nat-u2','第 2 單元　千變萬化的植物'],22:['kt-g5-nat-mid','期中複習（第 1～2 單元）']};
+function examHtml(p){var e=EXAM[p.u];if(!e)return'';var b='pdf/'+e[0];
+  return '<div class="exam"><h3>刷完題，做考卷</h3><p>'+e[1]+'・A、B 兩卷各 100 分（PDF）</p><div class="cta"><a class="btn" target="_blank" rel="noopener" href="'+b+'-exam.pdf">開啟試卷（A、B）</a><a class="btn" target="_blank" rel="noopener" href="'+b+'-ans.pdf">答案與詳解</a></div><p class="hint">iPad：開啟後點一下試卷，再點右上角「標記」（鉛筆圖示），就能用 Apple Pencil 或手指直接寫在試卷上，不用下載。寫完再看答案卷。</p></div>'}
+var last=null;
+function open(id){
+  var p=byId[id];last=document.activeElement;
+  var href='index.html?u='+p.u+(p.t>=0?'&t='+p.t:'');
+  var h='<div class="sh-top"><div><div class="u">'+p.unit+'</div><h2 id="st">'+p.name+'</h2></div><button class="x" id="cx" aria-label="關閉">×</button></div>'
+   +'<p class="intro">'+p.intro+'</p>'+(p.boss?'':'<div class="animbar"><button type="button" class="btn btn-sm" id="animbtn">暫停動畫</button></div>')+p.cards.map(cardHtml).join('')+(TIPS[p.id]?'<div class="tip">記憶口訣：'+TIPS[p.id]+'</div>':'')+(p.trap?'<div class="trap">'+p.trap+'</div>':'');
+  if(QA[p.id])h+='<div class="qa"><h3>想一想</h3>'+QA[p.id].map(function(x){return'<details><summary>'+x[0]+'</summary><p>'+x[1]+'</p></details>'}).join('')+'</div>';
+  if(p.jumps)h+='<div class="mini">'+p.jumps.map(function(j){return'<button data-j="'+j+'">'+byId[j].name+'</button>'}).join('')+'</div><div style="height:12px"></div>';
+  h+='<p class="credit">地圖、動畫與示意圖為自製，內容依評量（康軒版六年級上學期社會）整理。</p>';
+  h+='<div class="cta"><a class="btn btn-primary" id="go" href="'+href+'">'+(p.boss?'開始期中總複習':'我看完了，開始刷題')+'</a><button class="btn" id="ok">'+(done[p.id]?'回到地圖':'標記為已學，回地圖')+'</button></div>';
+  h+=examHtml(p);
+  var sh=document.getElementById('sheet');sh.innerHTML=h;sh.scrollTop=0;
+  document.getElementById('ov').classList.add('on');document.body.style.overflow='hidden';
+  document.getElementById('cx').focus();
+  document.getElementById('cx').onclick=close;
+  document.getElementById('ok').onclick=function(){if(!p.boss){done[p.id]=1;save()}close();draw()};
+  document.getElementById('go').onclick=function(){if(!p.boss){done[p.id]=1;save()}};
+  var ab=document.getElementById('animbtn');if(ab)ab.onclick=function(){ANIM.on=!ANIM.on;syncAnim()};
+  initShadow(sh);syncAnim();
+  sh.querySelectorAll('[data-j]').forEach(function(b){b.onclick=function(){open(b.dataset.j)}});
+}
+function close(){document.getElementById('ov').classList.remove('on');document.body.style.overflow='';if(last&&last.focus)try{last.focus()}catch(e){}}
+document.getElementById('lb').onclick=function(){this.classList.remove('on')};
+document.getElementById('sheet').addEventListener('click',function(e){var t=e.target;if(t.dataset&&t.dataset.zoom)zoom(t.src,t.alt)});
+document.getElementById('ov').onclick=function(e){if(e.target===this)close()};
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){var lb=document.getElementById('lb');if(lb.classList.contains('on'))lb.classList.remove('on');else close()}});
+if(location.hash==="#gallery"){document.querySelector(".shell").innerHTML=L.map(function(p){return p.cards.filter(function(c){return FIGMAP[c.h]}).map(function(c){return "<h3>"+p.id+" "+c.h+"</h3>"+FIGMAP[c.h].map(function(n){return "<div class=figw style=max-width:520px>"+FIG[n]()+"</div>"}).join("")}).join("")}).join("")}else draw();
+})();
+</script>
+</body></html>

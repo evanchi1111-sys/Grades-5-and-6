@@ -1492,7 +1492,7 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(P))}catch(e){}}
 var S={topic:{},subj:'自然'};
 Object.keys(UNITS).forEach(function(u){S.topic[u]=-1});
 if(P.subj==='自然'||P.subj==='社會'||P.subj==='國語'||P.subj==='數學'||P.subj==='五年級國語'||P.subj==='五年級自然'||P.subj==='五年級社會'||P.subj==='五年級數學')S.subj=P.subj;
-var ISLAND={'自然':'island-g6-nat.html','五年級自然':'island.html','五年級社會':'island-g5-soc.html','五年級國語':'island-g5-chi.html','五年級數學':'island-g5-mat.html'};
+var ISLAND={'自然':'island-g6-nat.html','社會':'island-g6-soc.html','五年級自然':'island.html','五年級社會':'island-g5-soc.html','五年級國語':'island-g5-chi.html','五年級數學':'island-g5-mat.html'};
 var GR={'六年級':['自然','社會','國語','數學'],'五年級':['五年級國語','五年級自然','五年級社會','五年級數學']};
 var R=null;
 var app=document.getElementById('app');
