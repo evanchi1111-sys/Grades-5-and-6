@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>五年級數學學習島</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#E4F0EA; --paper:#FBFEFC; --ink:#0A2B3D; --muted:#4D6A78; --line:#BFD6CD; --edge:#0A2B3D;
+  --sea:#CFE8F0; --land-a:#F6E7A8; --land-b:#BFE3A6; --land-c:#F2C9B8; --grass:#6FB36B; --trunk:#9B6B43;
+  --blue:#0E8F8F; --sun:#FFC83D; --sun-ink:#2B1F00; --good:#17835A; --bad:#C23B38; --bad-bg:#FBE0DD; --pick:#CDEFE8;
+  --sunc:#FFC83D; --sky:#CFE9F7; --night:#1D3B5A; --water:#8CCBEA; --leafc:#6FB36B; --leafd:#3E8A50; --soil:#B98A5E; --warm:#E8643A; --cool:#2F7FD8; --warmbg:#FBD9C9; --shade:rgba(10,43,61,.55);
+  --f-display:'LXGW WenKai TC','PingFang TC','Microsoft JhengHei',serif;
+  --f-body:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#071C29; --paper:#0F2D40; --ink:#E6F3EE; --muted:#9BB6BF; --line:#24495C; --edge:#02121B;
+    --sea:#0B2A3B; --land-a:#6B5B26; --land-b:#2F5B3A; --land-c:#6E4636; --grass:#3E8A50; --trunk:#B58559;
+    --blue:#35C4C0; --pick:#17485A; --bad:#FF8A82; --bad-bg:#46201F; --good:#4FD39A;
+    --sky:#173B52; --water:#1F5C7A; --warmbg:#5A3326; --shade:rgba(0,0,0,.6); --soil:#7B5636; --leafd:#4FB06A; --cool:#58B4F5; --warm:#FF7A55; --land-b:#2F5B3A;
+    color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.7 var(--f-body);
+  padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
+button,a{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px;box-shadow:0 0 0 5px var(--ink)}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.3;text-wrap:balance}
+.shell{max-width:720px;margin:0 auto;padding:14px 0 40px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.top h1{font-size:26px}
+.top p{margin:0;color:var(--muted);font-size:15px}
+.btn{border:2px solid var(--edge);background:var(--paper);border-radius:12px;box-shadow:0 4px 0 var(--edge);padding:8px 16px;min-height:46px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none}
+.btn:active{transform:translateY(4px);box-shadow:0 0 0 var(--edge)}
+.btn-primary{background:var(--blue);color:#fff}
+@media (prefers-color-scheme: dark){.btn-primary{color:#032123}}
+.btn-sun{background:var(--sun);color:var(--sun-ink)}
+.prog{display:flex;align-items:center;gap:10px;margin:6px 0 12px;font-size:15px;color:var(--muted)}
+.bar{flex:1;height:12px;border:2px solid var(--edge);border-radius:8px;background:var(--paper);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--blue);width:0}
+.how{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;padding:0;list-style:none;font-size:15px}
+.how li{background:var(--paper);border:2px solid var(--line);border-radius:10px;padding:4px 10px}
+.how b{color:var(--blue)}
+.map{position:relative;border:3px solid var(--edge);border-radius:16px;overflow:hidden;background:var(--sea);aspect-ratio:720/1161;box-shadow:0 5px 0 var(--edge)}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;padding:0;min-width:48px}
+.pin .dot{width:44px;height:44px;border-radius:50%;border:3px solid var(--edge);background:var(--sun);color:var(--sun-ink);font:700 20px/1 var(--f-display);display:grid;place-items:center;box-shadow:0 3px 0 var(--edge);position:relative}
+.pin:hover .dot{transform:translateY(-2px)}
+.pin .lbl{background:var(--paper);border:2px solid var(--edge);border-radius:8px;padding:0 8px;font-size:13px;font-weight:700;line-height:1.6;white-space:nowrap}
+.pin.done .dot{background:var(--good);color:#fff}
+.pin.done .dot::after{content:"✓";position:absolute;right:-8px;top:-8px;width:20px;height:20px;border-radius:50%;background:var(--paper);color:var(--good);border:2px solid var(--edge);font:700 13px/16px var(--f-body);text-align:center}
+.pin.boss .dot{background:var(--bad);color:#fff}
+.tag{position:absolute;background:var(--paper);border:2px solid var(--edge);border-radius:8px;padding:1px 10px;font:700 14px/1.6 var(--f-display);transform:translate(-50%,-50%);pointer-events:none}
+.legend{margin:12px 0 0;font-size:14px;color:var(--muted)}
+
+#ov{position:fixed;inset:0;background:rgba(5,20,30,.55);display:none;align-items:flex-end;justify-content:center;z-index:10}
+#ov.on{display:flex}
+.sheet{background:var(--paper);width:100%;max-width:720px;max-height:92vh;overflow:auto;border:3px solid var(--edge);border-bottom:0;border-radius:20px 20px 0 0;padding:16px 16px 28px}
+.sh-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.sh-top .u{font-size:14px;color:var(--muted)}
+.sh-top h2{font-size:24px}
+.x{width:44px;height:44px;border:2px solid var(--edge);border-radius:12px;background:var(--paper);font-size:22px;line-height:1;flex:none}
+.intro{margin:6px 0 12px}
+.card{border:2px solid var(--edge);border-radius:14px;padding:10px 14px;margin:0 0 12px;background:var(--paper)}
+.card h3{font-size:18px;margin:0 0 4px}
+.card ul{margin:0;padding-left:1.2em}
+.card li{margin:2px 0}
+.card b{color:var(--blue)}
+.card table{border-collapse:collapse;width:100%;font-size:15px;margin:6px 0}
+.card th,.card td{border:1.5px solid var(--line);padding:3px 6px;text-align:center}
+.card th{background:var(--pick)}
+.trap{border:2px solid var(--bad);background:var(--bad-bg);border-radius:14px;padding:10px 14px;margin:0 0 14px}
+.trap b{color:var(--bad)}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.cta .btn{flex:1 1 180px}
+.exam{margin-top:16px;padding:12px 14px;border:2px dashed var(--edge);border-radius:14px}
+.exam h3{margin:0 0 4px;font-size:18px}
+.exam p{margin:4px 0 10px}
+.exam .hint{font-size:14px;opacity:.85;margin:10px 0 0}
+.mini{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 0}
+.mini button{border:2px solid var(--edge);background:var(--pick);border-radius:10px;padding:2px 10px;font-weight:700;min-height:40px}
+.figw{margin:4px 0 8px;background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:6px}
+.fig{display:block;width:100%;height:auto}
+.fig text{font:500 13px var(--f-body);fill:var(--ink)}
+.fig text.h{font-weight:700;font-size:14px}
+.fig text.m{font-size:12px;fill:var(--muted)}
+.fig text.w{fill:#fff}
+.fig .s{stroke:var(--edge);stroke-width:2;stroke-linejoin:round}
+.tip{border:2px dashed var(--edge);background:color-mix(in srgb,var(--sun) 28%,var(--paper));border-radius:14px;padding:8px 14px;margin:0 0 12px;font-weight:700}
+.qa{border:2px solid var(--edge);border-radius:14px;padding:8px 14px;margin:0 0 12px}
+.qa h3{font-size:18px;margin:0 0 4px}
+.qa details{margin:4px 0}
+.qa summary{cursor:pointer;font-weight:700;min-height:36px;display:flex;align-items:center}
+.qa details p{margin:2px 0 6px;color:var(--good);font-weight:700}
+.btn-sm{min-height:38px;padding:4px 12px;font-size:15px;border-radius:10px;box-shadow:0 3px 0 var(--edge)}
+.animbar{margin:0 0 10px}
+.sdctl{display:flex;align-items:center;gap:10px;padding:2px 6px}
+.sdctl input[type=range]{flex:1;min-width:0;accent-color:var(--blue)}
+.sdctl output{font-weight:700;min-width:3.2em;text-align:right}
+.sd-note{margin:2px 6px 4px;font-size:15px;font-weight:700;color:var(--blue)}
+.ph{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:6px 0 8px}
+.ph figure{margin:0;border:2px solid var(--line);border-radius:10px;overflow:hidden;background:var(--paper)}
+.ph figure.full{grid-column:1/-1}
+.ph img{display:block;width:100%;height:auto;cursor:zoom-in}
+.ph figcaption{font-size:13px;line-height:1.5;padding:3px 8px 5px;color:var(--muted)}
+#lb{position:fixed;inset:0;background:rgba(5,20,30,.92);z-index:30;display:none;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;cursor:zoom-out}
+#lb.on{display:flex}
+#lb img{max-width:100%;max-height:88vh;object-fit:contain;border-radius:8px;background:#fff}
+#lb span{color:#fff;font-size:14px}
+.imgerr{padding:10px;font-size:13px;color:var(--bad);background:var(--bad-bg)}
+.ph .cr{display:block;font-size:11.5px;opacity:.85;margin-top:2px}
+.ph .cr a{color:var(--blue)}
+.credit{font-size:13px;color:var(--muted);margin:0 0 12px}
+@media (max-width:520px){.pin .dot{width:38px;height:38px;font-size:17px}.pin .lbl{font-size:12px;padding:0 5px}.tag{font-size:12px;padding:0 6px}}
+@media (prefers-reduced-motion:no-preference){.pin .dot{transition:transform .12s}}
+body.mat{--bg:#E4EDF8;--paper:#FFFFFF;--sea:#F5F9FE;--line:#C3D6EC;--land-b:#CFE3C7;--land-a:#F2DFA4;--pick:#D9E8F8;--blue:#1F5FA8;--sun:#F2B33D;--muted:#4D6682;--edge:#17324F;--ink:#17324F;--bad:#D9622B;--bad-bg:#FBE4D8}
+body.mat .map{border:3px solid var(--edge);background:var(--sea);box-shadow:0 5px 0 var(--edge)}
+body.mat .pin .dot{width:46px;height:46px;border-radius:6px;background:var(--blue);color:#fff;font-size:0;border-width:2.5px;box-shadow:0 3px 0 var(--edge)}
+body.mat .pin .dot::before{content:attr(data-n);font:700 24px/1 'Courier New',monospace;display:block}
+body.mat .pin .lbl{background:var(--paper);border-radius:6px;border-width:2px}
+body.mat .pin.done .dot{background:var(--good)}
+body.mat .pin.boss .dot{background:var(--bad)}
+@media (max-width:520px){body.mat .pin .dot{width:38px;height:38px}body.mat .pin .dot::before{font-size:20px}}
+@media (prefers-color-scheme: dark){body.mat{--bg:#0F1A2A;--paper:#172A44;--sea:#12233A;--line:#2A4468;--pick:#1F3A5E;--blue:#6FB0F5;--muted:#9FB6D2;--edge:#050B14;--ink:#E4EEFB}body.mat .pin .dot{color:#07192E}}
+</style></head><body class="mat">
+<div class="shell">
+  <div class="top">
+    <div><h1>五年級數學學習島</h1><p>先看教學，再去刷題｜內容依評量整理</p></div>
+    <a class="btn" href="index.html">刷題小勇者</a>
+  </div>
+  <ol class="how"><li><b>1</b> 點地標看教學</li><li><b>2</b> 讀完按「開始刷題」</li><li><b>3</b> 回島上點亮下一站</li></ol>
+  <div class="prog"><span id="pt">已學 0 / 8</span><div class="bar"><i id="pb"></i></div></div>
+  <div class="map" id="map"></div>
+  <p class="legend">綠色打勾＝已經看過教學。進度只存在這台裝置的瀏覽器。</p>
+</div>
+<div id="lb" role="dialog" aria-label="放大圖片"></div>
+<div id="ov" role="dialog" aria-modal="true" aria-labelledby="st"><div class="sheet" id="sheet"></div></div>
+<script>
+(function(){
+var KEY='island-g5-mat-v1';
+var L=[
+{id:'a1',x:140,y:1040,u:25,t:-1,ch:'1',name:'折線圖',unit:'第 1 單元・折線圖',intro:'長條圖看「誰比較多」，折線圖看「怎麼變化」。先學會讀圖，再學會畫圖。',
+ cards:[
+  {h:'複雜長條圖：並列和堆疊',li:['<b>並列長條圖</b>：男生、女生各一根，方便比較兩邊誰多。','<b>堆疊長條圖</b>：男生、女生疊成同一根，整根的高度就是<b>合計人數</b>。','例（魔力國小五年級，班級 1～4）：男生 12、11、10、15 人，女生 14、13、14、10 人。男生最多的是 <b>4 班（15 人）</b>；各班合計是 26、24、24、25 人。','圖上若有<b>省略符號（≈）</b>，表示中間一段刻度沒有畫出來，讀數字時要看清楚。']},
+  {h:'長條圖和折線圖怎麼選',table:{h:['圖','適合','例子'],r:[['長條圖','比較各種類的<b>數量大小</b>','各種餐點的銷售量、各項比賽的參加人數'],['折線圖','看資料<b>隨時間或順序的變化</b>與趨勢（上升或下降）','氣溫變化、三次月考成績']]}},
+  {h:'畫折線圖的步驟',li:['① 縱軸表示數量（例如氣溫），橫軸表示月分。','② 在代表各月分的線上，找出數量的位置，<b>標記點</b>。','③ 再用直線把各點<b>連起來</b>，就是折線圖。','④ 數量太大時，可以用<b>省略符號</b>省略一部分的刻度。'],
+   table:{h:['月分','1','2','3','4','5','6'],r:[['氣溫（°C）','11','13','18','22','25','27']]}},
+  {h:'怎麼讀折線圖',li:['例（書香國小圖書館 9～12 月借書人數）：男生 600、640、580、630；女生 620、600、630、610。','<b>10 月到 11 月</b>，男生從 640 降到 580，<b>下降 60 個</b>。','9～12 月男生共借 <b>2450</b> 個，女生共借 <b>2460</b> 個，女生多 10 個。','要比較「相差多少」時，用大的數減小的數。']}],
+ trap:'<b>易錯：</b>折線圖的縱軸有「省略符號」時，刻度不是從 0 開始，不能直接用格子數去比大小，要讀出數字再計算。'},
+{id:'a2',x:400,y:940,u:26,t:0,ch:'2',name:'整除與因數',unit:'第 2 單元・因數和倍數',intro:'「剛好分完、沒有剩」就是整除。找出所有能整除的數，就是找因數。',
+ cards:[
+  {h:'什麼是整除',li:['除法算式中，<b>被除數、除數、商都是整數，而且餘數是 0</b>，叫作<b>整除</b>。','例：把 16 個蛋黃酥平分成每盒一樣多，全部分完。16÷1、16÷2、16÷4、16÷8、16÷16 都剛好分完，共有 <b>5 種分法</b>（每盒 1、2、4、8、16 個）。','16÷3＝5…1 有餘數，所以不是整除。']},
+  {h:'因數：長方形排排看',li:['用 6 張小正方形紙卡排成長方形：1×6、2×3、3×2、6×1。','寫成除法：6÷1＝6、6÷2＝3、6÷3＝2、6÷6＝1。','所以 <b>6 的因數</b>有 1、2、3、6。','找到一個因數，<b>同時也找到另一個因數</b>（6÷2＝3，2 和 3 都是 6 的因數）。','任何數的因數中，<b>最小的是 1，最大的是它自己</b>。']},
+  {h:'用除法找因數（例：36）',table:{h:['算式','得到的因數'],r:[['36÷1＝36','1、36'],['36÷2＝18','2、18'],['36÷3＝12','3、12'],['36÷4＝9','4、9'],['36÷6＝6','6']]},
+   li:['當<b>除數大於或等於商</b>，就表示已經找到所有的因數了。','所以 36 的因數有：<b>1、2、3、4、6、9、12、18、36</b>（共 9 個）。']}],
+ trap:'<b>易錯：</b>因數是「能整除這個數的數」，不是「這個數的倍數」。例如 17÷2 有餘數，2 不是 17 的因數。'},
+{id:'a3',x:170,y:820,u:26,t:1,ch:'3',name:'公因數',unit:'第 2 單元・因數和倍數',intro:'兩個數「共同的因數」就是公因數，其中最大的叫最大公因數。',
+ cards:[
+  {h:'公因數和最大公因數',li:['<b>公因數</b>：一個整數同時是甲數和乙數的因數。','甲、乙兩數的公因數中<b>最大的</b>，叫作<b>最大公因數</b>。','<b>1</b> 能整除任何整數，所以 1 是所有整數的公因數。','兩個整數的公因數中，最小的一定是 1。']},
+  {h:'例：36 和 54',table:{h:['數','所有因數'],r:[['36','1、2、3、4、6、9、12、18、36'],['54','1、2、3、6、9、18、27、54']]},li:['<b>公因數</b>：1、2、3、6、9、18。','<b>最大公因數</b>：18。']},
+  {h:'應用：分組問題',li:['例：42 個男童軍、28 個女童軍編組，每組男生一樣多、女生也一樣多，全部分完。','42 的因數：1、2、3、6、7、14、21、42；28 的因數：1、2、4、7、14、28。','公因數是 1、2、7、14，所以可以分成 <b>1 組、2 組、7 組或 14 組</b>。','例：60 枝原子筆、48 塊橡皮擦，每個小朋友分到的筆一樣多、橡皮擦也一樣多，全部分完。公因數 1、2、3、4、6、12，有 <b>6 種</b>分法。']}],
+ trap:'<b>易錯：</b>題目有「最大」兩個字，不一定是求最大公因數！要讀懂題意：「全部分完、每份一樣多」找的是<b>因數、公因數</b>；問「最少要幾個」才可能是公倍數。'},
+{id:'a4',x:500,y:700,u:26,t:2,ch:'4',name:'倍數與公倍數',unit:'第 2 單元・因數和倍數',intro:'倍數是「一個數的好多倍」，公倍數是「兩個數共同的倍數」。',
+ cards:[
+  {h:'倍數',li:['乘法就是倍數的表現：6×4＝24、6×5＝30……，24、30 是 6 的倍數。','<b>一個數的倍數有無限多個</b>。','在 6×4＝24、24÷6＝4 裡，6 和 4 都是 24 的<b>因數</b>，24 是 6 和 4 的<b>倍數</b>。','例：在 1～100 中，12 的倍數最大是多少？100÷12＝8…4，12×8＝96，12×9＝108 超過 100，所以是 <b>96</b>。']},
+  {h:'公倍數和最小公倍數',li:['3 的倍數：3、6、9、12、15、18、21、24……','4 的倍數：4、8、12、16、20、24……','共同的倍數 <b>12、24……</b>叫作 3 和 4 的<b>公倍數</b>；最小的 12 叫作<b>最小公倍數</b>。','兩數相乘的積（3×4＝12）一定是公倍數，但<b>不一定是最小公倍數</b>（例：6×4＝24，但 6 和 4 的最小公倍數是 12）。','所有的公倍數都是最小公倍數的倍數。']},
+  {h:'2、5、10 的倍數怎麼判斷',table:{h:['看個位數字','是誰的倍數'],r:[['0、2、4、6、8','<b>2</b> 的倍數'],['0、5','<b>5</b> 的倍數'],['0','<b>10</b> 的倍數（也是 2 和 5 的倍數）']]},li:['延伸：各個數字的和能被 3 整除，就是 <b>3</b> 的倍數（例：3855 → 3＋8＋5＋5＝21，21÷3＝7，所以是 3 的倍數）。','各個數字的和能被 9 整除，就是 <b>9</b> 的倍數；9 的倍數一定是 3 的倍數。']},
+  {h:'應用：「四十幾顆」問題',li:['例：一包牛奶糖有四十幾顆，平分給 6 個人或 8 個人，都剛好分完，有幾顆？','6 的倍數：6、12、18、24、30、36、42、48；8 的倍數：8、16、24、32、40、48。','公倍數是 24、48；「四十幾」是 41～49，所以是 <b>48 顆</b>。','例：大哥每 21 天回家一次、二哥每 14 天回家一次，今天兩人都回家，下次同時回家至少還要 <b>42 天</b>（21 和 14 的最小公倍數）。']}],
+ trap:'<b>易錯：</b>「同時、至少、最少要幾個」通常是找<b>最小公倍數</b>；「平分、分組、最多」通常是找<b>最大公因數</b>。'},
+{id:'a5',x:200,y:580,u:27,t:-1,ch:'5',name:'多邊形',unit:'第 3 單元・多邊形',intro:'認識多邊形、三角形邊長的規則，還有「內角和」的祕密。',
+ cards:[
+  {h:'多邊形和正多邊形',li:['由 <b>3 個邊以上</b>（包含 3 個邊）圍成的<b>平面圖形</b>，叫作<b>多邊形</b>。有曲線的圖形（例如圓、半圓）<b>不是</b>多邊形。','<b>正多邊形</b>：每個邊一樣長，每個角也一樣大（例：正三角形、正方形、正五邊形、正六邊形）。','四邊形中如果邊長都一樣長，叫作<b>菱形</b>。','邊數、角數、頂點數都一樣多。']},
+  {h:'三角形邊長的規則',li:['把比較短的<b>兩根</b>竹籤長度相加，如果<b>大於</b>第三根的長，就可以排成三角形。','3、3、3：3＋3＞3，<b>可以</b>。','2、4、5：2＋4＞5，<b>可以</b>。','13、10、24：13＋10＜24，<b>不可以</b>。','5.8、3.8、9.6：5.8＋3.8＝9.6，<b>不大於</b>，所以不可以（剛好相等也不行）。']},
+  {h:'內角和',li:['三角形的 3 個內角合起來是 <b>180°</b>（一個平角）。','多邊形可以從<b>同一個頂點</b>畫對角線，分成幾個三角形，再用 <b>180° 乘以三角形個數</b>。','邊數是 n 的多邊形，可以分成（n－2）個三角形，內角和＝（n－2）×180°。'],
+   table:{h:['多邊形','三角形個數','內角和'],r:[['三角形','1','180°'],['四邊形','2','360°'],['五邊形','3','540°'],['六邊形','4','720°'],['八邊形','6','1080°'],['十邊形','8','1440°']]}},
+  {h:'算角度',li:['<b>正多邊形</b>的一個內角＝內角和÷邊數：正五邊形 540°÷5＝<b>108°</b>；正六邊形 720°÷6＝<b>120°</b>。','等腰三角形頂角是 70°，兩個底角各是（180°－70°）÷2＝<b>55°</b>。','<b>平角是 180°</b>：若外面的角是 135°，旁邊的內角是 180°－135°＝45°。','四邊形缺一個角：360°－其他三個角的和。']}],
+ trap:'<b>易錯：</b>直角三角形中，<b>直角所對的邊最長</b>；除了直角之外的兩個角，和是 90°（不是 180°）。正六邊形每個內角是 120°（不是 60°）。'},
+{id:'a6',x:520,y:460,u:28,t:0,ch:'6',name:'擴分與約分',unit:'第 4 單元・擴分、約分和通分',intro:'分數長得不一樣，大小卻可以一樣。擴分、約分就是換一個長相。',
+ cards:[
+  {h:'擴分：越分越小份',li:['把分數的<b>分子和分母</b>同乘以一個<b>比 1 大的整數</b>，叫作<b>擴分</b>。','3/5 → 分子分母同乘 2：<b>3/5＝6/10</b>；同乘 3：<b>3/5＝9/15</b>。','7/5 → 同乘 2：<b>7/5＝14/10</b>（十分之十四）。','帶分數擴分：整數不動，只擴分數部分，例：3 又 4/5＝3 又 8/10＝3 又 16/20。']},
+  {h:'約分：越分越大份',li:['把分數的<b>分子和分母</b>同除以一個<b>比 1 大的公因數</b>，叫作<b>約分</b>。','8/12：同除以 2 得 <b>4/6</b>；同除以 4 得 <b>2/3</b>。','10/6：同除以 2 得 <b>5/3</b>（三分之五）。','27/90：27 和 90 的公因數是 1、3、9。用 3 約分得 <b>9/30</b>；用 9 約分得 <b>3/10</b>。','除以<b>最大公因數</b>一次就能約到最簡分數。']},
+  {h:'一起整理',table:{h:['','怎麼做','大小'],r:[['擴分','分子分母同<b>乘</b>一個大於 1 的整數','不變'],['約分','分子分母同<b>除</b>以一個大於 1 的公因數','不變']]},li:['擴分、約分得到的分數，都和原來的分數<b>大小一樣</b>（叫作等值分數）。']}],
+ trap:'<b>易錯：</b>分子和分母一定要「同時」乘或除以「同一個數」，只動其中一個，大小就變了。'},
+{id:'a7',x:190,y:340,u:28,t:2,ch:'7',name:'通分比大小',unit:'第 4 單元・擴分、約分和通分',intro:'分母不一樣的分數，先把分母變一樣（通分），再比分子。',
+ cards:[
+  {h:'什麼是通分',li:['用擴分或約分，把幾個分數化成<b>相同分母</b>再做比較，這種方法叫作<b>通分</b>。','<b>擴分型</b>的通分：找分母的<b>最小公倍數</b>。<b>約分型</b>的通分：找分母的<b>最大公因數</b>。','例：3/4 和 6/12。擴分：3/4＝9/12，9/12＞6/12。約分：6/12＝2/4，3/4＞2/4。所以 <b>3/4＞6/12</b>。']},
+  {h:'例子：用擴分',li:['5/9 和 7/12：9 和 12 的最小公倍數是 36。','5/9＝20/36，7/12＝21/36，20/36＜21/36，所以 <b>5/9＜7/12</b>。']},
+  {h:'例子：用約分',li:['8/24 和 12/18：24 和 18 的最大公因數是 6。','8/24＝2/6，12/18＝4/6，所以 <b>8/24＜12/18</b>。']},
+  {h:'假分數和分子相同',li:['11/5 和 13/6：分母相乘通分成 30，11/5＝66/30，13/6＝65/30，66/30＞65/30，所以 <b>11/5＞13/6</b>。','也可以化成帶分數：11/5＝2 又 1/5，13/6＝2 又 1/6。整數相同，再比分數部分：1/5＞1/6。','<b>分子相同的分數，分母越小，分數越大</b>：15/12＞15/14（1/2＞1/3＞1/4）。']}],
+ trap:'<b>易錯：</b>通分後，分母相同，才能直接比「分子」；不要直接拿原來的分母和分子亂比。'},
+{id:'a8',x:480,y:230,u:29,t:-1,ch:'8',name:'線對稱圖形',unit:'第 5 單元・線對稱圖形',intro:'把圖形對折，兩邊剛好完全疊合，就是線對稱圖形。',
+ cards:[
+  {h:'線對稱圖形和對稱軸',li:['把圖形對折後，<b>摺線兩側可以完全疊合</b>的圖形，叫作<b>線對稱圖形</b>。','這條摺線叫作<b>對稱軸</b>。','<b>正 n 邊形有 n 條對稱軸</b>：正三角形 3 條、正方形 4 條、正五邊形 5 條、正六邊形 6 條。','<b>平行四邊形不是線對稱圖形</b>（一般的）。菱形有 2 條對稱軸（兩條對角線所在的直線）。']},
+  {h:'對稱點、對稱邊、對稱角',li:['沿著對稱軸摺疊後，完全疊合的<b>點</b>叫<b>對稱點</b>，完全疊合的<b>邊</b>叫<b>對稱邊</b>，完全疊合的<b>角</b>叫<b>對稱角</b>。','線對稱圖形中，<b>對稱角一樣大，對稱邊一樣長</b>。','<b>對稱軸垂直對稱點間的連線，並把連線平分成 2 段</b>（對稱點到對稱軸一樣遠）。']},
+  {h:'畫出線對稱圖形的另一半',li:['① 先找出各個點的<b>對稱點</b>：點距離對稱軸幾格，它的對稱點也距離對稱軸幾格（在另一邊）。','② 再把對稱點<b>依序連起來</b>。','例：點 B 距離對稱軸 2 格，它的對稱點 F 也距離對稱軸 2 格。']},
+  {h:'剪出線對稱圖形',li:['先把紙<b>對折</b>，沿著摺線畫出圖形的一半，沿著邊緣剪，<b>打開</b>就會得到線對稱圖形。','對折 1 次有 1 條對稱軸；對折 2 次、3 次，打開後會出現更多對稱的洞。']}],
+ trap:'<b>易錯：</b>對稱軸有時不只一條。數對稱軸時，要試著把圖形對折，看兩邊是不是完全重合。'},
+{id:'boss',x:330,y:110,u:32,t:-1,boss:1,ch:'考',name:'期中燈塔',unit:'期中總複習・第 1～5 單元',intro:'五個單元都走過了嗎？到燈塔做期中總複習，題目混合因數倍數、多邊形、擴分約分通分和線對稱。',
+ cards:[
+  {h:'出發前快速檢查',li:['想一想：18 和 24 的最大公因數、最小公倍數各是多少？','想一想：七邊形的內角和是幾度？3/4 和 5/8 誰比較大？','不確定的話，點下面的地標重看教學。']}],
+ jumps:['a1','a2','a3','a4','a5','a6','a7','a8']}
+];
+
+/* ---- figures ---- */
+function SV(h,alt,inner){return '<svg class="fig" viewBox="0 0 360 '+h+'" role="img" aria-label="'+alt+'"><defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ink)"/></marker></defs>'+inner+'</svg>'}
+function tx(x,y,t,o){o=o||{};return '<text x="'+x+'" y="'+y+'"'+(o.a?' text-anchor="'+o.a+'"':'')+(o.c?' class="'+o.c+'"':'')+'>'+t+'</text>'}
+function rc(x,y,w,h,f,r){return '<rect class="s" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+(r==null?8:r)+'" fill="'+f+'"/>'}
+function ln(x1,y1,x2,y2,o){o=o||{};return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+(o.s||'var(--ink)')+'" stroke-width="'+(o.w||2)+'"'+(o.d?' stroke-dasharray="'+o.d+'"':'')+(o.m?' marker-end="url(#ar)"':'')+' stroke-linecap="round"/>'}
+function ci(x,y,r,f){return '<circle class="s" cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+f+'"/>'}
+function arw(x1,y1,x2,y2,c,w){var a=Math.atan2(y2-y1,x2-x1),L=w*2.2,hx=x2-Math.cos(a)*L,hy=y2-Math.sin(a)*L,px=Math.sin(a)*w*1.4,py=-Math.cos(a)*w*1.4;return '<line x1="'+x1+'" y1="'+y1+'" x2="'+hx+'" y2="'+hy+'" stroke="'+c+'" stroke-width="'+w+'" stroke-linecap="round"/><path d="M'+x2+' '+y2+'L'+(hx+px)+' '+(hy+py)+'L'+(hx-px)+' '+(hy-py)+'Z" fill="'+c+'"/>'}
+function OP(vals,dur,kt){return '<animate attributeName="opacity" values="'+vals+'"'+(kt?' keyTimes="'+kt+'"':'')+' dur="'+dur+'s" repeatCount="indefinite"/>'}
+var INK='var(--ink)',M1='#3B86D8',M2='#F08A3C';
+function sq(x,y,w,h,f,o){return '<rect class="s" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="'+f+'"'+(o||'')+'/>'}
+var FIG={
+stack:function(){
+  var m=[12,11,10,15],f=[14,13,14,10],s='',k=5,base=170,i;
+  s+=ln(30,base,350,base,{w:2});s+=ln(30,base,30,30,{w:2});
+  [0,10,20,30].forEach(function(v){s+=ln(26,base-v*k,350,base-v*k,{w:.5,s:'var(--line)'})+tx(24,base-v*k+4,v,{a:'end',c:'m'})});
+  for(i=0;i<4;i++){var x=58+i*76;
+    s+=sq(x,base-m[i]*k,40,m[i]*k,M1)+sq(x,base-(m[i]+f[i])*k,40,f[i]*k,M2)+tx(x+20,base+16,(i+1)+' 班',{a:'middle'})+tx(x+20,base-(m[i]+f[i])*k-6,m[i]+f[i],{a:'middle',c:'h'})}
+  s+=sq(240,10,12,12,M1)+tx(256,20,'男生')+sq(296,10,12,12,M2)+tx(312,20,'女生');
+  return SV(214,'堆疊長條圖：男生和女生疊在一起，整根高度是合計人數',s+tx(180,208,'整根的高度＝男生＋女生',{a:'middle',c:'h'}));
+},
+linechart:function(){
+  var d=[11,13,18,22,25,27],X=function(i){return 60+i*52},Y=function(v){return 150-(v-8)*6},s='',i,pts=[];
+  s+=ln(44,150,340,150,{w:2})+ln(44,150,44,20,{w:2})+tx(14,18,'氣溫(°C)',{c:'m'});
+  [10,15,20,25].forEach(function(v){s+=ln(40,Y(v),340,Y(v),{w:.5,s:'var(--line)'})+tx(38,Y(v)+4,v,{a:'end',c:'m'})});
+  for(i=0;i<6;i++){pts.push(X(i)+','+Y(d[i]));s+=tx(X(i),168,(i+1),{a:'middle',c:'m'})}
+  s+=tx(344,168,'月',{a:'end',c:'m'});
+  s+='<polyline fill="none" stroke="'+M2+'" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round" points="'+pts.join(' ')+'" stroke-dasharray="420" stroke-dashoffset="420"><animate attributeName="stroke-dashoffset" values="420;0;0" keyTimes="0;.6;1" dur="4s" repeatCount="indefinite"/></polyline>';
+  for(i=0;i<6;i++)s+='<g>'+OP('0;0;1;1',4,'0;'+(0.1+i*.1).toFixed(2)+';'+(0.12+i*.1).toFixed(2)+';1')+'<circle class="s" cx="'+X(i)+'" cy="'+Y(d[i])+'" r="5" fill="'+M2+'"/>'+tx(X(i)-2,Y(d[i])-10,d[i],{a:'middle',c:'h'})+'</g>';
+  s+='<path d="M44 142l6 -3l6 6l6 -6l6 6" fill="none" stroke="'+INK+'" stroke-width="1.5"/>'+tx(76,146,'（省略 0～8）',{c:'m'});
+  return SV(188,'自強市 1～6 月的氣溫折線圖',s);
+},
+rects6:function(){
+  var A=[[6,1],[3,2],[2,3],[1,6]],s='',j,k,px=[12,150,240,312],pw=[126,84,60,36],sz=20;
+  A.forEach(function(a,n){var c=a[0],r=a[1],w=c*sz,h=r*sz,x=px[n]+(pw[n]-w)/2,y=30+(130-h)/2,g='';
+    for(j=0;j<c;j++)for(k=0;k<r;k++)g+=sq(x+j*sz,y+k*sz,sz,sz,'var(--sky)');
+    g+=tx(px[n]+pw[n]/2,176,c+'×'+r+'＝6',{a:'middle',c:'h'})+tx(px[n]+pw[n]/2,196,'6÷'+c+'＝'+r,{a:'middle',c:'m'});
+    s+='<g>'+OP('0;0;1;1;0','6','0;'+(0.1+n*.18).toFixed(2)+';'+(0.13+n*.18).toFixed(2)+';.92;1')+g+'</g>'});
+  return SV(210,'6 張紙卡可以排成的長方形：1×6、2×3、3×2、6×1',tx(180,16,'6 的因數：1、2、3、6',{a:'middle',c:'h'})+s);
+},
+venn:function(){
+  return SV(214,'36 和 54 的因數：中間重疊的是公因數',
+   '<circle class="s" cx="130" cy="112" r="84" fill="'+M1+'" fill-opacity=".35"/><circle class="s" cx="230" cy="112" r="84" fill="'+M2+'" fill-opacity=".35"/>'+
+   tx(76,28,'36 的因數',{a:'middle',c:'h'})+tx(284,28,'54 的因數',{a:'middle',c:'h'})+
+   tx(84,108,'4',{a:'middle'})+tx(84,128,'12',{a:'middle'})+tx(84,148,'36',{a:'middle'})+
+   tx(276,118,'27',{a:'middle'})+tx(276,138,'54',{a:'middle'})+
+   tx(180,70,'1　2　3',{a:'middle',c:'h'})+tx(180,92,'6　9',{a:'middle',c:'h'})+
+   '<circle cx="180" cy="124" r="16" fill="none" stroke="var(--bad)" stroke-width="3"><animate attributeName="r" values="14;22;14" dur="2s" repeatCount="indefinite"/></circle>'+tx(180,130,'18',{a:'middle',c:'h'})+
+   tx(180,208,'公因數：1、2、3、6、9、18　最大公因數：18',{a:'middle',c:'h'}));
+},
+numline:function(){
+  var s='',i,X=function(n){return 22+n*13};
+  s+=ln(14,80,346,80,{w:2});
+  for(i=0;i<=25;i++){s+=ln(X(i),76,X(i),84,{w:1});if(i%5===0)s+=tx(X(i),102,i,{a:'middle',c:'m'})}
+  for(i=3;i<=24;i+=3)s+='<circle cx="'+X(i)+'" cy="58" r="8" fill="'+M1+'" stroke="'+INK+'" stroke-width="1.5"/>'+tx(X(i),62,i,{a:'middle',c:'w'});
+  for(i=4;i<=24;i+=4)s+='<circle cx="'+X(i)+'" cy="124" r="8" fill="'+M2+'" stroke="'+INK+'" stroke-width="1.5"/>'+tx(X(i),128,i,{a:'middle',c:'w'});
+  [12,24].forEach(function(n,k){s+='<circle cx="'+X(n)+'" cy="91" r="17" fill="none" stroke="var(--bad)" stroke-width="3"><animate attributeName="r" values="14;24;14" dur="2s" begin="'+k*.5+'s" repeatCount="indefinite"/></circle>'});
+  return SV(166,'3 和 4 的公倍數：12、24……',tx(8,20,'3 的倍數',{c:'h'})+tx(8,156,'4 的倍數',{c:'h'})+s+tx(352,156,'公倍數 12、24',{a:'end',c:'h'}));
+},
+sticks:function(){
+  function bar(x,y,w,c){return '<rect class="s" x="'+x+'" y="'+y+'" width="'+w+'" height="12" rx="3" fill="'+c+'"/>'}
+  var s='';
+  s+=tx(92,20,'可以：2＋4＞5',{a:'middle',c:'h'})+tx(40,44,'5',{a:'end',c:'m'})+bar(44,34,100,M2)+
+     tx(40,66,'2、4',{a:'end',c:'m'})+bar(44,56,40,M1)+bar(84,56,80,M1)+tx(92,92,'兩短邊合起來 6 ＞ 5',{a:'middle'});
+  s+=tx(266,20,'不可以：13＋10＜24',{a:'middle',c:'h'})+tx(214,44,'24',{a:'end',c:'m'})+bar(218,34,120,M2)+
+     tx(214,66,'13、10',{a:'end',c:'m'})+bar(218,56,65,M1)+bar(283,56,50,M1)+
+     '<line x1="338" y1="28" x2="338" y2="76" stroke="var(--bad)" stroke-width="2" stroke-dasharray="3 3"><animate attributeName="opacity" values="1;.2;1" dur="1.6s" repeatCount="indefinite"/></line>'+
+     tx(272,92,'兩短邊合起來 23 ＜ 24',{a:'middle'});
+  return SV(108,'三角形任意兩邊的和大於第三邊',s);
+},
+polygon:function(){
+  var cx=100,cy=112,r=76,V=[],i,s='';
+  for(i=0;i<5;i++){var a=(-90+72*i)*Math.PI/180;V.push([cx+r*Math.cos(a),cy+r*Math.sin(a)])}
+  var P=function(q){return q[0].toFixed(1)+','+q[1].toFixed(1)};
+  var tri=[[0,1,2],[0,2,3],[0,3,4]],cols=['#F6D77B','#9ED2A0','#9CC2EE'];
+  tri.forEach(function(t,k){s+='<polygon class="s" points="'+P(V[t[0]])+' '+P(V[t[1]])+' '+P(V[t[2]])+'" fill="'+cols[k]+'">'+OP('0;0;1;1','6','0;'+(0.2+k*.2).toFixed(2)+';'+(0.24+k*.2).toFixed(2)+';1')+'</polygon>'});
+  s+='<polygon points="'+V.map(P).join(' ')+'" fill="none" stroke="'+INK+'" stroke-width="2.5"/>';
+  s+=ln(V[0][0],V[0][1],V[2][0],V[2][1],{w:1.5,d:'4 3'})+ln(V[0][0],V[0][1],V[3][0],V[3][1],{w:1.5,d:'4 3'});
+  var rows=[['三角形','1 個','180°'],['四邊形','2 個','360°'],['五邊形','3 個','540°'],['六邊形','4 個','720°']];
+  s+=tx(290,34,'邊數 n',{a:'middle',c:'h'});
+  rows.forEach(function(r,k){s+=tx(214,60+k*26,r[0],{})+tx(272,60+k*26,r[1],{})+tx(330,60+k*26,r[2],{a:'middle',c:'h'})});
+  s+=tx(180,226,'五邊形：3×180°＝540°',{a:'middle',c:'h'})+tx(180,246,'內角和＝（n－2）×180°',{a:'middle',c:'h'});
+  return SV(256,'五邊形從一個頂點畫對角線，分成 3 個三角形',s);
+},
+fracbar:function(){
+  function bar(y,n,k,col){var w=300/n,g='',i;for(i=0;i<n;i++)g+=sq(30+i*w,y,w,26,i<k?col:'var(--paper)');return g}
+  return SV(230,'3/5、6/10、9/15 一樣大',
+   tx(8,20,'3/5',{c:'h'})+bar(26,5,3,M1)+tx(8,76,'6/10',{c:'h'})+bar(82,10,6,M2)+tx(8,132,'9/15',{c:'h'})+bar(138,15,9,'#5BAA6A')+
+   '<line x1="210" y1="14" x2="210" y2="172" stroke="var(--bad)" stroke-width="2" stroke-dasharray="4 3"><animate attributeName="opacity" values="1;.2;1" dur="2s" repeatCount="indefinite"/></line>'+
+   tx(180,192,'擴分：3/5 同乘 2 → 6/10，同乘 3 → 9/15',{a:'middle',c:'h'})+tx(180,214,'約分：6/10 同除以 2、9/15 同除以 3 → 3/5',{a:'middle',c:'h'}));
+},
+cdbars:function(){
+  function bar(y,k,col){var w=9,s='',i;for(i=0;i<36;i++)s+='<rect x="'+(18+i*w)+'" y="'+y+'" width="'+w+'" height="26" fill="'+(i<k?col:'var(--paper)')+'" stroke="var(--edge)" stroke-width=".8"/>';return s}
+  return SV(176,'5/9＝20/36，7/12＝21/36',
+   tx(18,18,'5/9＝20/36',{c:'h'})+bar(26,20,M1)+tx(18,86,'7/12＝21/36',{c:'h'})+bar(94,21,M2)+
+   '<rect x="'+(18+20*9)+'" y="94" width="9" height="26" fill="none" stroke="var(--bad)" stroke-width="3"><animate attributeName="opacity" values="1;.1;1" dur="1.6s" repeatCount="indefinite"/></rect>'+
+   tx(180,150,'分母同為 36，比分子：20 ＜ 21',{a:'middle',c:'h'})+tx(180,170,'所以 5/9 ＜ 7/12',{a:'middle'}));
+},
+sym:function(){
+  var shp='M0 -70L-52 -10L-34 70L0 40Z';
+  return SV(214,'對折：左右兩邊完全疊合，這條摺線就是對稱軸',
+   '<g transform="translate(180 108)"><path class="s" d="'+shp+'" fill="'+M1+'" fill-opacity=".85"/>'+
+   '<g><animateTransform attributeName="transform" type="scale" values="1 1;1 1;-1 1;-1 1;1 1" keyTimes="0;.2;.5;.8;1" dur="5s" repeatCount="indefinite"/><path class="s" d="'+shp+'" fill="'+M2+'" fill-opacity=".85"/></g>'+
+   '<line x1="0" y1="-92" x2="0" y2="92" stroke="var(--bad)" stroke-width="2.5" stroke-dasharray="6 4"/></g>'+
+   tx(180,18,'對稱軸',{a:'middle',c:'h'})+tx(180,206,'對折後完全重合 → 線對稱圖形',{a:'middle',c:'h'}));
+},
+axes:function(){
+  var s='',defs=[[3,'正三角形','3 條'],[4,'正方形','4 條'],[5,'正五邊形','5 條'],[6,'正六邊形','6 條']];
+  defs.forEach(function(d,k){var n=d[0],cx=45+k*90,cy=70,r=34,i,pts=[];
+    for(i=0;i<n;i++){var a=(-90+360/n*i)*Math.PI/180;pts.push((cx+r*Math.cos(a)).toFixed(1)+','+(cy+r*Math.sin(a)).toFixed(1))}
+    s+='<polygon class="s" points="'+pts.join(' ')+'" fill="var(--sky)"/>';
+    for(i=0;i<n;i++){var b=(-90+180/n*i)*Math.PI/180;s+='<line x1="'+(cx-Math.cos(b)*(r+8)).toFixed(1)+'" y1="'+(cy-Math.sin(b)*(r+8)).toFixed(1)+'" x2="'+(cx+Math.cos(b)*(r+8)).toFixed(1)+'" y2="'+(cy+Math.sin(b)*(r+8)).toFixed(1)+'" stroke="var(--bad)" stroke-width="1.6" stroke-dasharray="4 3"/>'}
+    s+=tx(cx,128,d[1],{a:'middle'})+tx(cx,148,d[2],{a:'middle',c:'h'})});
+  return SV(164,'正 n 邊形有 n 條對稱軸',s);
+}
+};
+var FIGMAP={'複雜長條圖：並列和堆疊':['stack'],'畫折線圖的步驟':['linechart'],'因數：長方形排排看':['rects6'],'例：36 和 54':['venn'],'公倍數和最小公倍數':['numline'],'三角形邊長的規則':['sticks'],'內角和':['polygon'],'擴分：越分越小份':['fracbar'],'例子：用擴分':['cdbars'],'線對稱圖形和對稱軸':['sym','axes']};
+var TIPS={a1:'比大小用長條圖，看變化用折線圖',a2:'整除：沒有餘數；因數成對出現，1 和自己一定是',a3:'公因數看「分完」，最大公因數是其中最大的',a4:'同時、至少 → 最小公倍數；個位 0、5 是 5 的倍數',a5:'兩短邊和＞第三邊；內角和＝（n－2）×180°',a6:'擴分同乘、約分同除，大小不變',a7:'先通分（分母相同），再比分子',a8:'對折能重合；正 n 邊形有 n 條對稱軸'};
+var QA={a1:[['什麼時候用折線圖比較適合？','要看資料隨時間或順序的變化與趨勢時（例如氣溫變化）。'],['堆疊長條圖，整根的高度代表什麼？','男生和女生的合計。']],
+ a2:[['16 能被哪些數整除（找因數）？','1、2、4、8、16。'],['任何數的因數中，最小和最大的各是什麼？','最小是 1，最大是它自己。']],
+ a3:[['36 和 54 的最大公因數是多少？','18。'],['兩個整數的公因數中，最小的一定是多少？','1。']],
+ a4:[['3 和 4 的最小公倍數是多少？','12。'],['個位數字是 0 或 5，是什麼的倍數？','5 的倍數。']],
+ a5:[['2 公分、4 公分、5 公分的竹籤，可以排成三角形嗎？','可以，因為 2＋4＝6，大於 5。'],['五邊形的內角和是幾度？','540°（3×180°）。']],
+ a6:[['3/5 擴分（分子分母同乘 2）是多少？','6/10。'],['27/90 用最大公因數 9 約分是多少？','3/10。']],
+ a7:[['5/9 和 7/12 誰比較大？','7/12（20/36 ＜ 21/36）。'],['15/12 和 15/14 誰比較大？','15/12（分子相同，分母越小分數越大）。']],
+ a8:[['正六邊形有幾條對稱軸？','6 條。'],['對稱點到對稱軸的距離有什麼關係？','一樣遠，而且對稱軸垂直平分兩個對稱點的連線。']]};
+
+/* ---- animation overlays ---- */
+function AN(base,extra){return function(){return base().replace(/<\/svg>$/,extra()+'</svg>')}}
+function mdot(path,dur,fill,begin,r,o){o=o||{};var vis=o.vis||'0;1;1;0',kt=o.kt||'0;.1;.85;1';
+  return '<circle r="'+(r||5)+'" fill="'+fill+'" stroke="var(--edge)" stroke-width="1.5" opacity="0"><animateMotion dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite" path="'+path+'"/><animate attributeName="opacity" values="'+vis+'" keyTimes="'+kt+'" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/></circle>'}
+function pulse(cx,cy,r1,r2,dur,stroke,begin){return '<circle cx="'+cx+'" cy="'+cy+'" r="'+r1+'" fill="none" stroke="'+stroke+'" stroke-width="3" opacity="0"><animate attributeName="r" values="'+r1+';'+r2+'" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;0" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/></circle>'}
+var FIGBASE={};Object.keys(FIG).forEach(function(k){FIGBASE[k]=FIG[k]});
+
+var ANIM={on:true,raf:0};
+function initShadow(root){
+  var el=root.querySelector('.sdui');if(!el)return;
+  var sun=el.querySelector('.sd-sun'),ray=el.querySelector('.sd-ray'),sh=el.querySelector('.sd-shadow'),rg=el.querySelector('.sd-range'),tm=el.querySelector('.sd-time'),nt=el.querySelector('.sd-note'),pb=el.querySelector('.sd-play'),out=el.querySelector('.sd-out');
+  var t=9,last=0,R=105,h=40,G=165;
+  function bins(t){return t<8?['東方','西方']:t<11?['東偏南','西偏北']:t<13?['南方','北方']:t<16?['西偏南','東偏北']:['西方','東方']}
+  function draw(){
+    var f=Math.min(Math.max(Math.PI*(t-6)/12,.1),Math.PI-.1),c=Math.cos(f),s=Math.sin(f);
+    var tip=Math.min(Math.max(180+h*c/s,12),348),sx=180-R*c,sy=G-h-R*s;
+    sun.setAttribute('cx',sx);sun.setAttribute('cy',sy);
+    ray.setAttribute('x1',tip);ray.setAttribute('y1',G);ray.setAttribute('x2',sx);ray.setAttribute('y2',sy);
+    sh.setAttribute('x2',tip);
+    var L=Math.abs(tip-180),b=bins(t),hh=Math.floor(t),mm=Math.round((t-hh)*60);if(mm===60){hh++;mm=0}
+    var txt=hh+':'+(mm<10?'0':'')+mm;tm.textContent=txt;out.textContent=txt;
+    rg.value=t;
+    nt.textContent='太陽約在'+b[0]+'，影子在'+b[1]+'，影子'+(L<20?'最短':L<70?'較短':'較長')+'。'+(t>=11&&t<13?'（中午，太陽最高）':'');
+  }
+  function tick(ts){
+    if(!el.isConnected){ANIM.raf=0;return}
+    if(ANIM.on&&last){t+=(ts-last)/1000*1.4;if(t>18)t=6;draw()}
+    last=ts;ANIM.raf=requestAnimationFrame(tick);
+  }
+  rg.oninput=function(){t=+rg.value;draw();ANIM.on=false;pb.textContent='播放';syncAnim()};
+  pb.onclick=function(){ANIM.on=!ANIM.on;pb.textContent=ANIM.on?'暫停':'播放';syncAnim()};
+  draw();pb.textContent=ANIM.on?'暫停':'播放';
+  cancelAnimationFrame(ANIM.raf);ANIM.raf=requestAnimationFrame(tick);
+}
+function syncAnim(){
+  var sh=document.getElementById('sheet');if(!sh)return;
+  sh.querySelectorAll('svg.fig').forEach(function(sv){try{ANIM.on?sv.unpauseAnimations():sv.pauseAnimations()}catch(e){}});
+  var b=document.getElementById('animbtn');if(b)b.textContent=ANIM.on?'暫停動畫':'播放動畫';
+  var p=sh.querySelector('.sd-play');if(p)p.textContent=ANIM.on?'暫停':'播放';
+}
+
+ANIM.on=!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+var PHOTOS={};
+var CREDIT={};
+function phHtml(c){
+  var a=PHOTOS[c.h];if(!a)return'';
+  return '<div class="ph">'+a.map(function(x){return'<figure class="'+(x[2]?'full':'')+'"><img src="img/nat5/'+x[0]+'.jpg" alt="'+x[1]+'" data-zoom="1" onerror="imgFail(this)"><figcaption>'+x[1]+(CREDIT[x[0]]?'<small class="cr">'+esc(CREDIT[x[0]][0])+'・'+esc(CREDIT[x[0]][1])+'・<a href="'+CREDIT[x[0]][2]+'" target="_blank" rel="noopener">來源</a></small>':'')+'</figcaption></figure>'}).join('')+'</div>';
+}
+function imgFail(im){var d=document.createElement('div');d.className='imgerr';d.textContent='圖片載入失敗：請確認 img/nat5 資料夾和 island.html 放在一起，並用網址（不是預覽窗）開啟';im.replaceWith(d)}
+function zoom(src,alt){var lb=document.getElementById('lb');lb.innerHTML='<img src="'+src+'" alt="'+alt+'"><span>點一下關閉</span>';lb.classList.add('on')}
+
+var byId={};L.forEach(function(p){byId[p.id]=p});
+var done={};try{done=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}}
+
+function bg(){
+  var s='<svg viewBox="0 0 720 1161" aria-hidden="true">',i;
+  s+='<g stroke="var(--line)" stroke-width="1">';
+  for(i=40;i<=700;i+=40)s+='<line x1="'+i+'" y1="30" x2="'+i+'" y2="1131"/>';
+  for(i=40;i<=1120;i+=40)s+='<line x1="30" y1="'+i+'" x2="700" y2="'+i+'"/>';
+  s+='</g><g stroke="var(--line)" stroke-width="2.2">';
+  for(i=120;i<=700;i+=200)s+='<line x1="'+i+'" y1="30" x2="'+i+'" y2="1131"/>';
+  for(i=120;i<=1120;i+=200)s+='<line x1="30" y1="'+i+'" x2="700" y2="'+i+'"/>';
+  s+='</g>';
+  s+='<g stroke="#17324F" stroke-width="3.5" fill="none" stroke-linecap="round"><path d="M30 1131H696M30 1131V36"/><path d="M688 1124l10 7l-10 7M23 44l7 -10l7 10"/></g>';
+  s+='<g style="font:700 13px var(--f-body);fill:var(--muted)"><text x="700" y="1150" text-anchor="end">單元 →</text><text x="36" y="28">進度</text></g>';
+  var P=[[140,1040],[400,940],[170,820],[500,700],[200,580],[520,460],[190,340],[480,230],[330,110]];
+  s+='<polyline points="'+P.map(function(p){return p.join(',')}).join(' ')+'" fill="none" stroke="#F08A3C" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="2 12" opacity=".9"/>';
+  [['12',60,1090],['24',650,1090],['3/4',640,980],['180°',70,900],['n−2',640,760],['36',70,660],['9/12',640,520],['÷6',70,420],['×3',650,300],['1：2',70,180]].forEach(function(t){s+='<text x="'+t[1]+'" y="'+t[2]+'" text-anchor="middle" style="font:700 26px var(--f-display);fill:var(--blue);opacity:.16">'+t[0]+'</text>'});
+  s+='<g transform="translate(600 70)" stroke="#17324F" stroke-width="2.5" fill="none" stroke-linejoin="round"><path d="M0 0L-36 52H36Z" fill="var(--sun)" fill-opacity=".7"/><path d="M-4 -10l8 0" stroke-width="0"/></g>';
+  s+='</svg>';
+  return s;
+}
+function pinHtml(p){
+  var i=L.indexOf(p),n=p.ch;
+  return '<button class="pin'+(p.boss?' boss':'')+(done[p.id]?' done':'')+'" data-id="'+p.id+'" style="left:'+(p.x/7.2)+'%;top:'+(p.y/11.61)+'%" aria-label="'+p.name+(done[p.id]?'（已學）':'')+'"><span class="dot" data-n="'+n+'"></span><span class="lbl">'+p.name+'</span></button>';
+}
+function tags(){return ''}
+function updateProg(){
+  var T=L.filter(function(p){return !p.boss}),n=T.filter(function(p){return done[p.id]}).length;
+  document.getElementById('pt').textContent='已學 '+n+' / '+T.length;
+  document.getElementById('pb').style.width=(n/T.length*100)+'%';
+}
+function draw(){
+  var m=document.getElementById('map');
+  m.innerHTML=bg()+tags()+L.map(pinHtml).join('');
+  m.querySelectorAll('.pin').forEach(function(b){b.onclick=function(){open(b.dataset.id)}});
+  updateProg();
+}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function cardHtml(c){
+  var s='<div class="card"><h3>'+c.h+'</h3>'+(FIGMAP[c.h]||[]).map(function(n){return'<div class="figw">'+FIG[n]()+'</div>'}).join('')+phHtml(c);
+  if(c.table){s+='<table><thead><tr>'+c.table.h.map(function(x){return'<th>'+x+'</th>'}).join('')+'</tr></thead><tbody>'+c.table.r.map(function(r){return'<tr>'+r.map(function(x,k){return'<td'+(k===0?' style="font-weight:700"':'')+'>'+x+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table>'}
+  if(c.li)s+='<ul>'+c.li.map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul>';
+  return s+'</div>';
+}
+var EXAM={20:['kt-g5-nat-u1','第 1 單元　太陽的祕密'],21:['kt-g5-nat-u2','第 2 單元　千變萬化的植物'],22:['kt-g5-nat-mid','期中複習（第 1～2 單元）']};
+function examHtml(p){var e=EXAM[p.u];if(!e)return'';var b='pdf/'+e[0];
+  return '<div class="exam"><h3>刷完題，做考卷</h3><p>'+e[1]+'・A、B 兩卷各 100 分（PDF）</p><div class="cta"><a class="btn" target="_blank" rel="noopener" href="'+b+'-exam.pdf">開啟試卷（A、B）</a><a class="btn" target="_blank" rel="noopener" href="'+b+'-ans.pdf">答案與詳解</a></div><p class="hint">iPad：開啟後點一下試卷，再點右上角「標記」（鉛筆圖示），就能用 Apple Pencil 或手指直接寫在試卷上，不用下載。寫完再看答案卷。</p></div>'}
+var last=null;
+function open(id){
+  var p=byId[id];last=document.activeElement;
+  var href='index.html?u='+p.u+(p.t>=0?'&t='+p.t:'');
+  var h='<div class="sh-top"><div><div class="u">'+p.unit+'</div><h2 id="st">'+p.name+'</h2></div><button class="x" id="cx" aria-label="關閉">×</button></div>'
+   +'<p class="intro">'+p.intro+'</p>'+(p.boss?'':'<div class="animbar"><button type="button" class="btn btn-sm" id="animbtn">暫停動畫</button></div>')+p.cards.map(cardHtml).join('')+(TIPS[p.id]?'<div class="tip">記憶口訣：'+TIPS[p.id]+'</div>':'')+(p.trap?'<div class="trap">'+p.trap+'</div>':'');
+  if(QA[p.id])h+='<div class="qa"><h3>想一想</h3>'+QA[p.id].map(function(x){return'<details><summary>'+x[0]+'</summary><p>'+x[1]+'</p></details>'}).join('')+'</div>';
+  if(p.jumps)h+='<div class="mini">'+p.jumps.map(function(j){return'<button data-j="'+j+'">'+byId[j].name+'</button>'}).join('')+'</div><div style="height:12px"></div>';
+  h+='<p class="credit">圖解與動畫皆為自製，內容依評量（南一版五年級上學期數學）整理；題目的數字都用程式驗算過。</p>';
+  h+='<div class="cta"><a class="btn btn-primary" id="go" href="'+href+'">'+(p.boss?'開始期中總複習':'我看完了，開始刷題')+'</a><button class="btn" id="ok">'+(done[p.id]?'回到地圖':'標記為已學，回地圖')+'</button></div>';
+  h+=examHtml(p);
+  var sh=document.getElementById('sheet');sh.innerHTML=h;sh.scrollTop=0;
+  document.getElementById('ov').classList.add('on');document.body.style.overflow='hidden';
+  document.getElementById('cx').focus();
+  document.getElementById('cx').onclick=close;
+  document.getElementById('ok').onclick=function(){if(!p.boss){done[p.id]=1;save()}close();draw()};
+  document.getElementById('go').onclick=function(){if(!p.boss){done[p.id]=1;save()}};
+  var ab=document.getElementById('animbtn');if(ab)ab.onclick=function(){ANIM.on=!ANIM.on;syncAnim()};
+  initShadow(sh);syncAnim();
+  sh.querySelectorAll('[data-j]').forEach(function(b){b.onclick=function(){open(b.dataset.j)}});
+}
+function close(){document.getElementById('ov').classList.remove('on');document.body.style.overflow='';if(last&&last.focus)try{last.focus()}catch(e){}}
+document.getElementById('lb').onclick=function(){this.classList.remove('on')};
+document.getElementById('sheet').addEventListener('click',function(e){var t=e.target;if(t.dataset&&t.dataset.zoom)zoom(t.src,t.alt)});
+document.getElementById('ov').onclick=function(e){if(e.target===this)close()};
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){var lb=document.getElementById('lb');if(lb.classList.contains('on'))lb.classList.remove('on');else close()}});
+if(location.hash==="#gallery"){document.querySelector(".shell").innerHTML=L.map(function(p){return p.cards.filter(function(c){return FIGMAP[c.h]}).map(function(c){return "<h3>"+p.id+" "+c.h+"</h3>"+FIGMAP[c.h].map(function(n){return "<div class=figw style=max-width:520px>"+FIG[n]()+"</div>"}).join("")}).join("")}).join("")}else draw();
+})();
+</script>
+</body></html>
