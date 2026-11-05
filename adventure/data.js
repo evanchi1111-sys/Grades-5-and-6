@@ -69,6 +69,26 @@ export const GRADES = [
   },
 ];
 
+/* 科目是否「已開放」：有原教材頁，或有已發布的新單元。 */
+export const isOpen = (s) => !!(s.teachReady || s.open);
+
+/* 教材中央資料庫：讀取已發布清單，把新單元自動加進對應科目的資訊卡。
+ * 只有 status 為 published 的單元才會出現；讀不到清單時什麼都不改，既有設定完全照舊。
+ * 新單元不需要修改 3D 程式；若清單裡的年級或科目在這裡還沒有建築，就只記錄，不顯示（新增建築屬於未來的擴充）。 */
+const SUBJECT_ID = { CHI: 'chi', MAT: 'mat', SOC: 'soc', NAT: 'nat' };
+export async function applyPublished(grades) {
+  const report = { added: [], ignored: [] };
+  let m = null; try { const r = await fetch('content/manifest.json', { cache: 'no-cache' }); m = r.ok ? await r.json() : null; } catch (e) { m = null; }
+  if (!m || m.schemaVersion !== 1 || !Array.isArray(m.units)) return report;
+  m.units.filter((u) => u.status === 'published').forEach((u) => {
+    const g = grades.find((x) => x.id === 'g' + u.grade); const s = g && g.subjects.find((x) => x.id === SUBJECT_ID[u.subject]);
+    if (!s) { report.ignored.push(u.unitId); return; }
+    s.labs = s.labs || []; if (!s.labs.some((l) => l.unit === u.unitId)) s.labs.push({ unit: u.unitId, label: `${u.unitTitle}（互動教材）`, url: `science/unit.html?id=${u.unitId}` });
+    s.more = s.more || 'science/index.html'; s.open = true; report.added.push(u.unitId);
+  });
+  return report;
+}
+
 export function findSubject(gradeId, subjectId) {
   const g = GRADES.find((x) => x.id === gradeId);
   return g ? { grade: g, subject: g.subjects.find((s) => s.id === subjectId) } : null;

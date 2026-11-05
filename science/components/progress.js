@@ -1,4 +1,4 @@
-/* 學習流程：七個步驟與完成狀態 */
+/* 學習流程：步驟與完成狀態（各單元可有不同的步驟組合：unit.flow） */
 import { h } from './dom.js';
 
 export const STEPS = [
@@ -10,10 +10,14 @@ export const STEPS = [
   { id: 'test', name: '單元測驗', icon: '📝' },
   { id: 'result', name: '學習成果', icon: '🏆' },
 ];
+export const DEFAULT_FLOW = STEPS.map((s) => s.id);
+export const flowOf = (unit) => (unit && unit.flow && unit.flow.length ? unit.flow : DEFAULT_FLOW);
+export const stepName = (id) => (STEPS.find((s) => s.id === id) || { name: id }).name;
 
-export function renderStepper(root, current, rec, onGo) {
+export function renderStepper(root, current, rec, onGo, flow = DEFAULT_FLOW) {
   root.textContent = '';
-  STEPS.forEach((s, i) => {
+  const list = STEPS.filter((s) => flow.includes(s.id));
+  list.forEach((s, i) => {
     const done = !!rec.steps[s.id];
     root.append(h('button', { type: 'button', class: 'step' + (s.id === current ? ' on' : '') + (done ? ' done' : ''), 'aria-current': s.id === current ? 'step' : null, onclick: () => onGo(s.id) },
       h('span', { class: 'si', text: done ? '✔' : s.icon }), h('span', { class: 'sn', text: (i + 1) + '. ' + s.name })));

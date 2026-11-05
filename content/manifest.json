@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-05T08:22:16.284Z",
+  "units": [
+    {
+      "unitId": "G6-MAT-U01",
+      "grade": 6,
+      "subject": "MAT",
+      "subjectName": "數學",
+      "unitNumber": 1,
+      "unitTitle": "最大公因數與最小公倍數",
+      "version": 1,
+      "status": "published",
+      "file": "content/units/G6-MAT-U01@v1.json",
+      "publishedAt": "2026-11-05T08:22:16.282Z"
+    }
+  ]
+}

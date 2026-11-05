@@ -136,3 +136,7 @@ body.teacher main{max-width:1200px}
   body.teacher .print-sheet{display:block}.pq{break-inside:avoid;margin:12px 0;padding-bottom:8px;border-bottom:1px solid #ccc}
   details.static-alt{display:block}details.static-alt>*{display:block}
 }
+
+/* 填空與排序題 */
+.fillline{font-size:18px;line-height:2.2}.slot{min-width:84px;margin:0 4px;padding:4px 10px;font:700 16px var(--f);border:2px dashed var(--edge);border-radius:10px;background:#fff8e1;cursor:pointer}.slot.filled{border-style:solid;background:#d9f5d0}
+.orderlist{padding-left:1.4em}.orderlist li{margin:6px 0}

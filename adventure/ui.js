@@ -1,5 +1,5 @@
 /* 介面層：不依賴 Three.js，WebGL／CDN 失敗時仍可單獨運作（備援介面） */
-import { GRADES, SITE } from './data.js';
+import { GRADES, SITE, isOpen } from './data.js';
 
 function el(tag, attrs, ...kids) {
   const e = document.createElement(tag);
@@ -55,7 +55,7 @@ export function createUI(h) {
     chipRow.append(el('span', { class: 'chip-label', text: g.name }));
     g.subjects.forEach((s) => {
       const c = el('button', { type: 'button', class: 'chip', style: '--c:' + s.color, 'data-key': g.id + ':' + s.id,
-        onclick: () => h.onSubject(g.id, s.id) }, s.name, s.teachReady ? null : el('i', { text: '準備中' }));
+        onclick: () => h.onSubject(g.id, s.id) }, s.name, isOpen(s) ? null : el('i', { text: '準備中' }));
       chips.push(c); chipRow.append(c);
     });
   });
@@ -98,7 +98,7 @@ export function createUI(h) {
   function showCard(g, s) {
     card.textContent = '';
     card.style.setProperty('--c', s.color);
-    const status = el('span', { class: 'status ' + (s.teachReady ? 'ok' : 'soon'), text: s.teachReady ? '教材已開放' : '教材準備中' });
+    const status = el('span', { class: 'status ' + (isOpen(s) ? 'ok' : 'soon'), text: s.teachReady ? '教材已開放' : s.open ? '互動單元已開放' : '教材準備中' });
     card.append(
       el('div', { class: 'card-head' },
         el('div', {}, el('div', { class: 'eyebrow', text: g.name + '・' + s.name }), el('h2', { id: 'card-title', text: s.buildingName }), status),

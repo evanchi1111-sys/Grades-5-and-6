@@ -11,7 +11,7 @@ export function createTutorPanel({ unit, service, onUse, navigate }) {
   const send = h('button', { type: 'button', class: 'btn' }, '問');
   const panel = h('aside', { class: 'tutor', role: 'dialog', 'aria-label': '小幫手', hidden: true },
     h('div', { class: 'tutor-head' }, h('b', { text: '🧑‍🏫 小幫手' }), h('button', { type: 'button', class: 'x', 'aria-label': '關閉小幫手', onclick: () => close() }, '✕')),
-    h('p', { class: 'tutor-note' }, '我只根據這個單元的教材回答，不確定的我會直接說不確定。我是教材小幫手，不是連網的 AI。教材內容尚待人工審核。'),
+    h('p', { class: 'tutor-note' }, '我只根據這個單元的教材回答，不確定的我會直接說不確定。我是教材小幫手，不是連網的 AI。' + (unit.fromContentDb ? '教材已通過審核（' + (unit.version || '') + '）。' : '教材內容尚待人工審核。')),
     list, quick, h('div', { class: 'tutor-input' }, input, send));
   document.body.append(fab, panel);
 

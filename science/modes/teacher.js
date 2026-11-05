@@ -1,6 +1,7 @@
 /* 老師模式：大螢幕投影教學（教材、互動實驗、示範、題目講解、課堂小考、匯出）
  * 資料只在這台裝置；沒有班級、多位學生或跨裝置功能。 */
 import { h, clear, richText } from '../components/dom.js';
+import { answerText, qType } from '../components/quiz.js';
 import { requireRole, leave } from './gate.js';
 import { loadUnits, analyze, reportText, download, unitName } from './report.js';
 import { buildIndex } from '../tutor/knowledge.js';
@@ -9,6 +10,7 @@ import { TAGS } from '../data/tags.js';
 import * as R from '../store/records.js';
 
 const main = document.getElementById('main');
+const optsOf = (q) => (qType(q) === 'mc' ? q.opts : qType(q) === 'fill' ? ['可用詞語：' + q.opts.join('、')] : ['（請依正確順序排列）' + q.opts.join('；')]);
 requireRole('teacher', '老師模式', main, start);
 
 async function start() {
@@ -42,8 +44,8 @@ async function start() {
     if (cur && cur.destroy) { cur.destroy(); cur = null; }
     clear(stage); stage.append(h('p', { class: 'note', text: '載入中…' })); index = await buildIndex(U);
     slides = [];
-    slides.push(slide(unitName(U), h('p', { class: 'sl-sub', text: '內容狀態：待審核（新增內容尚未經人工確認）' }), h('h3', { text: '學習目標' }), h('ul', { class: 'sl-list' }, ...U.goals.map((g) => h('li', { text: g })))));
-    slides.push(slide('情境任務：' + U.scenario.title, h('p', { class: 'sl-text', text: U.scenario.story }), h('h3', { text: '先猜猜看' }), h('p', { class: 'sl-text', text: U.scenario.predict.q }), h('ol', { class: 'sl-list', type: 'A' }, ...U.scenario.predict.options.map((o) => h('li', { text: o }))), reveal('答案與說明', h('p', { class: 'ok', text: '答案：' + U.scenario.predict.options[U.scenario.predict.answer] + '。' + U.scenario.predict.reveal }))));
+    slides.push(slide(unitName(U), h('p', { class: 'sl-sub', text: U.reviewNote || '內容狀態：待審核（新增內容尚未經人工確認）' }), h('h3', { text: '學習目標' }), h('ul', { class: 'sl-list' }, ...U.goals.map((g) => h('li', { text: g })))));
+    if (U.scenario) slides.push(slide('情境任務：' + U.scenario.title, h('p', { class: 'sl-text', text: U.scenario.story }), h('h3', { text: '先猜猜看' }), h('p', { class: 'sl-text', text: U.scenario.predict.q }), h('ol', { class: 'sl-list', type: 'A' }, ...U.scenario.predict.options.map((o) => h('li', { text: o }))), reveal('答案與說明', h('p', { class: 'ok', text: '答案：' + U.scenario.predict.options[U.scenario.predict.answer] + '。' + U.scenario.predict.reveal }))));
     index.entries.filter((e) => e.kind === 'lesson').forEach((e) => slides.push(slide(`${e.nodeName}：${e.title}`, h('ul', { class: 'sl-list' }, ...e.lines.map((l) => h('li', {}, l))), h('p', { class: 'note', text: '來源：' + e.source }))));
     index.entries.filter((e) => e.kind === 'trap').forEach((e) => slides.push(slide(`易錯提醒：${e.nodeName}`, h('p', { class: 'sl-text trap', text: e.lines[0] }))));
     U.labs.forEach((l) => slides.push({ title: '實驗：' + l.title, render: async (box) => {
@@ -52,10 +54,10 @@ async function start() {
       try { const m = await import(`../activities/${l.id}.js`); cur = m.mount(holder, {}); } catch (e) { holder.append(h('p', { class: 'bad', text: '互動載入失敗：' + e.message })); } } }));
     U.demo.forEach((d, i) => slides.push(slide(`老師示範 ${i + 1}：${d.title}`, h('p', { class: 'sl-text' }, h('b', { text: '題目：' }), d.problem), h('ol', { class: 'sl-list' }, ...d.steps.map((x) => h('li', { text: x }))), h('p', { class: 'note', text: '來源：' + d.source }))));
     let qs = U.questions.slice();
-    if (filter === 'quiz') qs = pickQuestions(U.questions, { perLevel: U.test.perLevel }); else if (filter !== 'all') qs = qs.filter((q) => q.level === +filter);
-    const qslide = (q, i, n) => slide(`第 ${i + 1}／${n} 題（${['', '基礎', '進階', '精熟'][q.level]}）`, h('p', { class: 'sl-q', text: q.q }), h('ol', { class: 'sl-list opts-big', type: 'A' }, ...q.opts.map((o) => h('li', { text: o }))));
-    const ans = (q, i) => reveal('答案與解析', h('div', {}, h('p', { class: 'ok', text: '答案：' + q.opts[q.answer] }), h('p', { class: 'explain', text: '解析：' + q.explain }), h('p', { class: 'note', text: `知識點：${TAGS[q.tag].name}・來源：${q.source}` })));
-    if (filter === 'quiz') { qs.forEach((q, i) => { const s = qslide(q, i, qs.length); slides.push(s); }); slides.push(slide('解答與講解（共 ' + qs.length + ' 題）', ...[] )); qs.forEach((q, i) => slides.push(slide(`解答 ${i + 1}：${q.q.slice(0, 22)}${q.q.length > 22 ? '…' : ''}`, h('p', { class: 'sl-q', text: q.q }), h('p', { class: 'ok', text: '答案：' + q.opts[q.answer] }), h('p', { class: 'explain', text: '解析：' + q.explain }), h('p', { class: 'note', text: `知識點：${TAGS[q.tag].name}` })))); }
+    if (filter === 'quiz') qs = pickQuestions(U.questions, U.test.perLevel ? { perLevel: U.test.perLevel } : { total: U.test.total }); else if (filter !== 'all') qs = qs.filter((q) => q.level === +filter);
+    const qslide = (q, i, n) => slide(`第 ${i + 1}／${n} 題（${['', '基礎', '進階', '精熟'][q.level]}）`, h('p', { class: 'sl-q', text: q.q }), h('ol', { class: 'sl-list opts-big', type: 'A' }, ...optsOf(q).map((o) => h('li', { text: o }))));
+    const ans = (q, i) => reveal('答案與解析', h('div', {}, h('p', { class: 'ok', text: '答案：' + answerText(q) }), h('p', { class: 'explain', text: '解析：' + q.explain }), h('p', { class: 'note', text: `知識點：${TAGS[q.tag].name}・來源：${q.source}` })));
+    if (filter === 'quiz') { qs.forEach((q, i) => { const s = qslide(q, i, qs.length); slides.push(s); }); slides.push(slide('解答與講解（共 ' + qs.length + ' 題）', ...[] )); qs.forEach((q, i) => slides.push(slide(`解答 ${i + 1}：${q.q.slice(0, 22)}${q.q.length > 22 ? '…' : ''}`, h('p', { class: 'sl-q', text: q.q }), h('p', { class: 'ok', text: '答案：' + answerText(q) }), h('p', { class: 'explain', text: '解析：' + q.explain }), h('p', { class: 'note', text: `知識點：${TAGS[q.tag].name}` })))); }
     else qs.forEach((q, i) => { const s = qslide(q, i, qs.length); const r = s.render; s.render = (box) => { r(box); box.append(ans(q, i)()); }; slides.push(s); });
     slides.push(slide('本單元小結', h('ul', { class: 'sl-list' }, ...U.labs.map((l) => h('li', {}, h('b', { text: l.title + '：' }), l.conclusion))), h('p', { class: 'note', text: '所有新增內容皆為「待審核」，請以課本與原教材為準。' })));
     jump.textContent = ''; slides.forEach((s, i) => jump.append(h('option', { value: i, text: `${i + 1}. ${s.title.slice(0, 26)}` })));
@@ -72,7 +74,7 @@ async function start() {
 
   function drawSheet(qs) { // 列印用：題目與解答
     clear(sheet); sheet.append(h('h1', { text: unitName(U) + '　題目與解答' }), h('p', { class: 'note', text: '內容狀態：待審核。' }),
-      ...qs.map((q, i) => h('div', { class: 'pq' }, h('p', {}, h('b', { text: `${i + 1}. （${['', '基礎', '進階', '精熟'][q.level]}）${q.q}` })), h('ol', { type: 'A' }, ...q.opts.map((o) => h('li', { text: o }))), h('p', { class: 'ok', text: '答案：' + q.opts[q.answer] }), h('p', { text: '解析：' + q.explain }), h('p', { class: 'note', text: `知識點：${TAGS[q.tag].name}・來源：${q.source}` }))));
+      ...qs.map((q, i) => h('div', { class: 'pq' }, h('p', {}, h('b', { text: `${i + 1}. （${['', '基礎', '進階', '精熟'][q.level]}）${q.q}` })), h('ol', { type: 'A' }, ...optsOf(q).map((o) => h('li', { text: o }))), h('p', { class: 'ok', text: '答案：' + answerText(q) }), h('p', { text: '解析：' + q.explain }), h('p', { class: 'note', text: `知識點：${TAGS[q.tag].name}・來源：${q.source}` }))));
   }
   function exportResults() { const name = R.nickname() || '小勇者'; const an = Object.values(units).map((u) => analyze(u, R.peekUnit(name, u.id))); download(`學習成果-${name}.txt`, reportText(name, an)); }
   build();

@@ -1,0 +1,739 @@
+{
+  "schemaVersion": 1,
+  "unitId": "G6-MAT-U01",
+  "grade": 6,
+  "subject": "MAT",
+  "subjectName": "數學",
+  "unitNumber": 1,
+  "unitTitle": "最大公因數與最小公倍數",
+  "textbookVersion": "未標示",
+  "learningObjectives": [],
+  "sourceFiles": [
+    {
+      "fileId": "F-legacy-7df1bc3c",
+      "fileName": "index.html",
+      "mimeType": "text/html",
+      "sizeBytes": 376282,
+      "sha256": "7df1bc3c7db9a93628194754138b5778fd5a9a9b34561ee5e20b4c7c8fcb706b",
+      "role": "legacy",
+      "uploadedAt": "2026-11-05T08:22:16.257Z",
+      "storagePath": "index.html",
+      "parser": "legacy-bank-adapter@1"
+    },
+    {
+      "fileId": "F-legacy-02f62db8",
+      "fileName": "pdf/kt-g6-math-u1-exam.pdf",
+      "mimeType": "application/pdf",
+      "sizeBytes": 113329,
+      "sha256": "02f62db884914536d334950c1fcd1132abef62222210e1511ee7f2dff1bfb145",
+      "role": "legacy",
+      "uploadedAt": "2026-11-05T08:22:16.257Z",
+      "storagePath": "pdf/kt-g6-math-u1-exam.pdf",
+      "parser": "legacy-bank-adapter@1"
+    },
+    {
+      "fileId": "F-legacy-ff4f97ff",
+      "fileName": "pdf/kt-g6-math-u1-ans.pdf",
+      "mimeType": "application/pdf",
+      "sizeBytes": 80470,
+      "sha256": "ff4f97ff0f2b79fbdaec107670f22b05ecd1c5549a090c4bf24c8eb6e4861ec5",
+      "role": "legacy",
+      "uploadedAt": "2026-11-05T08:22:16.257Z",
+      "storagePath": "pdf/kt-g6-math-u1-ans.pdf",
+      "parser": "legacy-bank-adapter@1"
+    }
+  ],
+  "lessons": [],
+  "keyPoints": [
+    {
+      "knowledgePointId": "G6-MAT-U01-KP-01",
+      "text": "質數與合數",
+      "source": {
+        "fileName": "index.html",
+        "legacyRef": "u=8&t=0"
+      },
+      "reviewStatus": "approved"
+    },
+    {
+      "knowledgePointId": "G6-MAT-U01-KP-02",
+      "text": "質因數分解",
+      "source": {
+        "fileName": "index.html",
+        "legacyRef": "u=8&t=1"
+      },
+      "reviewStatus": "approved"
+    },
+    {
+      "knowledgePointId": "G6-MAT-U01-KP-03",
+      "text": "最大公因數",
+      "source": {
+        "fileName": "index.html",
+        "legacyRef": "u=8&t=2"
+      },
+      "reviewStatus": "approved"
+    },
+    {
+      "knowledgePointId": "G6-MAT-U01-KP-04",
+      "text": "最小公倍數",
+      "source": {
+        "fileName": "index.html",
+        "legacyRef": "u=8&t=3"
+      },
+      "reviewStatus": "approved"
+    }
+  ],
+  "illustrations": [],
+  "experiments": [],
+  "examples": [],
+  "questions": [
+    {
+      "questionId": "G6-MAT-U01-Q001",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-01",
+      "difficulty": 1,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "mc",
+      "questionText": "在 9、15、21、23 之中，哪一個是質數？",
+      "options": [
+        "9",
+        "15",
+        "23",
+        "21"
+      ],
+      "correctAnswer": 2,
+      "explanation": "23 只有 1 和它自己兩個因數，是質數；其他數都還有別的因數。",
+      "legacyRef": "index.html#qh3ob9s"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q002",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-01",
+      "difficulty": 1,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "mc",
+      "questionText": "在 27、29、33、39 之中，哪一個是質數？",
+      "options": [
+        "29",
+        "27",
+        "33",
+        "39"
+      ],
+      "correctAnswer": 0,
+      "explanation": "29 只有 1 和它自己兩個因數，是質數；其他數都還有別的因數。",
+      "legacyRef": "index.html#q1u54jrj"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q003",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-01",
+      "difficulty": 1,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "mc",
+      "questionText": "在 31、35、45、49 之中，哪一個是質數？",
+      "options": [
+        "35",
+        "45",
+        "49",
+        "31"
+      ],
+      "correctAnswer": 3,
+      "explanation": "31 只有 1 和它自己兩個因數，是質數；其他數都還有別的因數。",
+      "legacyRef": "index.html#q5xpc23"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q004",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-01",
+      "difficulty": 1,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "mc",
+      "questionText": "在 12、17、25、28 之中，哪一個是質數？",
+      "options": [
+        "12",
+        "17",
+        "25",
+        "28"
+      ],
+      "correctAnswer": 1,
+      "explanation": "17 只有 1 和它自己兩個因數，是質數；其他數都還有別的因數。",
+      "legacyRef": "index.html#q5ecsv9"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q005",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-01",
+      "difficulty": 1,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "mc",
+      "questionText": "在 2、3、5、9 之中，哪一個是合數？",
+      "options": [
+        "2",
+        "3",
+        "9",
+        "5"
+      ],
+      "correctAnswer": 2,
+      "explanation": "9 的因數不只 1 和它自己，是合數。",
+      "legacyRef": "index.html#q1rz3x0a"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q006",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-01",
+      "difficulty": 1,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "mc",
+      "questionText": "在 7、11、13、15 之中，哪一個是合數？",
+      "options": [
+        "15",
+        "7",
+        "11",
+        "13"
+      ],
+      "correctAnswer": 0,
+      "explanation": "15 的因數不只 1 和它自己，是合數。",
+      "legacyRef": "index.html#qd2pwcq"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q007",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-01",
+      "difficulty": 1,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "tf",
+      "questionText": "1 是質數。",
+      "options": [
+        "○ 正確",
+        "✕ 錯誤"
+      ],
+      "correctAnswer": false,
+      "explanation": "1 只有一個因數（1），不是質數，也不是合數。",
+      "legacyRef": "index.html#q1rbndkz"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q008",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-01",
+      "difficulty": 1,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "tf",
+      "questionText": "2 是最小的質數，也是唯一的偶數質數。",
+      "options": [
+        "○ 正確",
+        "✕ 錯誤"
+      ],
+      "correctAnswer": true,
+      "explanation": "2 的因數只有 1 和 2；其他偶數都有因數 2，是合數。",
+      "legacyRef": "index.html#q1slrfkk"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q009",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-01",
+      "difficulty": 2,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "tf",
+      "questionText": "所有的奇數都是質數。",
+      "options": [
+        "○ 正確",
+        "✕ 錯誤"
+      ],
+      "correctAnswer": false,
+      "explanation": "例如 9 是奇數，但 9＝3×3，是合數。",
+      "legacyRef": "index.html#q13tlfiz"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q010",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-01",
+      "difficulty": 2,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "tf",
+      "questionText": "57 是質數。",
+      "options": [
+        "○ 正確",
+        "✕ 錯誤"
+      ],
+      "correctAnswer": false,
+      "explanation": "57＝3×19，所以是合數。",
+      "legacyRef": "index.html#q125n9y6"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q011",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-02",
+      "difficulty": 2,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "fill",
+      "questionText": "把 36 做質因數分解後，不同的質因數有{}、{}。（順序不限）",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "6",
+        "9"
+      ],
+      "correctAnswer": [
+        "2",
+        "3"
+      ],
+      "explanation": "36＝2×2×3×3，不同的質因數是 2、3。",
+      "answerAnyOrder": true,
+      "legacyRef": "index.html#q1qjnjyy"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q012",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-02",
+      "difficulty": 2,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "fill",
+      "questionText": "把 60 做質因數分解後，不同的質因數有{}、{}、{}。（順序不限）",
+      "options": [
+        "2",
+        "3",
+        "5",
+        "4",
+        "6",
+        "9"
+      ],
+      "correctAnswer": [
+        "2",
+        "3",
+        "5"
+      ],
+      "explanation": "60＝2×2×3×5，不同的質因數是 2、3、5。",
+      "answerAnyOrder": true,
+      "legacyRef": "index.html#qo3dlv4"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q013",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-02",
+      "difficulty": 2,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "fill",
+      "questionText": "把 84 做質因數分解後，不同的質因數有{}、{}、{}。（順序不限）",
+      "options": [
+        "2",
+        "3",
+        "7",
+        "4",
+        "6",
+        "9"
+      ],
+      "correctAnswer": [
+        "2",
+        "3",
+        "7"
+      ],
+      "explanation": "84＝2×2×3×7，不同的質因數是 2、3、7。",
+      "answerAnyOrder": true,
+      "legacyRef": "index.html#q43cuwm"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q014",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-02",
+      "difficulty": 2,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "mc",
+      "questionText": "18 的質因數分解是哪一個？",
+      "options": [
+        "2×2×5",
+        "2×11",
+        "2×2×2×3",
+        "2×3×3"
+      ],
+      "correctAnswer": 3,
+      "explanation": "18＝2×3×3。",
+      "legacyRef": "index.html#qnmxdqo"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q015",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-02",
+      "difficulty": 2,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "mc",
+      "questionText": "45 的質因數分解是哪一個？",
+      "options": [
+        "47",
+        "3×3×5",
+        "7×7",
+        "3×17"
+      ],
+      "correctAnswer": 1,
+      "explanation": "45＝3×3×5。",
+      "legacyRef": "index.html#q6vzwhc"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q016",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-03",
+      "difficulty": 2,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "mc",
+      "questionText": "12 和 18 的最大公因數是多少？",
+      "options": [
+        "3",
+        "12",
+        "6",
+        "1"
+      ],
+      "correctAnswer": 2,
+      "explanation": "12 和 18 的公因數中最大的是 6。短除法：兩數同時除以 6 之後只剩 1 為公因數。",
+      "legacyRef": "index.html#q3m000l"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q017",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-03",
+      "difficulty": 2,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "mc",
+      "questionText": "24 和 36 的最大公因數是多少？",
+      "options": [
+        "12",
+        "6",
+        "24",
+        "1"
+      ],
+      "correctAnswer": 0,
+      "explanation": "24 和 36 的公因數中最大的是 12。短除法：兩數同時除以 12 之後只剩 1 為公因數。",
+      "legacyRef": "index.html#qpze0e0"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q018",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-03",
+      "difficulty": 2,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "mc",
+      "questionText": "30 和 45 的最大公因數是多少？",
+      "options": [
+        "16",
+        "30",
+        "1",
+        "15"
+      ],
+      "correctAnswer": 3,
+      "explanation": "30 和 45 的公因數中最大的是 15。短除法：兩數同時除以 15 之後只剩 1 為公因數。",
+      "legacyRef": "index.html#q8j4hx1"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q019",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-03",
+      "difficulty": 2,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "mc",
+      "questionText": "28 和 42 的最大公因數是多少？",
+      "options": [
+        "7",
+        "14",
+        "28",
+        "1"
+      ],
+      "correctAnswer": 1,
+      "explanation": "28 和 42 的公因數中最大的是 14。短除法：兩數同時除以 14 之後只剩 1 為公因數。",
+      "legacyRef": "index.html#qelkz95"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q020",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-03",
+      "difficulty": 2,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "fill",
+      "questionText": "16 和 24 的最大公因數是{}；兩數除以最大公因數後，得到 2 和 3。",
+      "options": [
+        "8",
+        "16",
+        "2",
+        "3"
+      ],
+      "correctAnswer": [
+        "8"
+      ],
+      "explanation": "最大公因數是 8；16÷8＝2，24÷8＝3。",
+      "legacyRef": "index.html#qbrmbj1"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q021",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-03",
+      "difficulty": 2,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "fill",
+      "questionText": "45 和 60 的最大公因數是{}；兩數除以最大公因數後，得到 3 和 4。",
+      "options": [
+        "15",
+        "30",
+        "3",
+        "4"
+      ],
+      "correctAnswer": [
+        "15"
+      ],
+      "explanation": "最大公因數是 15；45÷15＝3，60÷15＝4。",
+      "legacyRef": "index.html#q4ck41t"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q022",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-04",
+      "difficulty": 2,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "mc",
+      "questionText": "4 和 6 的最小公倍數是多少？",
+      "options": [
+        "24",
+        "6",
+        "12",
+        "17"
+      ],
+      "correctAnswer": 2,
+      "explanation": "4 的倍數和 6 的倍數中，第一個相同的是 12。",
+      "legacyRef": "index.html#q8hlh6w"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q023",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-04",
+      "difficulty": 2,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "mc",
+      "questionText": "6 和 8 的最小公倍數是多少？",
+      "options": [
+        "24",
+        "48",
+        "12",
+        "8"
+      ],
+      "correctAnswer": 0,
+      "explanation": "6 的倍數和 8 的倍數中，第一個相同的是 24。",
+      "legacyRef": "index.html#q16fdr64"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q024",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-04",
+      "difficulty": 2,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "mc",
+      "questionText": "12 和 18 的最小公倍數是多少？",
+      "options": [
+        "216",
+        "72",
+        "18",
+        "36"
+      ],
+      "correctAnswer": 3,
+      "explanation": "12 的倍數和 18 的倍數中，第一個相同的是 36。",
+      "legacyRef": "index.html#q1hls47e"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q025",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-04",
+      "difficulty": 2,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "mc",
+      "questionText": "10 和 15 的最小公倍數是多少？",
+      "options": [
+        "150",
+        "30",
+        "60",
+        "15"
+      ],
+      "correctAnswer": 1,
+      "explanation": "10 的倍數和 15 的倍數中，第一個相同的是 30。",
+      "legacyRef": "index.html#q2ebk85"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q026",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-04",
+      "difficulty": 2,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "tf",
+      "questionText": "兩個數的最小公倍數，一定比這兩個數都大或一樣大。",
+      "options": [
+        "○ 正確",
+        "✕ 錯誤"
+      ],
+      "correctAnswer": true,
+      "explanation": "公倍數一定是兩數的倍數，所以不會比其中任何一個數小。",
+      "legacyRef": "index.html#q1xhj95g"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q027",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-04",
+      "difficulty": 3,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "mc",
+      "questionText": "公車站有兩路公車，A 路每 12 分鐘發一班，B 路每 18 分鐘發一班，8:00 同時發車。下一次再同時發車是幾點幾分？",
+      "options": [
+        "8:30",
+        "8:54",
+        "8:36",
+        "9:00"
+      ],
+      "correctAnswer": 2,
+      "explanation": "12 和 18 的最小公倍數是 36，所以過 36 分鐘，也就是 8:36。",
+      "legacyRef": "index.html#q1y3uhkr"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q028",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-03",
+      "difficulty": 3,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "mc",
+      "questionText": "一塊長 36 公分、寬 24 公分的長方形紙，要剪成大小相同、邊長最長的正方形，邊長是多少公分？",
+      "options": [
+        "12",
+        "6",
+        "8",
+        "24"
+      ],
+      "correctAnswer": 0,
+      "explanation": "求 36 和 24 的最大公因數是 12，所以邊長最長 12 公分。",
+      "legacyRef": "index.html#qqfn77d"
+    },
+    {
+      "questionId": "G6-MAT-U01-Q029",
+      "unitId": "G6-MAT-U01",
+      "knowledgePointId": "G6-MAT-U01-KP-03",
+      "difficulty": 2,
+      "sourceFile": "index.html",
+      "sourcePage": null,
+      "reviewStatus": "approved",
+      "questionType": "order",
+      "questionText": "用短除法求 12 和 18 的最大公因數，請依順序排列：",
+      "options": [],
+      "correctAnswer": [
+        "把 12 和 18 寫在短除符號裡",
+        "兩數同除以公因數 2，得到 6 和 9",
+        "再同除以公因數 3，得到 2 和 3",
+        "把左邊的 2 和 3 相乘，得到 6"
+      ],
+      "explanation": "12 和 18 同除以 2 與 3，左邊乘起來 2×3＝6，所以最大公因數是 6。",
+      "legacyRef": "index.html#qrgvcys"
+    }
+  ],
+  "assessments": [
+    {
+      "assessmentId": "G6-MAT-U01-A01",
+      "title": "單元測驗（沿用既有刷題規則）",
+      "questionIds": [
+        "G6-MAT-U01-Q001",
+        "G6-MAT-U01-Q002",
+        "G6-MAT-U01-Q003",
+        "G6-MAT-U01-Q004",
+        "G6-MAT-U01-Q005",
+        "G6-MAT-U01-Q006",
+        "G6-MAT-U01-Q007",
+        "G6-MAT-U01-Q008",
+        "G6-MAT-U01-Q009",
+        "G6-MAT-U01-Q010",
+        "G6-MAT-U01-Q011",
+        "G6-MAT-U01-Q012",
+        "G6-MAT-U01-Q013",
+        "G6-MAT-U01-Q014",
+        "G6-MAT-U01-Q015",
+        "G6-MAT-U01-Q016",
+        "G6-MAT-U01-Q017",
+        "G6-MAT-U01-Q018",
+        "G6-MAT-U01-Q019",
+        "G6-MAT-U01-Q020",
+        "G6-MAT-U01-Q021",
+        "G6-MAT-U01-Q022",
+        "G6-MAT-U01-Q023",
+        "G6-MAT-U01-Q024",
+        "G6-MAT-U01-Q025",
+        "G6-MAT-U01-Q026",
+        "G6-MAT-U01-Q027",
+        "G6-MAT-U01-Q028",
+        "G6-MAT-U01-Q029"
+      ],
+      "total": 10,
+      "passPercent": 60
+    }
+  ],
+  "explanations": [],
+  "commonMistakes": [],
+  "achievements": [],
+  "reviewStatus": "published",
+  "version": {
+    "number": 1,
+    "createdAt": "2026-11-05T08:22:16.257Z",
+    "summary": "由既有刷題題庫 u=8（數學 單元一）轉入，共 29 題（唯讀，原題庫未更動）",
+    "author": "管理者",
+    "reviewer": "管理者",
+    "reviewedAt": "2026-11-05T08:22:16.282Z",
+    "parentVersion": null,
+    "publishedAt": "2026-11-05T08:22:16.282Z",
+    "selfReview": true
+  },
+  "createdAt": "2026-11-05T08:22:16.257Z",
+  "updatedAt": "2026-11-05T08:22:16.282Z"
+}

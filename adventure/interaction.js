@@ -1,6 +1,7 @@
 /* 互動：懸停、點擊、相機飛行、標籤 */
 import * as THREE from 'three';
 import { TOP } from './islands.js';
+import { isOpen } from './data.js';
 
 const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
@@ -105,7 +106,7 @@ export function createInteraction({ world, arch, ui, reduced }) {
     if (!b) { tip.classList.remove('on'); return; }
     tip.textContent = '';
     const s = b.subject; const t1 = document.createElement('b'); t1.textContent = b.grade.name + s.name + '・' + s.buildingName;
-    const t2 = document.createElement('span'); t2.textContent = s.teachReady ? '點一下查看' : '教材準備中（刷題與考卷可用）';
+    const t2 = document.createElement('span'); t2.textContent = isOpen(s) ? '點一下查看' : '教材準備中（刷題與考卷可用）';
     tip.append(t1, t2); tip.style.setProperty('--c', s.color);
     const r = canvas.getBoundingClientRect(); tip.style.left = e.clientX - r.left + 'px'; tip.style.top = e.clientY - r.top + 'px'; tip.classList.add('on');
   }
@@ -114,8 +115,8 @@ export function createInteraction({ world, arch, ui, reduced }) {
   const tags = [];
   islandList.forEach((i) => { const d = document.createElement('div'); d.className = 'tag island-tag'; d.textContent = i.grade.islandName; labelsEl.append(d); tags.push({ el: d, kind: 'island', anchor: new THREE.Vector3(i.center.x, 10, 0) }); });
   buildings.forEach((b) => {
-    const d = document.createElement('div'); d.className = 'tag b-tag' + (b.subject.teachReady ? '' : ' soon'); d.style.setProperty('--c', b.subject.color);
-    d.textContent = b.subject.name + (b.subject.teachReady ? '' : '・準備中'); labelsEl.append(d);
+    const d = document.createElement('div'); d.className = 'tag b-tag' + (isOpen(b.subject) ? '' : ' soon'); d.style.setProperty('--c', b.subject.color);
+    d.textContent = b.subject.name + (isOpen(b.subject) ? '' : '・準備中'); labelsEl.append(d);
     tags.push({ el: d, kind: 'building', b, anchor: new THREE.Vector3() });
   });
   const tmp = new THREE.Vector3(), wp = new THREE.Vector3();

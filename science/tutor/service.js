@@ -9,27 +9,29 @@
  *   未設定 endpoint 時完全不會連網。見 tutor/BACKEND.md。 */
 import { TAGS } from '../data/tags.js';
 import { search, cardsForTag } from './knowledge.js';
+import { answerStrings, answerText, pickedText, qType } from '../components/quiz.js';
 
 /* 未作答時，教材段落中和「正確答案」太接近的句子不顯示，避免提示直接洩漏答案。
  * 答案只有一個字時（例如「根」），無法安全地擷取句子，就只提示要讀哪一段。 */
 function guard(cards, req) {
   const q = req.question; if (!q || req.answered) return { cards, hidden: false };
-  const ans = String(q.opts[q.answer]); let hidden = false;
+  const answers = answerStrings(q); let hidden = false;
   const out = cards.map((c) => {
-    if (ans.length < 2) { hidden = true; return { ...c, lines: [] }; }
-    const lines = c.lines.filter((l) => !l.includes(ans)); if (lines.length !== c.lines.length) hidden = true; return { ...c, lines };
+    if (answers.some((a) => a.length < 2)) { hidden = true; return { ...c, lines: [] }; }
+    const lines = c.lines.filter((l) => !answers.some((a) => l.includes(a))); if (lines.length !== c.lines.length) hidden = true; return { ...c, lines };
   });
   return { cards: out, hidden };
 }
+const same = (q, picked) => (qType(q) === 'mc' ? picked === q.answer : JSON.stringify(picked) === JSON.stringify(q.answerList));
 const quote = (e) => ({ t: 'quote', text: e.lines.join('\n'), source: e.source, title: e.title });
-const tagLink = (unit, tag) => { const t = TAGS[tag]; const q = new URLSearchParams({ id: unit.id, step: t.remedy.step }); if (t.remedy.step === 'lab') q.set('act', t.remedy.act); else q.set('node', t.remedy.node); return 'unit.html?' + q; };
-const remedyLabel = (unit, index, tag) => { const r = TAGS[tag].remedy; return r.step === 'lab' ? '回到互動實驗：' + unit.labs.find((l) => l.id === r.act).title : '重讀教材：「' + index.nodeName(r.node) + '」'; };
+const tagLink = (unit, tag) => { const t = TAGS[tag]; const q = new URLSearchParams({ id: unit.id, step: t.remedy.step }); if (t.remedy.step === 'lab') q.set('act', t.remedy.act); else if (t.remedy.step === 'lesson') q.set('node', t.remedy.node); return 'unit.html?' + q; };
+const remedyLabel = (unit, index, tag) => { const r = TAGS[tag].remedy; if (r.step === 'practice') return '回到闖關練習'; return r.step === 'lab' ? '回到互動實驗：' + (unit.labs.find((l) => l.id === r.act) || { title: r.act }).title : '重讀教材：「' + index.nodeName(r.node) + '」'; };
 
 /* 未作答時，所有顯示出去的文字都再檢查一次：把正確答案的文字換成空格（標籤名稱、實驗名稱本身可能就是答案）。 */
 function blank(res, req) {
   const q = req.question; if (!q || req.answered) return res;
-  const ans = String(q.opts[q.answer]); if (ans.length < 2) return res;
-  const f = (s) => (typeof s === 'string' ? s.split(ans).join('＿＿') : s);
+  const answers = answerStrings(q).filter((a) => a.length >= 2); if (!answers.length) return res;
+  const f = (s) => (typeof s === 'string' ? answers.reduce((t, a) => t.split(a).join('＿＿'), s) : s);
   res.blocks = res.blocks.map((b) => ({ ...b, text: f(b.text), label: f(b.label), source: f(b.source), title: f(b.title) }));
   return res;
 }
@@ -52,15 +54,15 @@ export class LocalTutor {
       case 'hint': {
         if (!q) return this.none('請先選一道題目，我才知道要提示什麼。');
         const level = req.level || 1; const T = TAGS[q.tag];
-        if (level === 1) return { grounded: true, sources: [], blocks: [{ t: 'text', text: String(q.opts[q.answer]).length >= 2 && T.name.includes(String(q.opts[q.answer])) ? '這一題考的觀念，名稱和答案很接近，所以我先不說名稱。' : `這一題在考「${T.name}」。` }, { t: 'text', text: '先別急著看選項，想一想：題目問的是這個觀念的哪一部分？把題目重新讀一遍，圈出關鍵字。' }, { t: 'link', label: remedyLabel(unit, index, q.tag), href: tagLink(unit, q.tag) }, { t: 'note', text: '還需要更多提示，可以再按一次「再多一點提示」。' }] };
+        if (level === 1) return { grounded: true, sources: [], blocks: [{ t: 'text', text: answerStrings(q).some((a) => a.length >= 2 && T.name.includes(a)) ? '這一題考的觀念，名稱和答案很接近，所以我先不說名稱。' : `這一題在考「${T.name}」。` }, { t: 'text', text: '先別急著看選項，想一想：題目問的是這個觀念的哪一部分？把題目重新讀一遍，圈出關鍵字。' }, { t: 'link', label: remedyLabel(unit, index, q.tag), href: tagLink(unit, q.tag) }, { t: 'note', text: '還需要更多提示，可以再按一次「再多一點提示」。' }] };
         if (level === 2) { const g = guard(this.retrieve(req), req); const cards = g.cards; const shown = cards.filter((c) => c.lines.length); return { grounded: cards.length > 0, sources: cards.map((c) => c.source), blocks: [{ t: 'text', text: shown.length ? '教材裡這一段可能有幫助，先自己讀讀看：' : '建議你回到教材讀這幾段：' }, ...shown.map(quote), ...cards.filter((c) => !c.lines.length).map((c) => ({ t: 'text', text: `• ${c.source}` })), ...(g.hidden ? [{ t: 'note', text: '有些句子和答案太接近，我先不顯示，請你自己到教材裡找。' }] : []), ...(cards.length ? [] : [{ t: 'note', text: '我沒有找到特別相關的教材段落，建議回到教材重讀。' }])] }; }
         return { grounded: true, sources: [], blocks: [{ t: 'text', text: '還是想不出來嗎？沒關係。你可以先選一個你覺得最有可能的答案，作答之後我再幫你看解析。' }, { t: 'note', text: '我不會直接告訴你答案，因為自己想出來才記得住。' }] };
       }
       case 'explain': {
         if (!q) return this.none('請先選一道題目。');
         if (!req.answered) return { grounded: true, sources: [], blocks: [{ t: 'text', text: '你還沒作答喔！先試著選一個答案，作答之後我再解釋為什麼。' }, { t: 'note', text: '想要提示的話，可以按「給我提示」。' }] };
-        const blocks = [{ t: 'text', text: `正確答案是「${q.opts[q.answer]}」。` }];
-        if (req.picked != null && req.picked !== q.answer) blocks.push({ t: 'text', text: `你選的是「${q.opts[req.picked]}」，和教材說的不一樣。` });
+        const blocks = [{ t: 'text', text: `正確答案是「${answerText(q)}」。` }];
+        if (req.picked != null && !same(q, req.picked)) blocks.push({ t: 'text', text: `你選的是「${pickedText(q, req.picked)}」，和教材說的不一樣。` });
         blocks.push({ t: 'quote', text: q.explain, source: `題目解析・${q.source}`, title: '解析' });
         return { grounded: true, sources: [q.source], blocks };
       }
@@ -69,11 +71,11 @@ export class LocalTutor {
         if (!req.answered) return { grounded: true, sources: [], blocks: [{ t: 'text', text: '我先不把答案說出來。你可以先試著作答，作答後我再用簡單的方法解釋。' }] };
         const steps = q.explain.split(/[。；]/).map((x) => x.trim()).filter(Boolean);
         const cards = this.retrieve(req); const eg = cards.find((c) => /生活|例/.test(c.title + c.lines.join('')));
-        return { grounded: true, sources: [q.source, ...(eg ? [eg.source] : [])], blocks: [{ t: 'text', text: '用簡單的方法分成幾步：' }, ...steps.map((s, i) => ({ t: 'text', text: `${i + 1}. ${s}。` })), ...(eg ? [{ t: 'text', text: '教材裡的生活例子：' }, quote(eg)] : []), { t: 'note', text: `答案是「${q.opts[q.answer]}」。` }] };
+        return { grounded: true, sources: [q.source, ...(eg ? [eg.source] : [])], blocks: [{ t: 'text', text: '用簡單的方法分成幾步：' }, ...steps.map((s, i) => ({ t: 'text', text: `${i + 1}. ${s}。` })), ...(eg ? [{ t: 'text', text: '教材裡的生活例子：' }, quote(eg)] : []), { t: 'note', text: `答案是「${answerText(q)}」。` }] };
       }
       case 'similar': {
         const base = q || null; const t = tag; if (!t) return this.none('請先選一道題目或一個觀念。');
-        const pool = unit.questions.filter((x) => x.tag === t && (!base || x.id !== base.id));
+        const pool = unit.questions.filter((x) => x.tag === t && qType(x) === 'mc' && (!base || x.id !== base.id)); // 小幫手的練習題目前只出選擇題
         const fresh = pool.filter((x) => !this.asked.has(x.id)); const pick = (fresh.length ? fresh : pool)[Math.floor(Math.random() * (fresh.length ? fresh.length : pool.length))];
         if (!pick) return { grounded: true, sources: [], blocks: [{ t: 'text', text: `「${TAGS[t].name}」這個觀念目前沒有其他題目了。` }, { t: 'link', label: '去闖關練習', href: `unit.html?id=${unit.id}&step=practice` }] };
         this.asked.add(pick.id);
@@ -107,7 +109,7 @@ export class RemoteTutor {
     const context = this.local.retrieve(req).map((c) => ({ source: c.source, text: c.lines.join('\n') }));
     const q = req.question;
     // 送出的內容：問題種類、題目文字、教材段落。不含暱稱、不含學習紀錄；未作答時不含答案與解析。
-    const payload = { kind: req.kind, text: req.text || null, question: q ? { q: q.q, opts: q.opts, ...(req.answered ? { answer: q.answer, explain: q.explain } : {}) } : null, answered: !!req.answered, level: req.level || null, context };
+    const payload = { kind: req.kind, text: req.text || null, question: q ? { q: q.q, opts: q.opts, ...(req.answered ? { answer: answerText(q), explain: q.explain } : {}) } : null, answered: !!req.answered, level: req.level || null, context };
     try {
       const ctl = new AbortController(); const to = setTimeout(() => ctl.abort(), 12000);
       const res = await fetch(this.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), signal: ctl.signal }); clearTimeout(to);
@@ -116,7 +118,7 @@ export class RemoteTutor {
       if (!Array.isArray(j.blocks) || !Array.isArray(j.sources) || !j.sources.length) throw new Error('回應沒有教材來源');
       const blocks = j.blocks.filter((b) => b && (b.t === 'text' || b.t === 'note') && typeof b.text === 'string').slice(0, 8);
       if (!blocks.length) throw new Error('回應格式不正確');
-      if (q && !req.answered && blocks.some((b) => b.text.includes(String(q.opts[q.answer])) && String(q.opts[q.answer]).length >= 2)) throw new Error('回應直接公布了答案');
+      if (q && !req.answered && blocks.some((b) => answerStrings(q).some((a) => a.length >= 2 && b.text.includes(a)))) throw new Error('回應直接公布了答案');
       return { grounded: true, sources: j.sources.map(String), blocks: [...blocks, { t: 'note', text: '這個回答由外部服務產生，內容以教材為準。' }] };
     } catch (e) {
       const r = await this.local.ask(req); r.blocks.push({ t: 'note', text: '外部服務暫時無法使用，已改用教材小幫手。' }); return r;

@@ -1,6 +1,7 @@
 /* 島嶼、橋樑、樹木與裝飾（樹／花／石使用 InstancedMesh 減少 draw call） */
 import * as THREE from 'three';
 import { createBuilding } from './buildings.js';
+import { isOpen } from './data.js';
 
 export const TOP = 0.75;      // 草地表面高度
 export const RADIUS = 9;
@@ -136,7 +137,7 @@ export function buildArchipelago(scene, grades, { mobile = false } = {}) {
     islands[gr.id] = { id: gr.id, grade: gr, group, picks, center: new THREE.Vector3(gr.x, 0, 0), phase: gi * 1.7 };
 
     gr.subjects.forEach((s, i) => {
-      const bg = createBuilding(s.building, { soon: !s.teachReady });
+      const bg = createBuilding(s.building, { soon: !isOpen(s) });
       const sl = slots[i];
       bg.position.set(sl.x, TOP, sl.z);
       bg.rotation.y = Math.atan2(-sl.x, -sl.z); // 正面朝向島中心

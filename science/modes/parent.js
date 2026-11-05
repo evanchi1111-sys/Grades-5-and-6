@@ -1,5 +1,6 @@
 /* 家長模式：查看這台裝置上的學習狀況（不跨裝置同步、不上傳） */
 import { h, clear } from '../components/dom.js';
+import { answerText } from '../components/quiz.js';
 import * as R from '../store/records.js';
 import { requireRole, leave } from './gate.js';
 import { loadUnits, analyze, reportText, download, fmtDur, fmtDate, unitName } from './report.js';
@@ -52,7 +53,7 @@ async function start() {
     const weak = a.tags.filter((t) => t.state === '不熟' || t.state === '待加強');
     box.append(h('div', { class: 'suggest' }, h('b', { text: '建議複習' }), weak.length ? h('ul', {}, ...weak.slice(0, 4).map((t) => h('li', {}, `${t.name}：`, h('a', { href: t.link, text: '回到對應的教材或實驗' })))) : h('p', { class: 'note', text: a.tags.length ? '目前各知識點都不錯，繼續保持！' : '還沒有足夠的作答資料。' })));
     const open = a.wrong.filter((w) => !w.lastOk);
-    if (open.length) box.append(h('details', { class: 'static-alt' }, h('summary', { text: `還沒答對的題目（${open.length} 題）` }), ...open.slice(0, 12).map((w) => h('div', { class: 'wrongq' }, h('p', {}, h('b', { text: w.q.q })), h('p', { class: 'ok', text: '正確答案：' + w.q.opts[w.q.answer] }), h('p', { class: 'explain', text: '解析：' + w.q.explain })))));
+    if (open.length) box.append(h('details', { class: 'static-alt' }, h('summary', { text: `還沒答對的題目（${open.length} 題）` }), ...open.slice(0, 12).map((w) => h('div', { class: 'wrongq' }, h('p', {}, h('b', { text: w.q.q })), h('p', { class: 'ok', text: '正確答案：' + answerText(w.q) }), h('p', { class: 'explain', text: '解析：' + w.q.explain })))));
     return box;
   }
   draw();

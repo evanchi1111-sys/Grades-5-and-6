@@ -1,11 +1,14 @@
 /* 學習分析與匯出（家長模式、老師模式共用）
  * 只使用這台裝置上的紀錄；錯題分析以「知識標籤」為單位，不只是統計答錯題數。 */
 import { CATALOG, LOADERS } from '../data/index.js';
+import { answerText } from '../components/quiz.js';
+import { listPublished, loadPublishedUnit } from '../content/loader.js';
 import { TAGS } from '../data/tags.js';
 import * as R from '../store/records.js';
 
 export async function loadUnits() {
   const out = {};
+  try { for (const m of await listPublished()) { try { const u = await loadPublishedUnit(m.unitId); if (u) out[u.id] = u; } catch (e) { /* 單元載入失敗就略過 */ } } } catch (e) { /* 沒有已發布清單 */ }
   for (const c of CATALOG) if (LOADERS[c.id]) { try { out[c.id] = (await LOADERS[c.id]()).default; } catch (e) { /* 單元載入失敗就略過 */ } }
   return out;
 }
@@ -13,7 +16,7 @@ export async function loadUnits() {
 export function remedyLink(unit, tag) {
   const t = TAGS[tag]; if (!t) return null;
   const q = new URLSearchParams({ id: unit.id, step: t.remedy.step });
-  if (t.remedy.step === 'lab') q.set('act', t.remedy.act); else q.set('node', t.remedy.node);
+  if (t.remedy.step === 'lab') q.set('act', t.remedy.act); else if (t.remedy.step === 'lesson') q.set('node', t.remedy.node);
   return 'unit.html?' + q;
 }
 
@@ -54,7 +57,7 @@ export function reportText(profile, analyses) {
     const weak = a.tags.filter((t) => t.state === '不熟' || t.state === '待加強');
     if (weak.length) { L.push('  需要加強的觀念：'); weak.forEach((t) => L.push(`    - ${t.name}（${t.state}，答對 ${t.ok}/${t.n}${t.last2Wrong ? '，連續答錯' : ''}）`)); }
     else if (a.tags.length) L.push('  各知識點目前都還不錯。');
-    if (a.wrong.some((w) => !w.lastOk)) { L.push('  還沒答對的題目：'); a.wrong.filter((w) => !w.lastOk).slice(0, 8).forEach((w) => L.push(`    - ${w.q.q}（正確答案：${w.q.opts[w.q.answer]}）`)); }
+    if (a.wrong.some((w) => !w.lastOk)) { L.push('  還沒答對的題目：'); a.wrong.filter((w) => !w.lastOk).slice(0, 8).forEach((w) => L.push(`    - ${w.q.q}（正確答案：${answerText(w.q)}）`)); }
     L.push('');
   });
   return L.join('\n');

@@ -19,14 +19,16 @@ const score = (qset, text) => { const t = bigrams(text); let n = 0; qset.forEach
 
 export async function buildIndex(unit) {
   const entries = []; let nodes = [];
-  try { nodes = await loadOriginal(unit.source.page); } catch (e) { /* 讀不到原教材：只用資料檔 */ }
+  if (unit.source.page) { try { nodes = await loadOriginal(unit.source.page); } catch (e) { /* 讀不到原教材：只用資料檔 */ } }
+  // 教材中央資料庫的單元：段落內容直接在單元資料裡
+  (unit.inlineLessons || []).forEach((l) => { const lines = (l.blocks || []).flatMap((b) => (b.items && b.items.length ? b.items : b.text ? [b.text] : [])); if (lines.length) entries.push({ kind: 'lesson', node: l.id, nodeName: l.title, title: l.title, lines, source: `教材「${l.title}」` }); });
   unit.source.nodes.forEach((nid) => {
     const p = nodes.find((x) => x.id === nid); if (!p) return;
     (p.cards || []).forEach((c) => entries.push({ kind: 'lesson', node: nid, nodeName: p.name, title: c.h, lines: cardText(c), source: `原教材「${p.name}」・${c.h}` }));
     if (p.trap) entries.push({ kind: 'trap', node: nid, nodeName: p.name, title: '易錯提醒', lines: [strip(p.trap)], source: `原教材「${p.name}」・易錯提醒` });
   });
   unit.labs.forEach((l) => entries.push({ kind: 'lab', lab: l.id, node: l.node, title: l.title, lines: [l.principle, l.conclusion], source: `互動實驗「${l.title}」` }));
-  return { unit, entries, nodes, nodeName: (id) => (nodes.find((x) => x.id === id) || {}).name || id };
+  return { unit, entries, nodes, nodeName: (id) => (nodes.find((x) => x.id === id) || (unit.inlineLessons || []).find((l) => l.id === id) || {}).name || (unit.inlineLessons || []).find((l) => l.id === id)?.title || id };
 }
 
 export function search(index, query, { limit = 3, node, kinds } = {}) {

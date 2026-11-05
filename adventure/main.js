@@ -1,5 +1,5 @@
 /* 啟動程式：任何一步失敗都會切換到備援介面，確保整頁不會空白 */
-import { GRADES } from './data.js';
+import { GRADES, applyPublished } from './data.js';
 import { createUI, hideLoading, renderFallback } from './ui.js';
 
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -14,6 +14,7 @@ async function start() {
     Promise.all([import('./scene.js'), import('./islands.js'), import('./interaction.js')]),
     15000, '3D 程式庫載入逾時（請檢查網路）');
 
+  try { await applyPublished(GRADES); } catch (e) { console.warn('已發布教材清單讀取失敗，沿用既有設定', e); } // 教材中央資料庫：新單元自動出現
   const canvas = document.getElementById('c'), stage = document.getElementById('stage');
   const world = createWorld(canvas, stage, { mobile, reduced });
   const arch = buildArchipelago(world.scene, GRADES, { mobile });

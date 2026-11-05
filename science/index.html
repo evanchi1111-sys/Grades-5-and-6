@@ -32,6 +32,8 @@
 import { CATALOG } from './data/index.js';
 import * as R from './store/records.js';
 import { h } from './components/dom.js';
+import { listPublished } from './content/loader.js';
+let published = [];
 const cards = document.getElementById('cards'), nick = document.getElementById('nick'), msg = document.getElementById('nick-msg');
 R.load(); nick.value = R.nickname() || '';
 document.getElementById('save').addEventListener('click', () => { const n = R.setNickname(nick.value); nick.value = n; msg.textContent = R.isPersistent() ? '已儲存：' + n : '已設定為「' + n + '」，但這個瀏覽器無法儲存紀錄（可能是無痕模式）。'; draw(); });
@@ -46,8 +48,16 @@ function draw() {
       h('div', { class: 'row' }, h('a', { class: 'btn', href: '../' + c.original.page, text: '原教材' }), h('a', { class: 'btn', href: '../' + c.original.quiz, text: '原刷題' })));
     cards.append(body);
   });
+  // 教材中央資料庫已發布的新單元（自動出現；未發布的不會顯示）
+  published.forEach((u) => {
+    const s = R.peekSummary(u.unitId);
+    cards.append(h('div', { class: 'ucard' }, h('span', { class: 'tag-kind', text: u.grade + ' 年級' + u.subjectName + '・第 ' + u.unitNumber + ' 單元' }), h('h3', { text: u.unitTitle }),
+      h('p', { class: 'note', text: '新教材・v' + u.version + '・' + (s ? (s.completed ? '★ 已通關' : '學習中（完成 ' + s.steps + ' 個步驟）') : '還沒開始') }),
+      h('a', { class: 'btn btn-primary', href: 'unit.html?id=' + u.unitId, text: s ? '繼續學習' : '開始學習' })));
+  });
 }
 draw();
+listPublished().then((l) => { published = l; draw(); }).catch(() => {});
 </script>
 </body>
 </html>
