@@ -75,6 +75,11 @@ h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.3;text-wrap:balance
 .trap b{color:var(--bad)}
 .cta{display:flex;gap:10px;flex-wrap:wrap}
 .cta .btn{flex:1 1 180px}
+.exam{margin-top:16px;padding:12px 14px;border:2px dashed var(--edge);border-radius:14px}
+.exam h3{margin:0 0 4px;font-size:18px}
+.exam p{margin:4px 0 10px}
+.exam .hint{font-size:14px;opacity:.85;margin:10px 0 0}
+.exam .cta+.cta{margin-top:10px}
 .mini{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 0}
 .mini button{border:2px solid var(--edge);background:var(--pick);border-radius:10px;padding:2px 10px;font-weight:700;min-height:40px}
 .figw{margin:4px 0 8px;background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:6px}
@@ -406,6 +411,22 @@ function cardHtml(c){
   if(c.li)s+='<ul>'+c.li.map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul>';
   return s+'</div>';
 }
+var EXAM={
+a1:['第 1 課　蚊帳大使','g5-chinese-01','g5-chinese-02'],
+a2:['第 2 課　從空中看臺灣','g5-chinese-03','g5-chinese-04'],
+a3:['第 3 課　攀岩高手','g5-chinese-05','g5-chinese-06',['第 3、4 課　生字與成語複習測驗','g5-c34-exam','g5-c34-ans']],
+a4:['第 4 課　恆久的美','g5-chinese-07','g5-chinese-08',['第 3、4 課　生字與成語複習測驗','g5-c34-exam','g5-c34-ans']],
+a5:['第 5 課　商標的故事','g5-chinese-09','g5-chinese-10'],
+a6:['第 6 課　故事「動」起來','g5-chinese-11','g5-chinese-12'],
+b1:['期中總複習（第 1～6 課）','kt-g5-chi-mid-exam','kt-g5-chi-mid-ans'],
+b2:['期中總複習（第 1～6 課）','kt-g5-chi-mid-exam','kt-g5-chi-mid-ans'],
+boss:['期中總複習（第 1～6 課）','kt-g5-chi-mid-exam','kt-g5-chi-mid-ans']
+};
+function examBtns(e){return '<div class="cta"><a class="btn" target="_blank" rel="noopener" href="pdf/'+e[1]+'.pdf">開啟試卷（A、B）</a><a class="btn" target="_blank" rel="noopener" href="pdf/'+e[2]+'.pdf">答案與詳解</a></div>'}
+function examHtml(p){var e=EXAM[p.id];if(!e)return'';
+  var h='<div class="exam"><h3>刷完題，做考卷</h3><p>'+e[0]+'・A、B 兩卷各 100 分（PDF）</p>'+examBtns([0,e[1],e[2]]);
+  if(e[3])h+='<p>'+e[3][0]+'</p>'+examBtns([0,e[3][1],e[3][2]]);
+  return h+'<p class="hint">iPad：開啟後點一下試卷，再點右上角「標記」（鉛筆圖示），就能用 Apple Pencil 或手指直接寫在試卷上，不用下載。寫完再看答案卷。</p></div>'}
 var last=null;
 function open(id){
   var p=byId[id];last=document.activeElement;
@@ -416,6 +437,7 @@ function open(id){
   if(p.jumps)h+='<div class="mini">'+p.jumps.map(function(j){return'<button data-j="'+j+'">'+byId[j].name+'</button>'}).join('')+'</div><div style="height:12px"></div>';
   h+='<p class="credit">照片和畫作來自 Wikimedia Commons（自由授權或公有領域，標有作者與授權）；點圖可放大。地圖、動畫與示意圖為自製，內容依評量整理。</p>';
   h+='<div class="cta"><a class="btn btn-primary" id="go" href="'+href+'">'+(p.boss?'開始期中總複習':'我看完了，開始刷題')+'</a><button class="btn" id="ok">'+(done[p.id]?'回到地圖':'標記為已學，回地圖')+'</button></div>';
+  h+=examHtml(p);
   var sh=document.getElementById('sheet');sh.innerHTML=h;sh.scrollTop=0;
   document.getElementById('ov').classList.add('on');document.body.style.overflow='hidden';
   document.getElementById('cx').focus();
