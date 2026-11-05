@@ -4,7 +4,7 @@ import { CATALOG, LOADERS } from './data/index.js';
 import { TAGS } from './data/tags.js';
 import * as R from './store/records.js';
 import { STEPS, renderStepper, fmtDuration } from './components/progress.js';
-import { mountLesson } from './components/lesson.js';
+import { mountLesson, loadOriginal } from './components/lesson.js';
 import { mountLab } from './components/experiment.js';
 import { mountDemo } from './components/explanation.js';
 import { runQuiz, pickQuestions } from './components/quiz.js';
@@ -153,7 +153,7 @@ function suggestion(tag) {
     h('p', { class: 'note', text: streak ? '這個觀念連續兩次答錯，建議先回去操作，再回來做題。' : '建議再複習一下這個觀念。' }),
     h('button', { type: 'button', class: 'btn', onclick: () => (T.remedy.step === 'lab' ? go('lab', { act: T.remedy.act }) : go('lesson', { node: T.remedy.node })) }, label));
 }
-const NODE_NAMES = { a1: '太陽與生活', a2: '影子與方位', a3: '四季的太陽', a4: '光與放大鏡' };
+const NODE_NAMES = {}; // 啟動時由原教材節點填入（不再寫死）
 const nodeName = (n) => NODE_NAMES[n] || n;
 
 /* 7 學習成果 */
@@ -165,7 +165,7 @@ function result() {
   rec = R.unit(id); done('result');
   const complete = !!rec.completedAt;
   const box = h('section', { class: 'panel' }, h('span', { class: 'tag-kind', text: '學習成果' }), h('h2', { text: complete ? '🎉 單元通關！' : '目前的學習成果' }));
-  box.append(h('div', { class: 'landmark' + (complete ? ' lit' : '') }, h('div', { class: 'sun', text: complete ? '☀️' : '🌑' }), h('p', { text: complete ? '「太陽的祕密」地標已點亮！回到冒險島可以看到。' : '完成前面六個步驟，就能點亮這個單元的地標。' })));
+  box.append(h('div', { class: 'landmark' + (complete ? ' lit' : '') }, h('div', { class: 'sun', text: complete ? '☀️' : '🌑' }), h('p', { text: complete ? unit.landmark + '地標已點亮！' : '完成前面六個步驟，就能點亮這個單元的地標。' })));
   box.append(h('h3', { text: '學習星星' }), h('div', { class: 'stars', 'aria-label': `星星 ${st.count} / ${st.total}` }, ...st.flags.map((f) => h('span', { class: 'star' + (f ? ' on' : ''), text: f ? '★' : '☆' }))));
   box.append(h('h3', { text: '徽章' }), h('div', { class: 'badges' }, ...unit.achievements.map((a) => h('div', { class: 'badge' + (rec.badges.includes(a.id) ? ' on' : '') }, h('span', { class: 'bi', text: a.icon }), h('b', { text: a.name }), h('span', { class: 'note', text: a.desc })))));
   const best = (rec.tests || []).reduce((m, t) => Math.max(m, t.percent), 0);
@@ -177,7 +177,7 @@ function result() {
   const recentWrong = (rec.tests || []).slice(-1)[0];
   if (missing) nxt.append(h('p', { text: '還沒完成「' + missing.name + '」，先把它做完吧。' }), h('button', { type: 'button', class: 'btn btn-primary', onclick: () => go(missing.id) }, '前往' + missing.name));
   else if (recentWrong && recentWrong.wrongTags.length) { nxt.append(h('p', { text: '最近一次測驗還有不熟的觀念，先複習它們：' })); recentWrong.wrongTags.forEach((t) => nxt.append(suggestion(t))); }
-  else nxt.append(h('p', { text: '這個單元學得很好！可以繼續第 2 單元「千變萬化的植物」。互動版還在準備中，現在可以先用原本的教材和刷題：' }), h('div', { class: 'row' }, h('a', { class: 'btn btn-primary', href: '../island.html', text: '原教材：植物單元' }), h('a', { class: 'btn', href: '../index.html?u=21', text: '原刷題：植物單元' })));
+  else nxt.append(h('p', { text: '這個單元學得很好！' + unit.next.text }), h('div', { class: 'row' }, ...unit.next.links.map(([label, href], i) => h('a', { class: 'btn' + (i === 0 ? ' btn-primary' : ''), href, text: label }))));
   box.append(nxt, h('p', { class: 'note', text: '學習紀錄只保存在這台裝置的這個瀏覽器，不會上傳，也不會跨裝置同步。' }));
   main.append(box);
 }
@@ -189,7 +189,8 @@ function badgeCheck() { const e = evaluateBadges(rec, unit); e.forEach((b) => R.
   const meta = CATALOG.find((c) => c.id === id);
   if (!meta || !LOADERS[id]) { main.append(h('div', { class: 'panel' }, h('h2', { text: '這個單元還在準備中' }), h('p', { text: meta ? `「${meta.title}」的互動教材還沒有完成。你可以先使用原本的教材和刷題：` : '找不到這個單元。' }), meta ? h('div', { class: 'row' }, h('a', { class: 'btn btn-primary', href: '../' + meta.original.page, text: '原教材' }), h('a', { class: 'btn', href: '../' + meta.original.quiz, text: '原刷題' })) : null, h('a', { class: 'btn', href: 'index.html', text: '回互動教材首頁' }))); return; }
   try { unit = (await LOADERS[id]()).default; } catch (e) { main.append(h('div', { class: 'panel sim-warn', text: '單元資料載入失敗：' + e.message })); return; }
-  titleEl.textContent = `五年級自然・第 ${unit.unitNo} 單元 ${unit.title}`;
+  titleEl.textContent = `${unit.grade === 5 ? '五' : '六'}年級${unit.subject}・第 ${unit.unitNo} 單元 ${unit.title}`;
+  try { (await loadOriginal(unit.source.page)).forEach((p) => { NODE_NAMES[p.id] = p.name; }); } catch (e) { /* 讀不到就顯示節點代號 */ }
   if (!R.nickname()) R.setNickname('小勇者');
   R.touchStart(id); rec = R.unit(id);
   if (!R.isPersistent()) warn.hidden = false;

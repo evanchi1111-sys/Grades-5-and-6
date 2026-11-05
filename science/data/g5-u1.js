@@ -166,13 +166,16 @@ export default {
       explain: '放大鏡能把光聚成光點。用放大鏡看太陽會傷害眼睛，絕對不可以。', source: 'a4：放大鏡' },
   ],
 
+  landmark: '「太陽的祕密」',
+  next: { text: '可以繼續第 2 單元「千變萬化的植物」。互動版還在準備中，現在可以先用原本的教材和刷題：', links: [['原教材：植物單元', '../island.html'], ['原刷題：植物單元', '../index.html?u=21']] },
+
   test: { total: 12, perLevel: { 1: 4, 2: 5, 3: 3 }, passPercent: 60 },
 
   achievements: [
-    { id: 'shadow-detective', name: '影子偵探', desc: '完成「太陽與影子模擬器」', icon: '🕵️' },
-    { id: 'season-observer', name: '四季觀測員', desc: '完成「四季太陽模擬器」', icon: '🌤️' },
-    { id: 'solar-engineer', name: '太陽能小工程師', desc: '完成「太陽能板擺放實驗」', icon: '🔋' },
-    { id: 'sun-doctor', name: '太陽小博士', desc: '單元測驗答對 90% 以上', icon: '🎓' },
-    { id: 'unit-clear', name: '單元通關', desc: '完成七個學習步驟', icon: '🏁' },
+    { id: 'shadow-detective', name: '影子偵探', desc: '完成「太陽與影子模擬器」', icon: '🕵️', rule: { lab: 'sun-shadow' } },
+    { id: 'season-observer', name: '四季觀測員', desc: '完成「四季太陽模擬器」', icon: '🌤️', rule: { lab: 'seasons' } },
+    { id: 'solar-engineer', name: '太陽能小工程師', desc: '完成「太陽能板擺放實驗」', icon: '🔋', rule: { lab: 'solar-panel' } },
+    { id: 'sun-doctor', name: '太陽小博士', desc: '單元測驗答對 90% 以上', icon: '🎓', rule: { test: 90 } },
+    { id: 'unit-clear', name: '單元通關', desc: '完成六個學習步驟並看到成果', icon: '🏁', rule: { clear: true } },
   ],
 };

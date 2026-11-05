@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>教材資料檢查</title>
+<style>body{font:15px/1.6 system-ui,"Noto Sans TC",sans-serif;max-width:900px;margin:20px auto;padding:0 14px}.ok{color:#2b8a3e}.bad{color:#c0392b;font-weight:700}h2{margin-top:24px}code{background:#eee;padding:1px 4px;border-radius:4px}</style></head>
+<body><h1>互動教材資料檢查</h1><p>檢查每個單元的資料結構（Phase C 架構驗證）。開啟此頁即自動執行，不會寫入任何資料。</p><div id="out">檢查中…</div>
+<script type="module">
+import { CATALOG, LOADERS } from './data/index.js';
+import { TAGS } from './data/tags.js';
+import { loadOriginal } from './components/lesson.js';
+const out = document.getElementById('out'); const summary = []; let totalBad = 0;
+const REQUIRED = ['id', 'grade', 'subject', 'unitNo', 'title', 'version', 'status', 'source', 'goals', 'scenario', 'labs', 'demo', 'questions', 'test', 'achievements', 'landmark', 'next'];
+async function exists(url) { try { const r = await fetch(url, { method: 'HEAD' }); return r.ok; } catch (e) { return false; } }
+for (const meta of CATALOG.filter((c) => LOADERS[c.id])) {
+  const probs = [], notes = [];
+  const u = (await LOADERS[meta.id]()).default;
+  REQUIRED.forEach((k) => { if (u[k] == null) probs.push('缺少欄位 ' + k); });
+  if (u.status !== '待審核' && u.status !== '已審核') probs.push('status 必須是「待審核」或「已審核」');
+  // 題目
+  const ids = new Set(); const byLevel = { 1: 0, 2: 0, 3: 0 }; const tagUse = {};
+  u.questions.forEach((q) => {
+    if (ids.has(q.id)) probs.push('題目 id 重複：' + q.id); ids.add(q.id);
+    if (![1, 2, 3].includes(q.level)) probs.push(q.id + ' level 不合法'); else byLevel[q.level]++;
+    if (!Array.isArray(q.opts) || q.opts.length < 2) probs.push(q.id + ' 選項不足');
+    else { if (!Number.isInteger(q.answer) || q.answer < 0 || q.answer >= q.opts.length) probs.push(q.id + ' answer 索引超出範圍'); if (new Set(q.opts).size !== q.opts.length) probs.push(q.id + ' 選項有重複'); }
+    if (!q.explain || q.explain.length < 8) probs.push(q.id + ' 缺少解析'); if (!q.source) probs.push(q.id + ' 缺少來源');
+    if (!TAGS[q.tag]) probs.push(q.id + ' 使用了未定義的標籤 ' + q.tag); else { tagUse[q.tag] = (tagUse[q.tag] || 0) + 1; if (TAGS[q.tag].unit !== u.id) probs.push(q.id + ' 的標籤 ' + q.tag + ' 屬於 ' + TAGS[q.tag].unit); }
+  });
+  Object.entries(u.test.perLevel).forEach(([lv, n]) => { if (byLevel[lv] < n) probs.push(`測驗需要 ${n} 題 L${lv}，但只有 ${byLevel[lv]} 題`); });
+  if (Object.values(u.test.perLevel).reduce((a, b) => a + b, 0) !== u.test.total) probs.push('test.total 與 perLevel 總和不符');
+  if (byLevel[1] < 6 || byLevel[2] < 6 || byLevel[3] < 6) probs.push('每個難度至少需要 6 題（闖關練習每關 6 題）');
+  // 標籤補救入口
+  const labIds = u.labs.map((l) => l.id); let nodes = [];
+  try { nodes = (await loadOriginal(u.source.page)).map((p) => p.id); } catch (e) { probs.push('讀不到原教材 ' + u.source.page); }
+  Object.keys(tagUse).forEach((t) => { const r = TAGS[t].remedy; if (r.step === 'lab' && !labIds.includes(r.act)) probs.push(`標籤 ${t} 指向不存在的實驗 ${r.act}`); if (r.step === 'lesson' && !u.source.nodes.includes(r.node)) probs.push(`標籤 ${t} 指向不在本單元的節點 ${r.node}`); });
+  u.source.nodes.forEach((n) => { if (nodes.length && !nodes.includes(n)) probs.push('原教材找不到節點 ' + n); });
+  // 實驗與示範
+  for (const l of u.labs) {
+    ['objective', 'steps', 'conditions', 'observe', 'principle', 'conclusion', 'safety', 'model', 'predict', 'minActions'].forEach((k) => { if (l[k] == null) probs.push(`實驗 ${l.id} 缺少 ${k}`); });
+    if (l.model && (!l.model.assumptions || !l.model.limits)) probs.push(`實驗 ${l.id} 缺少模型假設或限制`);
+    if (l.predict && !(l.predict.answer >= 0 && l.predict.answer < l.predict.options.length)) probs.push(`實驗 ${l.id} 預測答案索引不合法`);
+    try { const m = await import(`./activities/${l.id}.js`); if (typeof m.mount !== 'function') probs.push('activities/' + l.id + '.js 沒有匯出 mount()'); } catch (e) { probs.push('互動檔 activities/' + l.id + '.js 載入失敗：' + e.message); }
+  }
+  for (const d of u.demo) if (d.demo) { try { const m = await import(`./activities/${d.demo.act}.js`); if (typeof m.mount !== 'function') probs.push('示範互動沒有 mount()：' + d.demo.act); } catch (e) { probs.push('示範互動載入失敗 ' + d.demo.act + '：' + e.message); } }
+  if (!(u.scenario.predict.answer >= 0 && u.scenario.predict.answer < u.scenario.predict.options.length)) probs.push('情境預測答案索引不合法');
+  // 成就
+  u.achievements.forEach((a) => { const r = a.rule || {}; if (!r.lab && !r.test && !r.clear) probs.push('成就 ' + a.id + ' 沒有規則'); if (r.lab && !labIds.includes(r.lab)) probs.push('成就 ' + a.id + ' 指向不存在的實驗 ' + r.lab); });
+  // 所有新增內容都要標明審核狀態
+  [...u.demo, ...u.labs.map((l) => l.predict), u.scenario.predict].forEach((x) => { if (x.status !== '待審核' && x.status !== '已審核') probs.push('內容缺少審核狀態：' + (x.title || x.q)); });
+  notes.push(`題目 ${u.questions.length}（基礎 ${byLevel[1]}／進階 ${byLevel[2]}／精熟 ${byLevel[3]}）、知識標籤 ${Object.keys(tagUse).length} 個、實驗 ${u.labs.length} 個、示範 ${u.demo.length} 步、徽章 ${u.achievements.length} 個`);
+  totalBad += probs.length;
+  summary.push(`<h2>${u.id}　${u.title}　<span class="${probs.length ? 'bad' : 'ok'}">${probs.length ? '✘ ' + probs.length + ' 個問題' : '✔ 通過'}</span></h2><p>${notes.join('')}</p>` + (probs.length ? '<ul>' + probs.map((p) => '<li class="bad">' + p.replace(/</g, '&lt;') + '</li>').join('') + '</ul>' : ''));
+}
+// 全域：標籤名稱不可重複、未使用的標籤
+const names = Object.values(TAGS).map((t) => t.name); if (new Set(names).size !== names.length) { totalBad++; summary.push('<p class="bad">✘ 有重複的標籤名稱</p>'); }
+out.innerHTML = `<p class="${totalBad ? 'bad' : 'ok'}" id="verdict">${totalBad ? '共 ' + totalBad + ' 個問題' : '全部通過'}</p>` + summary.join('');
+document.title = totalBad ? '教材資料檢查：失敗' : '教材資料檢查：通過';
+</script></body></html>

@@ -16,11 +16,11 @@
 <div class="status-bar">內容狀態：<b>待審核</b>（新增內容尚未經人工確認）・原教材與原題庫未更動</div>
 <div id="warn" class="sim-warn" hidden>這個瀏覽器目前無法儲存學習紀錄（可能是無痕模式），本次的紀錄關閉頁面後不會保留。</div>
 <nav id="stepper" class="stepper" aria-label="學習步驟"></nav>
-<main id="main" tabindex="-1"><noscript>需要開啟 JavaScript 才能使用互動教材。你仍可使用 <a href="../island.html">原教材</a>。</noscript></main>
+<main id="main" tabindex="-1"><noscript>需要開啟 JavaScript 才能使用互動教材。你仍可使用 <a href="../home.html">冒險島首頁</a>。</noscript></main>
 <script type="module" src="app.js"></script>
 <script>
 /* 模組載入失敗（舊瀏覽器、網路）時的備援 */
-setTimeout(function () { var m = document.getElementById('main'); if (m && !m.children.length && !m.textContent.trim()) m.innerHTML = '<div class="panel sim-warn">互動教材暫時無法載入。你仍可使用：<a href="../island.html">原教材</a>、<a href="../index.html?u=20">原刷題</a>、<a href="../home.html">冒險島首頁</a>。</div>'; }, 8000);
+setTimeout(function () { var m = document.getElementById('main'); if (m && !m.children.length && !m.textContent.trim()) m.innerHTML = '<div class="panel sim-warn">互動教材暫時無法載入。你仍可使用：<a href="../home.html">冒險島首頁</a>、<a href="../index.html">刷題小勇者</a>、<a href="../overview.html">考卷總覽</a>。</div>'; }, 8000);
 </script>
 </body>
 </html>

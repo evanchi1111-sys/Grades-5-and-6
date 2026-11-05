@@ -63,7 +63,8 @@ export const GRADES = [
         teach: 'island-g6-soc.html', u: 3, midU: 34, kaoguU: 38, mid: 'kt-g6-soc-mid', kaogu: 'kaogu-g6-soc' }),
       subject({ id: 'nat', name: '自然', building: 'lab', buildingName: '科學實驗室', color: '#6cc56a',
         desc: '單元一、二：熱的影響與傳播、多變的天氣',
-        teach: 'island-g6-nat.html', u: 1, midU: 35, kaoguU: 39, mid: 'kt-g6-nat-mid', kaogu: 'kaogu-g6-sci' }),
+        teach: 'island-g6-nat.html', u: 1, midU: 35, kaoguU: 39, mid: 'kt-g6-nat-mid', kaogu: 'kaogu-g6-sci',
+        lab: { unit: 'g6-u1', label: '熱的影響與傳播（互動教材）', url: 'science/unit.html?id=g6-u1', more: 'science/index.html' } }),
     ],
   },
 ];
