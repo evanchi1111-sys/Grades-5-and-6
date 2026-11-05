@@ -74,6 +74,10 @@ h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.3;text-wrap:balance
 .trap b{color:var(--bad)}
 .cta{display:flex;gap:10px;flex-wrap:wrap}
 .cta .btn{flex:1 1 180px}
+.exam{margin-top:16px;padding:12px 14px;border:2px dashed var(--edge);border-radius:14px}
+.exam h3{margin:0 0 4px;font-size:18px}
+.exam p{margin:4px 0 10px}
+.exam .hint{font-size:14px;opacity:.85;margin:10px 0 0}
 .mini{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 0}
 .mini button{border:2px solid var(--edge);background:var(--pick);border-radius:10px;padding:2px 10px;font-weight:700;min-height:40px}
 .figw{margin:4px 0 8px;background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:6px}
@@ -370,8 +374,8 @@ var QA={a1:[['臺灣和菲律賓之間隔著什麼海？','巴士海峽。'],['�
 /* ---- animation overlays ---- */
 function AN(base,extra){return function(){return base().replace(/<\/svg>$/,extra()+'</svg>')}}
 function mdot(path,dur,fill,begin,r,o){o=o||{};var vis=o.vis||'0;1;1;0',kt=o.kt||'0;.1;.85;1';
-  return '<circle r="'+(r||5)+'" fill="'+fill+'" stroke="var(--edge)" stroke-width="1.5"><animateMotion dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite" path="'+path+'"/><animate attributeName="opacity" values="'+vis+'" keyTimes="'+kt+'" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/></circle>'}
-function pulse(cx,cy,r1,r2,dur,stroke,begin){return '<circle cx="'+cx+'" cy="'+cy+'" r="'+r1+'" fill="none" stroke="'+stroke+'" stroke-width="3"><animate attributeName="r" values="'+r1+';'+r2+'" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;0" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/></circle>'}
+  return '<circle r="'+(r||5)+'" fill="'+fill+'" stroke="var(--edge)" stroke-width="1.5" opacity="0"><animateMotion dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite" path="'+path+'"/><animate attributeName="opacity" values="'+vis+'" keyTimes="'+kt+'" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/></circle>'}
+function pulse(cx,cy,r1,r2,dur,stroke,begin){return '<circle cx="'+cx+'" cy="'+cy+'" r="'+r1+'" fill="none" stroke="'+stroke+'" stroke-width="3" opacity="0"><animate attributeName="r" values="'+r1+';'+r2+'" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;0" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/></circle>'}
 var FIGBASE={};Object.keys(FIG).forEach(function(k){FIGBASE[k]=FIG[k]});
 function INS(k,marker,anim){var b=FIGBASE[k];return function(){return b().replace(marker,marker+anim)}}
 function ATR(vals,dur,kt){return '<animateTransform attributeName="transform" type="translate" values="'+vals+'"'+(kt?' keyTimes="'+kt+'"':'')+' dur="'+dur+'s" repeatCount="indefinite"/>'}
@@ -484,6 +488,9 @@ function cardHtml(c){
   if(c.li)s+='<ul>'+c.li.map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul>';
   return s+'</div>';
 }
+var EXAM={23:['kt-g5-soc-u1','單元一　臺灣我的家'],24:['kt-g5-soc-u2','單元二　臺灣的自然環境與生活'],31:['kt-g5-soc-mid','期中總複習（單元 1～2）']};
+function examHtml(p){var e=EXAM[p.u];if(!e)return'';var b='pdf/'+e[0];
+  return '<div class="exam"><h3>刷完題，做考卷</h3><p>'+e[1]+'・A、B 兩卷各 100 分（PDF）</p><div class="cta"><a class="btn" target="_blank" rel="noopener" href="'+b+'-exam.pdf">開啟試卷（A、B）</a><a class="btn" target="_blank" rel="noopener" href="'+b+'-ans.pdf">答案與詳解</a></div><p class="hint">iPad：開啟後點一下試卷，再點右上角「標記」（鉛筆圖示），就能用 Apple Pencil 或手指直接寫在試卷上，不用下載。寫完再看答案卷。</p></div>'}
 var last=null;
 function open(id){
   var p=byId[id];last=document.activeElement;
@@ -494,6 +501,7 @@ function open(id){
   if(p.jumps)h+='<div class="mini">'+p.jumps.map(function(j){return'<button data-j="'+j+'">'+byId[j].name+'</button>'}).join('')+'</div><div style="height:12px"></div>';
   h+='<p class="credit">照片來自 Wikimedia Commons（自由授權，標有作者與授權）；點圖可放大。地圖、動畫與示意圖為自製，內容依評量整理。</p>';
   h+='<div class="cta"><a class="btn btn-primary" id="go" href="'+href+'">'+(p.boss?'開始期中總複習':'我看完了，開始刷題')+'</a><button class="btn" id="ok">'+(done[p.id]?'回到地圖':'標記為已學，回地圖')+'</button></div>';
+  h+=examHtml(p);
   var sh=document.getElementById('sheet');sh.innerHTML=h;sh.scrollTop=0;
   document.getElementById('ov').classList.add('on');document.body.style.overflow='hidden';
   document.getElementById('cx').focus();

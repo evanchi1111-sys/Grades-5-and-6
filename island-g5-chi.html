@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>五年級國語學習島</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#E4F0EA; --paper:#FBFEFC; --ink:#0A2B3D; --muted:#4D6A78; --line:#BFD6CD; --edge:#0A2B3D;
+  --sea:#CFE8F0; --land-a:#F6E7A8; --land-b:#BFE3A6; --land-c:#F2C9B8; --grass:#6FB36B; --trunk:#9B6B43;
+  --blue:#0E8F8F; --sun:#FFC83D; --sun-ink:#2B1F00; --good:#17835A; --bad:#C23B38; --bad-bg:#FBE0DD; --pick:#CDEFE8;
+  --sunc:#FFC83D; --sky:#CFE9F7; --night:#1D3B5A; --water:#8CCBEA; --leafc:#6FB36B; --leafd:#3E8A50; --soil:#B98A5E; --warm:#E8643A; --cool:#2F7FD8; --warmbg:#FBD9C9; --shade:rgba(10,43,61,.55);
+  --f-display:'LXGW WenKai TC','PingFang TC','Microsoft JhengHei',serif;
+  --f-body:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#071C29; --paper:#0F2D40; --ink:#E6F3EE; --muted:#9BB6BF; --line:#24495C; --edge:#02121B;
+    --sea:#0B2A3B; --land-a:#6B5B26; --land-b:#2F5B3A; --land-c:#6E4636; --grass:#3E8A50; --trunk:#B58559;
+    --blue:#35C4C0; --pick:#17485A; --bad:#FF8A82; --bad-bg:#46201F; --good:#4FD39A;
+    --sky:#173B52; --water:#1F5C7A; --warmbg:#5A3326; --shade:rgba(0,0,0,.6); --soil:#7B5636; --leafd:#4FB06A; --cool:#58B4F5; --warm:#FF7A55; --land-b:#2F5B3A;
+    color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.7 var(--f-body);
+  padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
+button,a{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px;box-shadow:0 0 0 5px var(--ink)}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.3;text-wrap:balance}
+.shell{max-width:720px;margin:0 auto;padding:14px 0 40px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.top h1{font-size:26px}
+.top p{margin:0;color:var(--muted);font-size:15px}
+.btn{border:2px solid var(--edge);background:var(--paper);border-radius:12px;box-shadow:0 4px 0 var(--edge);padding:8px 16px;min-height:46px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none}
+.btn:active{transform:translateY(4px);box-shadow:0 0 0 var(--edge)}
+.btn-primary{background:var(--blue);color:#fff}
+@media (prefers-color-scheme: dark){.btn-primary{color:#032123}}
+.btn-sun{background:var(--sun);color:var(--sun-ink)}
+.prog{display:flex;align-items:center;gap:10px;margin:6px 0 12px;font-size:15px;color:var(--muted)}
+.bar{flex:1;height:12px;border:2px solid var(--edge);border-radius:8px;background:var(--paper);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--blue);width:0}
+.how{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;padding:0;list-style:none;font-size:15px}
+.how li{background:var(--paper);border:2px solid var(--line);border-radius:10px;padding:4px 10px}
+.how b{color:var(--blue)}
+.map{position:relative;border:3px solid var(--edge);border-radius:16px;overflow:hidden;background:var(--sea);aspect-ratio:720/1161;box-shadow:0 5px 0 var(--edge)}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;padding:0;min-width:48px}
+.pin .dot{width:44px;height:44px;border-radius:50%;border:3px solid var(--edge);background:var(--sun);color:var(--sun-ink);font:700 20px/1 var(--f-display);display:grid;place-items:center;box-shadow:0 3px 0 var(--edge);position:relative}
+.pin:hover .dot{transform:translateY(-2px)}
+.pin .lbl{background:var(--paper);border:2px solid var(--edge);border-radius:8px;padding:0 8px;font-size:13px;font-weight:700;line-height:1.6;white-space:nowrap}
+.pin.done .dot{background:var(--good);color:#fff}
+.pin.done .dot::after{content:"✓";position:absolute;right:-8px;top:-8px;width:20px;height:20px;border-radius:50%;background:var(--paper);color:var(--good);border:2px solid var(--edge);font:700 13px/16px var(--f-body);text-align:center}
+.pin.boss .dot{background:var(--bad);color:#fff}
+.tag{position:absolute;background:var(--paper);border:2px solid var(--edge);border-radius:8px;padding:1px 10px;font:700 14px/1.6 var(--f-display);transform:translate(-50%,-50%);pointer-events:none}
+.legend{margin:12px 0 0;font-size:14px;color:var(--muted)}
+
+#ov{position:fixed;inset:0;background:rgba(5,20,30,.55);display:none;align-items:flex-end;justify-content:center;z-index:10}
+#ov.on{display:flex}
+.sheet{background:var(--paper);width:100%;max-width:720px;max-height:92vh;overflow:auto;border:3px solid var(--edge);border-bottom:0;border-radius:20px 20px 0 0;padding:16px 16px 28px}
+.sh-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.sh-top .u{font-size:14px;color:var(--muted)}
+.sh-top h2{font-size:24px}
+.x{width:44px;height:44px;border:2px solid var(--edge);border-radius:12px;background:var(--paper);font-size:22px;line-height:1;flex:none}
+.intro{margin:6px 0 12px}
+.card{border:2px solid var(--edge);border-radius:14px;padding:10px 14px;margin:0 0 12px;background:var(--paper)}
+.card h3{font-size:18px;margin:0 0 4px}
+.card ul{margin:0;padding-left:1.2em}
+.card li{margin:2px 0}
+.card b{color:var(--blue)}
+.card table{border-collapse:collapse;width:100%;font-size:15px;margin:6px 0}
+.card th,.card td{border:1.5px solid var(--line);padding:3px 6px;text-align:center}
+.card th{background:var(--pick)}
+.trap{border:2px solid var(--bad);background:var(--bad-bg);border-radius:14px;padding:10px 14px;margin:0 0 14px}
+.trap b{color:var(--bad)}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.cta .btn{flex:1 1 180px}
+.mini{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 0}
+.mini button{border:2px solid var(--edge);background:var(--pick);border-radius:10px;padding:2px 10px;font-weight:700;min-height:40px}
+.figw{margin:4px 0 8px;background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:6px}
+.fig{display:block;width:100%;height:auto}
+.fig text{font:500 13px var(--f-body);fill:var(--ink)}
+.fig text.h{font-weight:700;font-size:14px}
+.fig text.m{font-size:12px;fill:var(--muted)}
+.fig text.w{fill:#fff}
+.fig .s{stroke:var(--edge);stroke-width:2;stroke-linejoin:round}
+.tip{border:2px dashed var(--edge);background:color-mix(in srgb,var(--sun) 28%,var(--paper));border-radius:14px;padding:8px 14px;margin:0 0 12px;font-weight:700}
+.qa{border:2px solid var(--edge);border-radius:14px;padding:8px 14px;margin:0 0 12px}
+.qa h3{font-size:18px;margin:0 0 4px}
+.qa details{margin:4px 0}
+.qa summary{cursor:pointer;font-weight:700;min-height:36px;display:flex;align-items:center}
+.qa details p{margin:2px 0 6px;color:var(--good);font-weight:700}
+.btn-sm{min-height:38px;padding:4px 12px;font-size:15px;border-radius:10px;box-shadow:0 3px 0 var(--edge)}
+.animbar{margin:0 0 10px}
+.sdctl{display:flex;align-items:center;gap:10px;padding:2px 6px}
+.sdctl input[type=range]{flex:1;min-width:0;accent-color:var(--blue)}
+.sdctl output{font-weight:700;min-width:3.2em;text-align:right}
+.sd-note{margin:2px 6px 4px;font-size:15px;font-weight:700;color:var(--blue)}
+.ph{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:6px 0 8px}
+.ph figure{margin:0;border:2px solid var(--line);border-radius:10px;overflow:hidden;background:var(--paper)}
+.ph figure.full{grid-column:1/-1}
+.ph img{display:block;width:100%;height:auto;cursor:zoom-in}
+.ph figcaption{font-size:13px;line-height:1.5;padding:3px 8px 5px;color:var(--muted)}
+#lb{position:fixed;inset:0;background:rgba(5,20,30,.92);z-index:30;display:none;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;cursor:zoom-out}
+#lb.on{display:flex}
+#lb img{max-width:100%;max-height:88vh;object-fit:contain;border-radius:8px;background:#fff}
+#lb span{color:#fff;font-size:14px}
+.imgerr{padding:10px;font-size:13px;color:var(--bad);background:var(--bad-bg)}
+.ph .cr{display:block;font-size:11.5px;opacity:.85;margin-top:2px}
+.ph .cr a{color:var(--blue)}
+.credit{font-size:13px;color:var(--muted);margin:0 0 12px}
+@media (max-width:520px){.pin .dot{width:38px;height:38px;font-size:17px}.pin .lbl{font-size:12px;padding:0 5px}.tag{font-size:12px;padding:0 6px}}
+@media (prefers-reduced-motion:no-preference){.pin .dot{transition:transform .12s}}
+body.chi{--bg:#E9E1CD;--paper:#FAF6EA;--sea:#F4EEDB;--line:#CDBF9F;--land-b:#C8D6AE;--land-a:#E2CC95;--pick:#F1E2B4;--blue:#8C2A21;--sun:#E0A93B;--muted:#6B5D45;--edge:#2B2620;--ink:#2B2620;--bad:#B3261E;--bad-bg:#F7DDD8}
+body.chi .map{border:4px solid var(--edge);background:var(--sea);box-shadow:0 5px 0 var(--edge),inset 0 0 0 7px var(--paper),inset 0 0 0 9px var(--line)}
+body.chi .pin .dot{width:46px;height:46px;border-radius:8px;background:var(--bad);color:#FAF6EA;transform:rotate(-4deg);font-size:0;border-width:2px;box-shadow:0 3px 0 var(--edge)}
+body.chi .pin .dot::before{content:attr(data-n);font:700 24px/1 var(--f-display);display:block}
+body.chi .pin .lbl{background:var(--paper);border-style:solid;border-width:1.5px;border-radius:4px;letter-spacing:1px}
+body.chi .pin.done .dot{background:var(--good)}
+body.chi .pin.boss .dot{background:#1F1C18}
+@media (max-width:520px){body.chi .pin .dot{width:38px;height:38px}body.chi .pin .dot::before{font-size:20px}}
+@media (prefers-color-scheme: dark){body.chi{--bg:#1E1A12;--paper:#2C2618;--sea:#262012;--line:#5B4E30;--land-b:#4C5E34;--land-a:#7A6330;--pick:#4A3E1E;--blue:#E78C72;--muted:#C9B88C;--edge:#0E0B06;--ink:#EDE4CC}}
+</style></head><body class="chi">
+<div class="shell">
+  <div class="top">
+    <div><h1>五年級國語學習島</h1><p>先看教學，再去刷題｜內容依評量整理</p></div>
+    <a class="btn" href="index.html">刷題小勇者</a>
+  </div>
+  <ol class="how"><li><b>1</b> 點地標看教學</li><li><b>2</b> 讀完按「開始刷題」</li><li><b>3</b> 回島上點亮下一站</li></ol>
+  <div class="prog"><span id="pt">已學 0 / 8</span><div class="bar"><i id="pb"></i></div></div>
+  <div class="map" id="map"></div>
+  <p class="legend">綠色打勾＝已經看過教學。進度只存在這台裝置的瀏覽器。</p>
+</div>
+<div id="lb" role="dialog" aria-label="放大圖片"></div>
+<div id="ov" role="dialog" aria-modal="true" aria-labelledby="st"><div class="sheet" id="sheet"></div></div>
+<script>
+(function(){
+var KEY='island-g5-chi-v1';
+var L=[
+{id:'a1',u:14,t:-1,ch:'一',name:'蚊帳大使',unit:'第一單元・第 1 課',x:150,y:130,intro:'美國女孩凱瑟琳，用行動幫助非洲的孩子遠離瘧疾，證明年紀小也能改變世界。（作者：陳麗雲，記敘文／故事）',
+ cards:[
+  {h:'故事怎麼發展',li:['西元 2018 年 6 月，凱瑟琳被封為「<b>蚊帳大使</b>」，來臺灣演講。','西元 2006 年，<b>五歲</b>的她得知：非洲平均<b>每 30 秒</b>就有一個孩子因為瘧疾去世。','<b>瘧疾</b>是經由<b>蚊子</b>傳染的疾病；媽媽告訴她，蚊帳可以保護人們不被蚊子叮。','她決定把學校的<b>點心費</b>和<b>買玩具的錢</b>存下來買蚊帳，還和媽媽到二手市場<b>義賣</b>，設計「捐一頂蚊帳，送給非洲的孩子」的<b>獎狀</b>。','貝克漢收藏獎狀，還把圖片貼到個人網站，引起世人關注。','2007 年 6 月，她收到非洲來信，鼓舞她做了 100 張獎狀寄給全球富豪；<b>比爾・蓋茲基金會</b>後來宣布捐 <b>300 萬美元</b>給「只要蚊帳協會」，口號是「捐一頂蚊帳，救一條生命」。']},
+  {h:'故事想告訴我們',li:['<b>主旨</b>：只要有夢想，勇敢行動並堅持到底，年紀小也能改變世界。','<b>結構</b>：人物來演講 → 事件（得知、存錢、義賣、寫信）→ 人物的影響（以行動讓夢想成真，幫助非洲兒童遠離瘧疾）。']},
+  {h:'生字詞語',table:{h:['詞語','意思'],r:[['蚊帳','防蚊子的紗帳'],['募集','招募聚集（例：募集蚊帳、募款）'],['召集','通知有關人員聚集起來（例：召集里民）'],['捐贈','捐獻、贈送；相反是「索取」（索討、求取）'],['獎狀','為獎勵而頒發的證書'],['基金會','為興辦某種事業或活動而組成的團體'],['全力以赴','投入全部的心力以達成目的']]}},
+  {h:'字形比一比',table:{h:['字','比一比'],r:[['蚊／紋','蚊子、紋路'],['帳／脹','蚊帳、膨脹'],['募／幕','募款、布幕'],['贈／增／憎／僧','捐贈、增加、憎恨、僧侶'],['獎／漿／醬／槳','獎狀、豆漿、果醬、船槳']]}},
+  {h:'句型和修辭',li:['<b>雖然……可是……</b>（轉折）：雖然這個三十秒沒有孩子死去，可是下一個三十秒，還是有人死亡。','<b>只要……就……</b>（條件）：只要全力以赴，就能擁夢飛翔。','<b>不但……還……</b>（遞進）：貝克漢不但收藏獎狀，還把圖片貼到個人網站。','<b>譬喻</b>：蚊帳＝<b>保護傘</b>；夢想的力量像<b>滾雪球</b>，越滾越大。']}],
+ trap:'<b>易錯：</b>是「每 30 秒」不是 30 分鐘；「募集」是招募聚集，「召集」是通知人員聚集，用法不同。'},
+{id:'a2',u:15,t:-1,ch:'二',name:'從空中看臺灣',unit:'第一單元・第 2 課',x:540,y:260,intro:'空拍導演齊柏林，用眼睛和心看見臺灣的美麗與哀愁，並期待大家一起愛護這塊土地。（記敘文）',
+ cards:[
+  {h:'課文六段重點',table:{h:['段','重點'],r:[['1','作者因為名字叫<b>齊柏林</b>，和德國飛船「齊柏林」同名，從小嚮往飛行'],['2','<b>莫拉克颱風</b>造成環境變化，讓作者下定決心完成空拍影片（拍攝長達三年）'],['3','臺灣的<b>美麗</b>：山巒、縱谷、河流、海洋、鄉村和城市'],['4','臺灣的<b>哀愁</b>：天災與人禍，土地受傷'],['5','善待土地：影片旁白（<b>吳念真</b>）呼籲「呵護我們的土地，土地才會呵護我們的子子孫孫」'],['6','期待大家一起努力；<b>九個大腳印</b>＝「腳踏實地愛臺灣」']]}},
+  {h:'美麗和哀愁',li:['<b>美</b>：山巒青青，如同<b>翠玉</b>；縱谷又深又長，河流像<b>臍帶</b>連接土地和海洋；城市高樓林立，路上的車子一如<b>甲蟲</b>。','<b>哀愁</b>：超抽地下水造成地層下陷；砍樹種檳榔和高山作物，降低水土保持功能；怪手挖山製水泥；河流被汙水染黑。','作者想讓大家看見：臺灣既有美麗，也有哀愁，要<b>善待這塊土地</b>。']},
+  {h:'作者小檔案',li:['<b>齊柏林</b>（民國 53～106 年），臺北人，原是職業攝影師。','民國 98 年莫拉克颱風後辭職，展開拍攝臺灣的夢想，影片《<b>看見臺灣</b>》獲得金馬獎最佳紀錄片。']},
+  {h:'生字詞語',table:{h:['詞語','意思'],r:[['山巒','連綿的山'],['縱谷','與山脈軸線平行的河谷'],['哀愁','哀傷悲愁'],['人禍','人為的災禍（對照「天災」）'],['殘破','殘缺破爛、不完整'],['記錄','記載登錄'],['似乎','好像'],['汙水','不潔淨的水']]}},
+  {h:'句型和修辭',li:['<b>原本……但……</b>（轉折）：原本天氣晴朗，但突然下起了大雨。','<b>為了……</b>（目的）：為了種植檳榔樹，人們砍掉原本種在山坡地的樹木。','<b>只有……才……</b>（條件）：只有為家園的美好一起努力，我們才能看見幸福。','<b>譬喻</b>：山巒像翠玉、河流像臍帶、車子像甲蟲。','<b>摹寫（視覺、聽覺）</b>：海浪拍打著海岸，響著從遠古以來就不曾停過的潮水聲。','<b>引用</b>：引用吳念真的旁白。<b>類疊</b>：山巒青青、深深的哀愁。']}],
+ trap:'<b>易錯：</b>「縱谷」是和山脈平行的河谷；「人禍」是人造成的，「天災」是自然造成的。'},
+{id:'a3',u:16,t:-1,ch:'三',name:'攀岩高手',unit:'第一單元・第 3 課',x:170,y:400,intro:'一首用猜謎寫成的現代詩：「他」是誰？一路往上爬，風雨都擋不住。（作者：牧也）',
+ cards:[
+  {h:'一首藏著謎底的詩',li:['<b>文體</b>：現代詩，一行一句、沒有標點，用圖像呈現爬牆虎攀爬的姿態；用<b>第一人稱</b>自述。','<b>主旨</b>：實現目標需要堅定的決心，以及不怕困難的毅力與勇氣。','寫法：先寫攀岩高手向上攀爬的動作，再介紹他的裝備和目標，保持神祕感，讓讀者猜他是誰；<b>最後一段才公布</b>：我是不斷往上蔓生的爬牆虎。']},
+  {h:'六段詩意',table:{h:['段','內容'],r:[['1','在陡峭的岩壁上不斷向上攀爬'],['2','強勁的<b>吸盤</b>是裝備；高聳的<b>雲端</b>是唯一的目標'],['3','口渴喝<b>露珠涼水</b>，肚子餓吃陽光炒熟的<b>金色麵條</b>充飢'],['4','風用<b>隱形的繩索</b>扯後腿；雨用<b>尖銳的冷箭</b>刺全身'],['5','伸長堅韌的糾鬚，展開繁茂的綠葉，勇敢迎向光明與盼望'],['6','我是不斷往上蔓生的<b>爬牆虎</b>']]}},
+  {h:'詩裡的比喻',table:{h:['詩句','真正指的是'],r:[['金色麵條','陽光'],['隱形的繩索','風力'],['尖銳的冷箭','雨滴'],['露珠涼水','夜晚氣溫低，像被冰鎮過的露水'],['強勁的吸盤','爬牆虎用來攀住牆面的裝備']]}},
+  {h:'生字詞語',table:{h:['詞語','意思'],r:[['陡峭','高峻且坡度大（相反：平緩）'],['強勁','強而有力'],['高聳','直立突出'],['充飢','吃東西以解除飢餓'],['堅韌','有韌性，不易毀損'],['糾鬚','蜷曲的鬍鬚'],['繁茂','繁密茂盛'],['蔓生','藤蔓植物攀附他物成長'],['挫折','事情進行不順利或遭遇失敗'],['豐富','豐裕充足（相反：貧乏）']]}},
+  {h:'句型和修辭',li:['<b>先……再……</b>（承接）：詩中先寫攀岩高手向上攀爬的動作，再介紹他的裝備和目標。','<b>就算……也……</b>（假設）：就算面對狂風暴雨，他也展現出堅定不移的勇氣。','<b>譬喻</b>：把陽光比喻成麵條，把風比喻成隱形的繩索，把雨比喻成冷箭。','<b>轉化（擬人）</b>：風和雨像人一樣「扯」後腿、「刺」全身。','<b>設問</b>：「不過，這是真正的答案嗎？」引導讀者再想一想。']}],
+ trap:'<b>易錯：</b>「冷箭」在詩裡比喻<b>雨滴</b>，不是風；「金色麵條」是<b>陽光</b>。'},
+{id:'a4',u:17,t:-1,ch:'四',name:'恆久的美',unit:'第二單元・第 4 課',x:560,y:540,intro:'從黃澄澄的稻田，想起路得拾穗的故事，再欣賞米勒的畫作《拾穗》。（作者：蔣動，記敘文）',
+ cards:[
+  {h:'課文六段內容',table:{h:['段','重點'],r:[['1','作者坐火車經過臺灣南部平原，看到<b>黃澄澄的稻田</b>'],['2','稻田使他想起<b>路得拾穗</b>的古老故事（路得為了養活婆婆，到別人田裡撿麥穗）'],['3','介紹畫家<b>米勒</b>的生平與創作《拾穗》的來源'],['4','描寫畫中<b>三名婦人</b>彎腰撿拾麥穗，遠方有堆高的麥草'],['5','米勒用樸素的筆法，畫出人們<b>樂於分享</b>、<b>任勞任怨</b>的生活態度'],['6','《拾穗》很美，滋潤心靈，讓美的感動恆久不斷']]}},
+  {h:'米勒和《拾穗》',li:['米勒是<b>法國</b>畫家，出生在鄉下農家，童年家中窮困，常幫忙田間工作。','西元 <b>1849</b> 年他移居農村，童年的農家記憶被喚醒，所以畫筆刻畫<b>農民樸實的生活</b>。','聖經上說：收割麥田後，不要帶走掉在地上的麥穗，請<b>留給更窮的人去撿</b>。','三名婦人雖然很窮，卻在畫中展現<b>生命的尊嚴</b>。']},
+  {h:'拾穗之美在哪裡',li:['<b>美在土地的寬闊深遠</b>，美在困苦生活中堅強存活的意志，美在慷慨分享生活物質的高貴情操。','接連三句「美在……」，是<b>排比</b>修辭。','主旨：欣賞藝術家的畫作，感受畫作中美的意義，了解<b>分享是恆久的美德</b>，進而關懷周遭的人事物。']},
+  {h:'生字詞語',table:{h:['詞語','意思'],r:[['恆久','持久、長遠'],['黃澄澄','形容顏色金黃鮮明'],['稻穗','叢聚成串的稻穀'],['養活','贍養、撫養'],['樸實','質樸實在'],['慷慨','大方、不吝嗇'],['尊嚴','不容侵犯的身分或地位'],['任勞任怨','做事熱心負責，不辭勞苦、不怕嫌怨'],['滋潤','浸潤潤澤（相反：乾燥）']]}},
+  {h:'句型和修辭',li:['<b>要是……那麼……</b>（假設）：要是你口渴了，那麼他們會給你水喝。','<b>雖然……卻……</b>（轉折）：這三個婦人雖然很窮，卻在米勒的畫中展現生命的尊嚴。','<b>類疊（疊字）</b>：一片黃澄澄的稻田、一串串飽滿的稻穗。','<b>引用</b>：引用聖經的話；<b>摹寫（視覺）</b>：詳細描寫畫中婦人的頭巾、動作。']}],
+ trap:'<b>易錯：</b>《拾穗》的作者是米勒，不是莫內或梵谷；米勒畫的是農民樸實的生活，不是貴族的華麗。'},
+{id:'a5',u:18,t:-1,ch:'五',name:'商標的故事',unit:'第二單元・第 5 課',x:160,y:690,intro:'每個商標都藏著一個故事：它傳達公司的歷史、願景、服務和產品特色。（說明文）',
+ cards:[
+  {h:'文章結構像三明治',li:['<b>總說</b>：每一個商品都有商標，商標和商品、商譽、服務等有緊密的關聯。','<b>分說</b>：舉不同的商標為例（見下方）。','<b>總結</b>：商標傳達了公司的企業歷史、發展願景、服務項目及產品特色，每個商標都有一個特別的故事。','每段的開頭或結尾都有<b>重點句</b>，再用例子加強說明。']},
+  {h:'課文舉的商標',table:{h:['商標','故事'],r:[['白兔搗藥（北宋）','賣縫衣針的鋪子掛白兔圖案，提醒顧客「認門前白兔兒為記」'],['林森美髮霜','臺灣最早核准的商標，由盛香堂在民國 40 年申請；圓形外圍有十二個小半圓'],['黑松','日治時代就有名氣；期許企業「永恆長青」，像松樹般堅毅不拔；歷經多次微調，「黑松」大字一直保留'],['亞馬遜','字母 A 到 Z 之間有個<b>微笑的箭頭</b>：幫消費者找到世界各地的商品並送到家門口'],['麥當勞','金黃色的 <b>M</b>，像<b>兩扇打開的大門</b>，對顧客招手'],['Nike','前身是<b>藍帶體育用品公司</b>；大學生設計「一個勾勾」，靈感來自<b>勝利女神的翅膀</b>']]}},
+  {h:'智慧財產局',li:['<b>民國 88 年</b>成立，隸屬經濟部，負責專利、商標等智慧財產的管理。','商家重視商標並向智慧財產局<b>申請註冊</b>，代表願意給消費者更優質的保障。']},
+  {h:'生字詞語',table:{h:['詞語','意思'],r:[['商譽','商人或商店行號的信譽'],['註冊','向有關機關、團體或學校登記備案'],['申請','向上級或相關單位說明理由，提出請求'],['核准','審定後批准'],['銷售','出售、販賣'],['歷經','經歷過'],['堅毅不拔','堅忍剛毅，不能動搖'],['霸主','在某一方面稱霸的人或集團'],['項目','事物分類的條目']]}},
+  {h:'句型和修辭',li:['<b>……並且……</b>（遞進）：商家在門前掛著白兔圖案，並且在傳單上用醒目的大字提醒顧客。','<b>雖然……但……</b>（轉折）：雖然歷經多次微調，但那斗大的「黑松」字樣一直保留。','<b>設問</b>：「商標會不會影響商品的銷售呢？」問完再回答，引出下文。','<b>摹寫（視覺）</b>：描寫商標的外形、顏色。','<b>譬喻</b>：金黃色的 M 像兩扇打開的大門；<b>轉化</b>：M 像人一樣對顧客招手。']}],
+ trap:'<b>易錯：</b>臺灣最早核准的商標是<b>林森美髮霜</b>，不是黑松；Nike 的前身是體育用品公司，不是餐廳。'},
+{id:'a6',u:19,t:-1,ch:'六',name:'故事「動」起來',unit:'第二單元・第 6 課',x:540,y:830,intro:'動畫融合繪畫、音樂和文學，從黑白到彩色、從 2D 到 3D，故事和角色依然觸動人心。（作者：游珮芸，說明文）',
+ cards:[
+  {h:'文章結構',li:['<b>總說</b>：動畫是一種融合繪畫、音樂和文學的影音藝術，是現代人不可或缺的娛樂。','<b>分說</b>（三間公司）：迪士尼的創舉；吉卜力的人文關懷；皮克斯的創新科技。','<b>總結</b>：動畫不僅為觀眾帶來感官享受，也為生活增添色彩、豐富心靈。','主旨：動畫是生活中的一門藝術，值得我們欣賞。']},
+  {h:'動畫大事紀（按年代）',table:{h:['年代','作品','特色'],r:[['1928','《汽船威利號》','黑白、聲音和畫面同步的動畫，主角米老鼠'],['1937','《白雪公主》','動畫史上第一部彩色動畫長片（迪士尼）'],['1988','《小錫兵》','皮克斯以 3D 動畫榮獲奧斯卡最佳動畫短片'],['1995','《玩具總動員》','第一部 3D 電腦動畫長片（皮克斯）'],['2001','《神隱少女》','吉卜力：帶入人文關懷與自我追尋的成長']]}},
+  {h:'三間公司的特色',table:{h:['公司','特色'],r:[['迪士尼','創舉：聲音與畫面同步的動畫；第一部彩色動畫長片；改編格林童話'],['吉卜力工作室','音樂風格獨特，內容突破傳統框架，帶入<b>人文關懷</b>（千尋學會獨立、負責、判斷力、勇氣）'],['皮克斯','運用<b>3D 科技</b>：角色設計生動、場景設定細膩、光影與色彩運用巧妙']]}},
+  {h:'生字詞語',table:{h:['詞語','意思'],r:[['娛樂','消遣的樂事；使歡樂'],['經典','製作精美、流傳久遠，成為後世典範的作品'],['共鳴','共同的感受或情緒反應'],['脫穎而出','顯露才能，超越眾人'],['精益求精','不斷努力求進步'],['不可或缺','不能缺少'],['融為一體','合在一起，成為一個整體'],['舉世聞名','全世界都有名'],['獨具一格','有自己獨特的風格']]}},
+  {h:'句型和修辭',li:['<b>如果……</b>（假設）：如果你想參加游泳訓練班，要先填表報名。','<b>由於……因此……</b>（因果）：由於配樂與劇情融為一體，因此能讓觀眾投入其中。','<b>不僅……也……</b>（遞進）：吉卜力的動畫不僅追求娛樂，也融入人文關懷。','<b>排比</b>：千尋學會獨立和負責；展現判斷力；表現出勇氣（三個相似的短句）。','<b>讀寫技巧</b>：用<b>時間軸</b>整理作品上映的先後順序。']}],
+ trap:'<b>易錯：</b>第一部彩色動畫長片是《白雪公主》，第一部 3D 電腦動畫長片是《玩具總動員》；《神隱少女》是吉卜力的作品。'},
+{id:'b1',u:30,t:3,ch:'辭',name:'修辭花園',unit:'學習地圖・修辭',x:170,y:960,intro:'把課文裡出現過的修辭放在一起比一比：譬喻、摹寫、引用、類疊、排比、設問、轉化。',
+ cards:[
+  {h:'七種修辭一覽',table:{h:['修辭','怎麼認','課文例子'],r:[['譬喻','事物①＋像／如／彷彿／是＋事物②，找出相似點','河流像臍帶；蚊帳是保護傘；M 像兩扇大門'],['摹寫','用五官（視、聽、嗅、味、觸）寫感受','海浪拍打著海岸，響著潮水聲'],['引用','引用別人說過的話或書上的句子','聖經的話；吳念真的旁白'],['類疊','同一個字詞重複使用，加強語氣、有節奏','黃澄澄、一串串、深深的哀愁'],['排比','三個以上結構相似的句子連用','美在……，美在……，美在……'],['設問','先提問再回答，引導思考','商標會不會影響銷售呢？'],['轉化（擬人）','把事物當成人來寫','風扯我的後腿；M 對顧客招手']]}},
+  {h:'譬喻怎麼找',li:['譬喻＝<b>事物①</b>＋<b>串連的詞語</b>（像、如、似、彷彿、是……）＋<b>事物②</b>。','從外觀（形狀、顏色）、動作功能或感受特性，想兩種事物的<b>相似處</b>。','例：河流像臍帶——兩者都<b>連接</b>；港灣彷彿媽媽的懷抱——兩者都<b>包容、溫暖</b>。']},
+  {h:'摹寫的五種感官',table:{h:['感官','用什麼','例子'],r:[['視覺','眼睛看','一片黃澄澄的稻田'],['聽覺','耳朵聽','海浪聲、潮水聲'],['嗅覺','鼻子聞','桐花淡淡的清香'],['味覺','舌頭嘗','醬料的酸甜濃郁'],['觸覺','皮膚碰','清涼的感覺從手心傳到全身']]},li:['摹寫可以讓人有身歷其境的感覺，文章表達更生動活潑。']}],
+ trap:'<b>易錯：</b>譬喻要有兩種「不同」的事物被比較；「像……一樣」是譬喻，「風扯我的後腿」是把風當成人，是轉化。'},
+{id:'b2',u:30,t:3,ch:'句',name:'句型竹林',unit:'學習地圖・句型',x:540,y:1010,intro:'關聯詞像竹節，把句子接起來：看到「雖然」「只要」「不但」，就知道後面會怎麼走。',
+ cards:[
+  {h:'關聯詞和關係',table:{h:['關係','關聯詞','課文例句'],r:[['轉折','雖然……可是／卻／但……；原本……但……','雖然這個三十秒沒有孩子死去，可是下一個三十秒還是有人死亡'],['條件','只要……就……；只有……才……','只要全力以赴，就能擁夢飛翔'],['遞進','不但……還……；不僅……也……；……並且……','貝克漢不但收藏獎狀，還把圖片貼到個人網站'],['假設','如果／要是……那麼……；就算……也……','就算面對狂風暴雨，他也展現堅定不移的勇氣'],['因果','由於……因此……','由於配樂與劇情融為一體，因此能讓觀眾投入其中'],['目的','為了……','為了種植檳榔樹，人們砍掉原本的樹木'],['承接','先……再……','詩中先寫攀岩高手向上爬，再介紹他的裝備']]}},
+  {h:'條件和假設怎麼分',li:['<b>條件</b>：只要／只有……（必須具備的條件，才有結果）。','<b>假設</b>：如果／要是／就算……（假設一個情況，說明結果）。','<b>遞進</b>：後句比前句更進一層（不但、不僅、並且）。','<b>轉折</b>：前後意思相反或出乎預料（雖然……卻……）。']}],
+ trap:'<b>易錯：</b>「就算……也……」是<b>假設</b>，不是轉折；「只有……才……」是<b>條件</b>。'},
+{id:'boss',u:30,t:-1,boss:1,ch:'考',name:'期中燈塔',unit:'期中總複習・第 1～6 課',x:360,y:1100,intro:'六課都走過了嗎？到燈塔做期中總複習，題目混合字詞、課文內容、課文理解、句型與修辭。',
+ cards:[
+  {h:'出發前快速檢查',li:['想一想：每一課的作者、文體和主旨是什麼？','想一想：哪一課用了排比、設問、引用？','不確定的話，點下面的地標重看教學。']}],
+ jumps:['a1','a2','a3','a4','a5','a6','b1','b2']}
+];
+
+/* ---- figures ---- */
+function SV(h,alt,inner){return '<svg class="fig" viewBox="0 0 360 '+h+'" role="img" aria-label="'+alt+'"><defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ink)"/></marker></defs>'+inner+'</svg>'}
+function tx(x,y,t,o){o=o||{};return '<text x="'+x+'" y="'+y+'"'+(o.a?' text-anchor="'+o.a+'"':'')+(o.c?' class="'+o.c+'"':'')+'>'+t+'</text>'}
+function rc(x,y,w,h,f,r){return '<rect class="s" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+(r==null?8:r)+'" fill="'+f+'"/>'}
+function ln(x1,y1,x2,y2,o){o=o||{};return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+(o.s||'var(--ink)')+'" stroke-width="'+(o.w||2)+'"'+(o.d?' stroke-dasharray="'+o.d+'"':'')+(o.m?' marker-end="url(#ar)"':'')+' stroke-linecap="round"/>'}
+function ci(x,y,r,f){return '<circle class="s" cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+f+'"/>'}
+function arw(x1,y1,x2,y2,c,w){var a=Math.atan2(y2-y1,x2-x1),L=w*2.2,hx=x2-Math.cos(a)*L,hy=y2-Math.sin(a)*L,px=Math.sin(a)*w*1.4,py=-Math.cos(a)*w*1.4;return '<line x1="'+x1+'" y1="'+y1+'" x2="'+hx+'" y2="'+hy+'" stroke="'+c+'" stroke-width="'+w+'" stroke-linecap="round"/><path d="M'+x2+' '+y2+'L'+(hx+px)+' '+(hy+py)+'L'+(hx-px)+' '+(hy-py)+'Z" fill="'+c+'"/>'}
+function box(x,y,w,h,f,lines,o){o=o||{};var s=rc(x,y,w,h,f,8);var n=lines.length,y0=y+h/2-(n-1)*8.5+4.5;lines.forEach(function(t,i){s+=tx(x+w/2,y0+i*17,t,{a:'middle',c:i===0?'h':(o.m?'m':'')})});return s}
+var INK='#2B2620';
+var FIG={
+timeline:function(){
+  var ev=[['2006','5 歲得知','非洲每 30 秒','就有 1 位孩子','因瘧疾去世'],['存錢','點心費＋','買玩具的錢','買蚊帳'],['義賣','二手市場','設計獎狀','「送給非洲的','孩子」'],['2007','收到非洲','來信，寄出','100 張獎狀'],['300 萬','蓋茲基金會','捐給只要','蚊帳協會']];
+  var s=ln(24,70,336,70,{w:4,s:INK}),i;
+  for(i=0;i<ev.length;i++){var x=40+i*70;s+=ci(x,70,9,i===4?'var(--bad)':'var(--sunc)')+tx(x,46,ev[i][0],{a:'middle',c:'h'});ev[i].slice(1).forEach(function(t,k){s+=tx(x,104+k*15,t,{a:'middle',c:'m'})})}
+  return SV(186,'凱瑟琳行動的時間順序',tx(8,16,'凱瑟琳的故事（由左到右）',{c:'h'})+s+tx(180,176,'只要有夢想，勇敢行動，年紀小也能改變世界',{a:'middle',c:'h'}));
+},
+clock:function(){
+  var s='',i;
+  for(i=0;i<12;i++){var a=i*Math.PI/6;s+=ln(120+Math.sin(a)*52,100-Math.cos(a)*52,120+Math.sin(a)*58,100-Math.cos(a)*58,{w:2})}
+  return SV(212,'非洲每 30 秒就有一個孩子因瘧疾去世',
+   '<circle class="s" cx="120" cy="100" r="62" fill="var(--paper)"/>'+s+tx(120,148,'30 秒',{a:'middle',c:'h'})+
+   '<circle cx="120" cy="100" r="4" fill="'+INK+'"/>'+
+   '<g class="hand"><line x1="120" y1="100" x2="120" y2="50" stroke="var(--bad)" stroke-width="3" stroke-linecap="round"/></g>'+
+   box(210,56,136,86,'var(--warmbg)',['每 30 秒','就有 1 個孩子','因瘧疾去世'])+
+   tx(180,200,'瘧疾 ← 蚊子傳染 ← 蚊帳可以預防',{a:'middle',c:'m'}));
+},
+aerial:function(){
+  var steps=[['1','同名','齊柏林飛船'],['2','莫拉克','下定決心'],['3','美麗','山巒縱谷'],['4','哀愁','天災人禍'],['5','善待','土地'],['6','大腳印','腳踏實地']];
+  var s='',i;
+  for(i=0;i<6;i++){var c=i%3,r=Math.floor(i/3),x=6+c*118,y=14+r*92;s+=box(x,y,104,68,i===3?'var(--warmbg)':(i===2?'var(--land-b)':'var(--paper)'),[steps[i][0]+'．'+steps[i][1],steps[i][2]],{m:1});
+    if(c<2)s+=arw(x+106,y+34,x+116,y+34,INK,3)}
+  return SV(208,'從空中看臺灣六段重點的流程',s+tx(180,198,'先看見美麗，也看見哀愁，最後呼籲愛護土地',{a:'middle',c:'h'}));
+},
+riddle:function(){
+  var s='<rect x="0" y="0" width="360" height="226" fill="var(--sky)"/><rect class="s" x="196" y="20" width="140" height="190" fill="#C9B8A0"/>';
+  var clues=[['強勁的吸盤','吸盤'],['高聳的雲端','雲端'],['露珠涼水','露水'],['陽光麵條','陽光'],['隱形繩索','風'],['尖銳冷箭','雨']];
+  clues.forEach(function(c,i){s+=rc(10,18+i*32,136,26,'var(--paper)',6)+tx(78,36+i*32,c[0],{a:'middle'})});
+  s+='<path id="vine" class="vine" d="M216 208C222 170 206 150 230 120C250 96 236 70 258 44" fill="none" stroke="var(--leafd)" stroke-width="6" stroke-linecap="round" stroke-dasharray="200" stroke-dashoffset="200"><animate attributeName="stroke-dashoffset" values="200;0;0" keyTimes="0;.7;1" dur="4s" repeatCount="indefinite"/></path>';
+  s+='<g><circle cx="238" cy="104" r="8" fill="var(--leafc)" stroke="var(--edge)" stroke-width="1.5"/><circle cx="262" cy="52" r="8" fill="var(--leafc)" stroke="var(--edge)" stroke-width="1.5"/><circle cx="212" cy="150" r="8" fill="var(--leafc)" stroke="var(--edge)" stroke-width="1.5"/>'+OP('0;0;1;1','4','0;.5;.7;1')+'</g>';
+  s+=tx(266,222,'？？？',{a:'middle',c:'h'}).replace('<text','<g><text')+'</g>';
+  return SV(236,'攀岩高手的線索：謎底是爬牆虎',s+arw(150,120,190,120,INK,3)+tx(316,18,'謎底：爬牆虎',{a:'end',c:'h'}));
+},
+gleaners:function(){
+  function col(x,f,h1,l1,l2,l3){return box(x,8,164,34,f,[h1])+box(x,48,164,64,'var(--paper)',[l1,l2,l3],{m:1})}
+  var s=col(6,'var(--warmbg)','樂於分享','三位婦人撿拾麥穗','地主不趕她們','還願意提供飲水')+col(190,'var(--sky)','任勞任怨','彎腰撿拾麥穗','手上一束麥穗','努力到剩下的一半');
+  s+='<rect x="10" y="130" width="340" height="64" fill="var(--land-a)" stroke="var(--edge)" stroke-width="2"/>';
+  [[60,152],[130,160],[200,152]].forEach(function(p,i){s+='<g><circle cx="'+p[0]+'" cy="'+p[1]+'" r="8" fill="var(--warm)"/><line x1="'+p[0]+'" y1="'+(p[1]+8)+'" x2="'+(p[0]+14)+'" y2="'+(p[1]+26)+'" stroke="'+INK+'" stroke-width="4" stroke-linecap="round"/>'+ATRG('0 0;0 5;0 0',1.6+i*.3)+'</g>'});
+  s+=tx(290,168,'米勒《拾穗》',{a:'middle',c:'h'})+tx(290,186,'三名婦人彎腰撿麥穗',{a:'middle',c:'m'});
+  return SV(204,'拾穗畫作表達的兩種生活態度',s);
+},
+sandwich:function(){
+  return SV(214,'商標的故事：三明治式的文章結構',
+   '<path class="s" d="M60 36Q180 -2 300 36L300 52L60 52Z" fill="#E5B66B"/>'+tx(180,46,'總說：每個商品都有商標',{a:'middle',c:'h'})+
+   '<rect class="s" x="60" y="58" width="240" height="22" fill="#7CB26B"/>'+
+   '<rect class="s" x="60" y="84" width="240" height="56" fill="#E57A5E"/><g>'+tx(180,104,'分說：白兔搗藥、林森美髮霜、黑松、',{a:'middle',c:'h'})+tx(180,124,'亞馬遜、麥當勞、Nike',{a:'middle',c:'h'})+'</g>'+
+   '<rect class="s" x="60" y="144" width="240" height="14" fill="#F2D06B"/>'+
+   '<path class="s" d="M60 162L300 162L300 186Q180 204 60 186Z" fill="#E5B66B"/>'+tx(180,181,'總結：每個商標都有一個故事',{a:'middle',c:'h'})+
+   tx(330,48,'',{}));
+},
+anitl:function(){
+  var ev=[['1928','汽船威利號','黑白有聲'],['1937','白雪公主','彩色長片'],['1988','小錫兵','3D 短片獲奧斯卡'],['1995','玩具總動員','3D 長片'],['2001','神隱少女','人文關懷']];
+  var s=ln(20,92,340,92,{w:4,s:INK});
+  ev.forEach(function(e,i){var x=40+i*70,up=i%2===0;s+=ci(x,92,8,i===1?'var(--bad)':'var(--sunc)')+tx(x,up?64:128,e[0],{a:'middle',c:'h'})+tx(x,up?50:144,e[1],{a:'middle'})+tx(x,up?36:160,e[2],{a:'middle',c:'m'})});
+  return SV(184,'動畫發展大事紀',s+tx(180,178,'由黑白到彩色，由 2D 到 3D',{a:'middle',c:'h'}));
+},
+simile:function(){
+  return SV(206,'譬喻：事物①和事物②有相似的地方',
+   '<circle class="s" cx="146" cy="96" r="64" fill="var(--sunc)" fill-opacity=".75"/><circle class="s" cx="214" cy="96" r="64" fill="var(--water)" fill-opacity=".75"/>'+
+   tx(100,92,'臍帶',{a:'middle',c:'h'})+tx(260,92,'河流',{a:'middle',c:'h'})+tx(180,90,'相似處',{a:'middle',c:'h'})+tx(180,110,'連接',{a:'middle',c:'h'})+
+   tx(100,112,'（事物①）',{a:'middle',c:'m'})+tx(260,112,'（事物②）',{a:'middle',c:'m'})+
+   tx(180,184,'河流像臍帶：連接了土地和海洋',{a:'middle',c:'h'})+tx(180,202,'像、如、似、彷彿、是……',{a:'middle',c:'m'}));
+},
+senses:function(){
+  var it=[['視覺','眼睛','看'],['聽覺','耳朵','聽'],['嗅覺','鼻子','聞'],['味覺','舌頭','嘗'],['觸覺','皮膚','摸']],s='';
+  it.forEach(function(t,i){var x=34+i*72;s+=ci(x+2,56,26,i%2?'var(--sky)':'var(--warmbg)')+tx(x+2,62,t[2],{a:'middle',c:'h'})+tx(x+2,104,t[0],{a:'middle',c:'h'})+tx(x+2,122,t[1],{a:'middle',c:'m'});s+='<circle cx="'+(x+2)+'" cy="56" r="26" fill="none" stroke="var(--bad)" stroke-width="3" opacity="0"><animate attributeName="opacity" values="0;1;0;0;0;0" keyTimes="0;.08;.16;1;1;1" dur="5s" begin="'+(i)+'s" repeatCount="indefinite"/></circle>'});
+  return SV(142,'摹寫的五種感官',s);
+},
+logic:function(){
+  function p(x,y,t,sub,draw){return rc(x,y,112,78,'var(--paper)',8)+tx(x+56,y+16,t,{a:'middle',c:'h'})+'<g transform="translate('+x+' '+y+')">'+draw+'</g>'+tx(x+56,y+70,sub,{a:'middle',c:'m'})}
+  var s=p(4,4,'轉折','雖然…卻…','<path d="M20 50L54 50L54 32" fill="none" stroke="var(--cool)" stroke-width="3"/><path d="M54 32L94 58" fill="none" stroke="var(--warm)" stroke-width="3"/>');
+  s+=p(124,4,'遞進','不但…還…','<path d="M20 56h22v-10h22v-10h22v-10" fill="none" stroke="var(--leafd)" stroke-width="3"/>');
+  s+=p(244,4,'條件','只要…就…','<path d="M20 48h30" stroke="'+INK+'" stroke-width="3"/><rect x="50" y="40" width="14" height="16" fill="var(--sunc)" stroke="'+INK+'" stroke-width="2"/><path d="M64 48h30" stroke="'+INK+'" stroke-width="3"/>');
+  s+=p(4,92,'假設','如果…那麼…','<path d="M20 52C36 28 60 28 70 40" fill="none" stroke="var(--cool)" stroke-width="3" stroke-dasharray="5 4"/><path d="M70 40l12 12" stroke="var(--cool)" stroke-width="3"/>');
+  s+=p(124,92,'因果','由於…因此…','<circle cx="42" cy="48" r="9" fill="var(--warm)"/><path d="M54 48h22" stroke="'+INK+'" stroke-width="3"/><circle cx="88" cy="48" r="9" fill="var(--leafc)"/>');
+  s+=p(244,92,'承接','先…再…','<circle cx="36" cy="50" r="8" fill="var(--sunc)"/><path d="M46 50h14" stroke="'+INK+'" stroke-width="3"/><circle cx="72" cy="50" r="8" fill="var(--sunc)"/><path d="M82 50h14" stroke="'+INK+'" stroke-width="3"/>');
+  return SV(184,'六種常見的句子關係',s);
+}
+};
+var FIGMAP={'故事怎麼發展':['timeline','clock'],'課文六段重點':['aerial'],'一首藏著謎底的詩':['riddle'],'米勒和《拾穗》':['gleaners'],'文章結構像三明治':['sandwich'],'動畫大事紀（按年代）':['anitl'],'譬喻怎麼找':['simile'],'摹寫的五種感官':['senses'],'關聯詞和關係':['logic']};
+var TIPS={a1:'每 30 秒一個孩子 → 存錢、義賣、獎狀 → 蓋茲捐 300 萬',a2:'美（翠玉、臍帶、甲蟲）和哀愁（地下水、檳榔、汙水），腳踏實地愛臺灣',a3:'金麵條＝陽光、隱形繩＝風、冷箭＝雨，謎底爬牆虎',a4:'樂於分享、任勞任怨；美在……排比三次',a5:'三明治結構：總說、分說、總結；最早核准是林森美髮霜',a6:'1928 威利、1937 白雪、1988 小錫兵、1995 玩具、2001 神隱',b1:'譬喻像、摹寫五感、引用、類疊、排比、設問、轉化',b2:'雖然卻轉折、只要就條件、不但還遞進、就算也假設'};
+var QA={a1:[['非洲平均每多久，就有一個孩子因瘧疾去世？','每 30 秒。'],['「募集」和「召集」差在哪裡？','募集是招募聚集（如募款）；召集是通知有關人員聚集。']],
+ a2:[['課文用什麼比喻臺灣的山巒、河流、車子？','翠玉、臍帶、甲蟲。'],['「九個大腳印」想表達什麼？','腳踏實地愛臺灣。']],
+ a3:[['詩裡的「金色麵條」、「隱形的繩索」、「尖銳的冷箭」各指什麼？','陽光、風力、雨滴。'],['這首詩什麼時候才公布主角是誰？','最後一段（第六段）：爬牆虎。']],
+ a4:[['米勒的畫作《拾穗》表達哪兩種生活態度？','樂於分享、任勞任怨。'],['「美在……，美在……，美在……」是什麼修辭？','排比。']],
+ a5:[['臺灣最早核准的商標是什麼？','林森美髮霜（盛香堂，民國 40 年申請）。'],['Nike 的商標靈感來自什麼？','勝利女神的翅膀。']],
+ a6:[['第一部彩色動畫長片是哪一部？','《白雪公主》（迪士尼）。'],['第一部 3D 電腦動畫長片是哪一部？','《玩具總動員》（皮克斯）。']],
+ b1:[['「河流像臍帶」是哪一種修辭？','譬喻。'],['「風扯我的後腿」把風當成人來寫，是哪一種修辭？','轉化（擬人）。']],
+ b2:[['「只要……就……」表示什麼關係？','條件。'],['「就算……也……」表示什麼關係？','假設。']]};
+
+/* ---- animation overlays ---- */
+function AN(base,extra){return function(){return base().replace(/<\/svg>$/,extra()+'</svg>')}}
+function mdot(path,dur,fill,begin,r,o){o=o||{};var vis=o.vis||'0;1;1;0',kt=o.kt||'0;.1;.85;1';
+  return '<circle r="'+(r||5)+'" fill="'+fill+'" stroke="var(--edge)" stroke-width="1.5" opacity="0"><animateMotion dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite" path="'+path+'"/><animate attributeName="opacity" values="'+vis+'" keyTimes="'+kt+'" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/></circle>'}
+function pulse(cx,cy,r1,r2,dur,stroke,begin){return '<circle cx="'+cx+'" cy="'+cy+'" r="'+r1+'" fill="none" stroke="'+stroke+'" stroke-width="3" opacity="0"><animate attributeName="r" values="'+r1+';'+r2+'" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;0" dur="'+dur+'s" begin="'+(begin||0)+'s" repeatCount="indefinite"/></circle>'}
+function OP(vals,dur,kt){return '<animate attributeName="opacity" values="'+vals+'"'+(kt?' keyTimes="'+kt+'"':'')+' dur="'+dur+'s" repeatCount="indefinite"/>'}
+function ATRG(vals,dur){return '<animateTransform attributeName="transform" type="translate" values="'+vals+'" dur="'+dur+'s" repeatCount="indefinite"/>'}
+var FIGBASE={};Object.keys(FIG).forEach(function(k){FIGBASE[k]=FIG[k]});
+FIG.timeline=AN(FIGBASE.timeline,function(){return mdot('M24 70L336 70',6,'var(--bad)',0,6,{vis:'1;1;1;1',kt:'0;.1;.9;1'})});
+FIG.clock=function(){return FIGBASE.clock().replace('<g class="hand">','<g class="hand"><animateTransform attributeName="transform" type="rotate" values="0 120 100;360 120 100" dur="4s" repeatCount="indefinite"/>')};
+FIG.aerial=AN(FIGBASE.aerial,function(){return mdot('M20 48L344 48',5,'var(--bad)',0,5)+mdot('M20 140L344 140',5,'var(--bad)',2.5,5)});
+FIG.anitl=AN(FIGBASE.anitl,function(){return mdot('M20 92L340 92',6,'var(--bad)',0,6,{vis:'1;1;1;1',kt:'0;.1;.9;1'})});
+FIG.simile=AN(FIGBASE.simile,function(){return pulse(180,96,10,40,2.4,'var(--bad)')});
+FIG.sandwich=AN(FIGBASE.sandwich,function(){return pulse(180,112,6,60,2.4,'var(--bad)')});
+
+var ANIM={on:true,raf:0};
+function initShadow(root){
+  var el=root.querySelector('.sdui');if(!el)return;
+  var sun=el.querySelector('.sd-sun'),ray=el.querySelector('.sd-ray'),sh=el.querySelector('.sd-shadow'),rg=el.querySelector('.sd-range'),tm=el.querySelector('.sd-time'),nt=el.querySelector('.sd-note'),pb=el.querySelector('.sd-play'),out=el.querySelector('.sd-out');
+  var t=9,last=0,R=105,h=40,G=165;
+  function bins(t){return t<8?['東方','西方']:t<11?['東偏南','西偏北']:t<13?['南方','北方']:t<16?['西偏南','東偏北']:['西方','東方']}
+  function draw(){
+    var f=Math.min(Math.max(Math.PI*(t-6)/12,.1),Math.PI-.1),c=Math.cos(f),s=Math.sin(f);
+    var tip=Math.min(Math.max(180+h*c/s,12),348),sx=180-R*c,sy=G-h-R*s;
+    sun.setAttribute('cx',sx);sun.setAttribute('cy',sy);
+    ray.setAttribute('x1',tip);ray.setAttribute('y1',G);ray.setAttribute('x2',sx);ray.setAttribute('y2',sy);
+    sh.setAttribute('x2',tip);
+    var L=Math.abs(tip-180),b=bins(t),hh=Math.floor(t),mm=Math.round((t-hh)*60);if(mm===60){hh++;mm=0}
+    var txt=hh+':'+(mm<10?'0':'')+mm;tm.textContent=txt;out.textContent=txt;
+    rg.value=t;
+    nt.textContent='太陽約在'+b[0]+'，影子在'+b[1]+'，影子'+(L<20?'最短':L<70?'較短':'較長')+'。'+(t>=11&&t<13?'（中午，太陽最高）':'');
+  }
+  function tick(ts){
+    if(!el.isConnected){ANIM.raf=0;return}
+    if(ANIM.on&&last){t+=(ts-last)/1000*1.4;if(t>18)t=6;draw()}
+    last=ts;ANIM.raf=requestAnimationFrame(tick);
+  }
+  rg.oninput=function(){t=+rg.value;draw();ANIM.on=false;pb.textContent='播放';syncAnim()};
+  pb.onclick=function(){ANIM.on=!ANIM.on;pb.textContent=ANIM.on?'暫停':'播放';syncAnim()};
+  draw();pb.textContent=ANIM.on?'暫停':'播放';
+  cancelAnimationFrame(ANIM.raf);ANIM.raf=requestAnimationFrame(tick);
+}
+function syncAnim(){
+  var sh=document.getElementById('sheet');if(!sh)return;
+  sh.querySelectorAll('svg.fig').forEach(function(sv){try{ANIM.on?sv.unpauseAnimations():sv.pauseAnimations()}catch(e){}});
+  var b=document.getElementById('animbtn');if(b)b.textContent=ANIM.on?'暫停動畫':'播放動畫';
+  var p=sh.querySelector('.sd-play');if(p)p.textContent=ANIM.on?'暫停':'播放';
+}
+
+ANIM.on=!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+var PHOTOS={"故事怎麼發展": [["bednet", "蚊帳讓孩子晚上不被蚊子叮咬，可預防瘧疾"], ["anopheles", "瘧蚊：傳染瘧疾的蚊子"]], "課文六段重點": [["zeppelin", "德國的齊柏林飛船（作者和它同名）"], ["taiwan_coast", "從空中看臺灣北部海岸"], ["taiwan_river", "從空中看臺灣的河谷"]], "一首藏著謎底的詩": [["ivy", "爬滿建築牆面的藤蔓植物"], ["dew", "葉片上的露珠"], ["vine_tendril", "藤蔓用「卷鬚」攀住樹枝（插圖）"]], "米勒和《拾穗》": [["gleaners", "米勒《拾穗》（1857 年）：三名婦人彎腰撿拾麥穗", 1], ["wheat", "收割後留在田裡的麥束"]], "課文舉的商標": [["mcdonald", "金黃色的「M」招牌"], ["swoosh", "羅浮宮的勝利女神像（Nike 的名字來自希臘勝利女神）"]], "動畫大事紀（按年代）": [["steamboat", "《汽船威利號》（1928）的片頭字幕", 1], ["zoetrope", "早期的動畫玩具：走馬盤（zoetrope）"]]};
+var CREDIT={"taiwan_coast": ["Xiaoanan1207", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Northeast_coast_20230401.jpg"], "dew": ["Baby Devi 26", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Dew_drops_on_leaf_in_Assam.jpg"], "zoetrope": ["Runner1616", "CC BY-SA 3.0", "https://commons.wikimedia.org/wiki/File:Zoetrope_NN.jpg"], "zeppelin": ["Unknown authorUnknown author", "CC BY-SA 3.0 de", "https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_102-00960A,_Berlin,_Graf_Zeppelin_LZ_127.jpg"], "ivy": ["Spikebrennan at en.wikipedia", "CC BY-SA 2.5", "https://commons.wikimedia.org/wiki/File:Ivy_on_Chicago_University_campus_building.jpg"], "wheat": ["Unknown authorUnknown author or not provided", "Public domain", "https://commons.wikimedia.org/wiki/File:%22Another_view_of_wheat_field_on_Dutch_Flats_near_Mitchell,_Nebr.%22_-_NARA_-_294481.jpg"], "swoosh": ["Rijin", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Winged_Victory_of_Samothrace_(1).jpg"], "steamboat": ["Ub Iwerks", "Public domain", "https://commons.wikimedia.org/wiki/File:Steamboat_Willie_(1928)_Intertitle.jpg"], "vine_tendril": ["Wikimedia Commons", "CC BY 4.0", "https://commons.wikimedia.org/wiki/File:C._Darwin,_The_movements...climbing_plants._Wellcome_L0028188.jpg"], "mcdonald": ["Newell Reinvention", "CC BY-SA 2.0", "https://commons.wikimedia.org/wiki/File:McDonald%27s_golden_arches_sign_with_%22Additional_entrance_on_38th_St%22_at_Queens_Boulevard_location,_Sunnyside,_Queens,_New_York.jpg"], "gleaners": ["Jean-François Millet", "Public domain", "https://commons.wikimedia.org/wiki/File:Jean-Fran%C3%A7ois_Millet_-_Gleaners_-_Google_Art_Project_2.jpg"], "anopheles": ["James D. Gathany", "Public domain", "https://commons.wikimedia.org/wiki/File:AnophelesGambiaemosquito.jpg"], "taiwan_river": ["Bernard Gagnon", "CC BY-SA 3.0", "https://commons.wikimedia.org/wiki/File:Nanshi_River,_Taiwan_02.jpg"], "bednet": ["President's Malaria Initiative", "Public domain", "https://commons.wikimedia.org/wiki/File:Child_beside_a_bednet_in_Ukali_village,_Quilengues,_Huila_province_(14650481651).jpg"]};
+function phHtml(c){
+  var a=PHOTOS[c.h];if(!a)return'';
+  return '<div class="ph">'+a.map(function(x){return'<figure class="'+(x[2]?'full':'')+'"><img src="img/chi5/'+x[0]+'.jpg" alt="'+x[1]+'" data-zoom="1" onerror="imgFail(this)"><figcaption>'+x[1]+(CREDIT[x[0]]?'<small class="cr">'+esc(CREDIT[x[0]][0])+'・'+esc(CREDIT[x[0]][1])+'・<a href="'+CREDIT[x[0]][2]+'" target="_blank" rel="noopener">來源</a></small>':'')+'</figcaption></figure>'}).join('')+'</div>';
+}
+function imgFail(im){var d=document.createElement('div');d.className='imgerr';d.textContent='圖片載入失敗：請確認 img/chi5 資料夾和 island-g5-chi.html 放在一起，並用網址（不是預覽窗）開啟';im.replaceWith(d)}
+function zoom(src,alt){var lb=document.getElementById('lb');lb.innerHTML='<img src="'+src+'" alt="'+alt+'"><span>點一下關閉</span>';lb.classList.add('on')}
+
+var byId={};L.forEach(function(p){byId[p.id]=p});
+var done={};try{done=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}}
+
+function bg(){
+  var s='<svg viewBox="0 0 720 1161" aria-hidden="true">';
+  s+='<g fill="none" stroke="var(--line)" stroke-width="1.5" opacity=".7"><path d="M60 40V1121M660 40V1121"/><path d="M60 40H660M60 1121H660"/></g>';
+  s+='<circle cx="610" cy="90" r="44" fill="var(--bad)" opacity=".85"/>';
+  s+='<path d="M0 330C80 260 140 300 200 250C280 190 330 280 420 240C500 205 560 280 720 230L720 360L0 360Z" fill="#6E7C80" opacity=".28"/>';
+  s+='<path d="M0 760C100 700 190 770 290 720C390 670 470 760 560 720C620 695 680 730 720 710L720 800L0 800Z" fill="#6E7C80" opacity=".22"/>';
+  s+='<path d="M0 1010C120 960 200 1020 330 985C440 955 560 1010 720 975L720 1080L0 1080Z" fill="#6E7C80" opacity=".2"/>';
+  var P=[[150,130],[540,260],[170,400],[560,540],[160,690],[540,830],[170,960],[540,1010],[360,1100]];
+  var d='M'+P[0][0]+' '+P[0][1];
+  for(var i=1;i<P.length;i++){var a=P[i-1],b=P[i],my=(a[1]+b[1])/2;d+=' C'+a[0]+' '+my+' '+b[0]+' '+my+' '+b[0]+' '+b[1]}
+  s+='<path d="'+d+'" fill="none" stroke="#2B2620" stroke-width="14" stroke-linecap="round" opacity=".16"/>';
+  s+='<path d="'+d+'" fill="none" stroke="#2B2620" stroke-width="4" stroke-linecap="round" stroke-dasharray="1 14" opacity=".7"/>';
+  [[40,520],[690,640],[60,880],[660,1100]].forEach(function(p){
+    s+='<g stroke="#2F5B36" stroke-width="5" stroke-linecap="round" fill="none" opacity=".8"><path d="M'+p[0]+' '+p[1]+'v-150M'+(p[0]+16)+' '+p[1]+'v-120"/><path d="M'+p[0]+' '+(p[1]-50)+'h-4M'+p[0]+' '+(p[1]-100)+'h-4M'+(p[0]+16)+' '+(p[1]-40)+'h4M'+(p[0]+16)+' '+(p[1]-85)+'h4" stroke="#1F3F26"/><path d="M'+p[0]+' '+(p[1]-110)+'q22 -14 34 -4M'+(p[0]+16)+' '+(p[1]-70)+'q-22 -10 -34 0" stroke="#2F5B36" stroke-width="3"/></g>'});
+  s+='<g transform="translate(70 1085)"><rect width="56" height="56" rx="6" fill="var(--bad)" transform="rotate(-4)"/><text x="28" y="40" text-anchor="middle" style="font:700 34px var(--f-display);fill:#FAF6EA">學</text></g>';
+  s+='<text x="565" y="1146" text-anchor="middle" style="font:italic 600 14px var(--f-display);fill:var(--muted);letter-spacing:6px">讀書破萬卷　下筆如有神</text>';
+  s+='</svg>';
+  return s;
+}
+function pinHtml(p){
+  var i=L.indexOf(p),n=p.ch;
+  return '<button class="pin'+(p.boss?' boss':'')+(done[p.id]?' done':'')+'" data-id="'+p.id+'" style="left:'+(p.x/7.2)+'%;top:'+(p.y/11.61)+'%" aria-label="'+p.name+(done[p.id]?'（已學）':'')+'"><span class="dot" data-n="'+n+'"></span><span class="lbl">'+p.name+'</span></button>';
+}
+function tags(){return ''}
+function updateProg(){
+  var T=L.filter(function(p){return !p.boss}),n=T.filter(function(p){return done[p.id]}).length;
+  document.getElementById('pt').textContent='已學 '+n+' / '+T.length;
+  document.getElementById('pb').style.width=(n/T.length*100)+'%';
+}
+function draw(){
+  var m=document.getElementById('map');
+  m.innerHTML=bg()+tags()+L.map(pinHtml).join('');
+  m.querySelectorAll('.pin').forEach(function(b){b.onclick=function(){open(b.dataset.id)}});
+  updateProg();
+}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function cardHtml(c){
+  var s='<div class="card"><h3>'+c.h+'</h3>'+(FIGMAP[c.h]||[]).map(function(n){return'<div class="figw">'+FIG[n]()+'</div>'}).join('')+phHtml(c);
+  if(c.table){s+='<table><thead><tr>'+c.table.h.map(function(x){return'<th>'+x+'</th>'}).join('')+'</tr></thead><tbody>'+c.table.r.map(function(r){return'<tr>'+r.map(function(x,k){return'<td'+(k===0?' style="font-weight:700"':'')+'>'+x+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table>'}
+  if(c.li)s+='<ul>'+c.li.map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul>';
+  return s+'</div>';
+}
+var last=null;
+function open(id){
+  var p=byId[id];last=document.activeElement;
+  var href='index.html?u='+p.u+(p.t>=0?'&t='+p.t:'');
+  var h='<div class="sh-top"><div><div class="u">'+p.unit+'</div><h2 id="st">'+p.name+'</h2></div><button class="x" id="cx" aria-label="關閉">×</button></div>'
+   +'<p class="intro">'+p.intro+'</p>'+(p.boss?'':'<div class="animbar"><button type="button" class="btn btn-sm" id="animbtn">暫停動畫</button></div>')+p.cards.map(cardHtml).join('')+(TIPS[p.id]?'<div class="tip">記憶口訣：'+TIPS[p.id]+'</div>':'')+(p.trap?'<div class="trap">'+p.trap+'</div>':'');
+  if(QA[p.id])h+='<div class="qa"><h3>想一想</h3>'+QA[p.id].map(function(x){return'<details><summary>'+x[0]+'</summary><p>'+x[1]+'</p></details>'}).join('')+'</div>';
+  if(p.jumps)h+='<div class="mini">'+p.jumps.map(function(j){return'<button data-j="'+j+'">'+byId[j].name+'</button>'}).join('')+'</div><div style="height:12px"></div>';
+  h+='<p class="credit">照片和畫作來自 Wikimedia Commons（自由授權或公有領域，標有作者與授權）；點圖可放大。地圖、動畫與示意圖為自製，內容依評量整理。</p>';
+  h+='<div class="cta"><a class="btn btn-primary" id="go" href="'+href+'">'+(p.boss?'開始期中總複習':'我看完了，開始刷題')+'</a><button class="btn" id="ok">'+(done[p.id]?'回到地圖':'標記為已學，回地圖')+'</button></div>';
+  var sh=document.getElementById('sheet');sh.innerHTML=h;sh.scrollTop=0;
+  document.getElementById('ov').classList.add('on');document.body.style.overflow='hidden';
+  document.getElementById('cx').focus();
+  document.getElementById('cx').onclick=close;
+  document.getElementById('ok').onclick=function(){if(!p.boss){done[p.id]=1;save()}close();draw()};
+  document.getElementById('go').onclick=function(){if(!p.boss){done[p.id]=1;save()}};
+  var ab=document.getElementById('animbtn');if(ab)ab.onclick=function(){ANIM.on=!ANIM.on;syncAnim()};
+  initShadow(sh);syncAnim();
+  sh.querySelectorAll('[data-j]').forEach(function(b){b.onclick=function(){open(b.dataset.j)}});
+}
+function close(){document.getElementById('ov').classList.remove('on');document.body.style.overflow='';if(last&&last.focus)try{last.focus()}catch(e){}}
+document.getElementById('lb').onclick=function(){this.classList.remove('on')};
+document.getElementById('sheet').addEventListener('click',function(e){var t=e.target;if(t.dataset&&t.dataset.zoom)zoom(t.src,t.alt)});
+document.getElementById('ov').onclick=function(e){if(e.target===this)close()};
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){var lb=document.getElementById('lb');if(lb.classList.contains('on'))lb.classList.remove('on');else close()}});
+if(location.hash==="#gallery"){document.querySelector(".shell").innerHTML=L.map(function(p){return p.cards.filter(function(c){return FIGMAP[c.h]}).map(function(c){return "<h3>"+p.id+" "+c.h+"</h3>"+FIGMAP[c.h].map(function(n){return "<div class=figw style=max-width:520px>"+FIG[n]()+"</div>"}).join("")}).join("")}).join("")}else draw();
+})();
+</script>
+</body></html>
